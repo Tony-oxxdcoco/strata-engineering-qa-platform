@@ -1,0 +1,221 @@
+{
+  "schemaVersion": "1.0",
+  "synthetic": true,
+  "project": {
+    "name": "Harbour House",
+    "revision": "Rev. C",
+    "description": "三层办公楼 · 合成工程样例",
+    "software": "ETABS-like JSON · 非原生导出"
+  },
+  "units": {
+    "area": "m2",
+    "surfaceLoad": "kN/m2",
+    "force": "kN"
+  },
+  "scope": {
+    "basis": "unfactored-static-gravity",
+    "selfWeight": "excluded",
+    "reactionPositive": "upward"
+  },
+  "floors": [
+    {
+      "id": "L01",
+      "area": 600,
+      "evidenceRef": "design-brief"
+    },
+    {
+      "id": "L02",
+      "area": 600,
+      "evidenceRef": "design-brief"
+    },
+    {
+      "id": "L03",
+      "area": 400,
+      "evidenceRef": "design-brief"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "B1",
+      "floorId": "L01",
+      "caseId": "SDL",
+      "q": 5,
+      "evidenceRef": "design-brief"
+    },
+    {
+      "id": "B2",
+      "floorId": "L01",
+      "caseId": "LIVE",
+      "q": 3,
+      "evidenceRef": "design-brief"
+    },
+    {
+      "id": "B3",
+      "floorId": "L02",
+      "caseId": "SDL",
+      "q": 5,
+      "evidenceRef": "design-brief"
+    },
+    {
+      "id": "B4",
+      "floorId": "L02",
+      "caseId": "LIVE",
+      "q": 3,
+      "evidenceRef": "design-brief"
+    },
+    {
+      "id": "B5",
+      "floorId": "L03",
+      "caseId": "SDL",
+      "q": 5,
+      "evidenceRef": "design-brief"
+    },
+    {
+      "id": "B6",
+      "floorId": "L03",
+      "caseId": "LIVE",
+      "q": 2,
+      "evidenceRef": "design-brief"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "A1",
+      "floorId": "L01",
+      "caseId": "SDL",
+      "force": 3000,
+      "evidenceRef": "model-export"
+    },
+    {
+      "id": "A2",
+      "floorId": "L01",
+      "caseId": "LIVE",
+      "force": 1200,
+      "evidenceRef": "model-export"
+    },
+    {
+      "id": "A3",
+      "floorId": "L02",
+      "caseId": "SDL",
+      "force": 3000,
+      "evidenceRef": "model-export"
+    },
+    {
+      "id": "A4",
+      "floorId": "L02",
+      "caseId": "LIVE",
+      "force": 2400,
+      "evidenceRef": "model-export"
+    },
+    {
+      "id": "A5",
+      "floorId": "L03",
+      "caseId": "SDL",
+      "force": 2000,
+      "evidenceRef": "model-export"
+    },
+    {
+      "id": "A6",
+      "floorId": "L03",
+      "caseId": "LIVE",
+      "force": 800,
+      "evidenceRef": "model-export"
+    }
+  ],
+  "supports": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+  ],
+  "reactions": [
+    {
+      "id": "R1",
+      "supportId": "C1",
+      "caseId": "SDL",
+      "fz": 2000,
+      "evidenceRef": "reaction-export"
+    },
+    {
+      "id": "R2",
+      "supportId": "C2",
+      "caseId": "SDL",
+      "fz": 2000,
+      "evidenceRef": "reaction-export"
+    },
+    {
+      "id": "R3",
+      "supportId": "C3",
+      "caseId": "SDL",
+      "fz": 2000,
+      "evidenceRef": "reaction-export"
+    },
+    {
+      "id": "R4",
+      "supportId": "C4",
+      "caseId": "SDL",
+      "fz": 2000,
+      "evidenceRef": "reaction-export"
+    },
+    {
+      "id": "R5",
+      "supportId": "C1",
+      "caseId": "LIVE",
+      "fz": 1100,
+      "evidenceRef": "reaction-export"
+    },
+    {
+      "id": "R6",
+      "supportId": "C2",
+      "caseId": "LIVE",
+      "fz": 1100,
+      "evidenceRef": "reaction-export"
+    },
+    {
+      "id": "R7",
+      "supportId": "C3",
+      "caseId": "LIVE",
+      "fz": 1100,
+      "evidenceRef": "reaction-export"
+    },
+    {
+      "id": "R8",
+      "supportId": "C4",
+      "caseId": "LIVE",
+      "fz": 1100,
+      "evidenceRef": "reaction-export"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "design-brief",
+      "title": "独立设计任务书",
+      "locator": "Synthetic brief §2 / floor schedule",
+      "content": "合成基准：L01/L02/L03 面积 600/600/400 m²；SDL 均为 5 kN/m²；LIVE 分别为 3/3/2 kN/m²。仅附加恒载与活载，无自重及组合。"
+    },
+    {
+      "id": "model-export",
+      "title": "模型分配表",
+      "locator": "Synthetic model / assignments[*]",
+      "content": "合成模型分配表；数值见当前输入 assignments。force 表示对应楼层和工况的全层总力，单位 kN。"
+    },
+    {
+      "id": "reaction-export",
+      "title": "独立反力结果",
+      "locator": "Synthetic solver fixture / reactions[*]",
+      "content": "独立预置的合成结果：四个支座每个 SDL=2000 kN、LIVE=1100 kN。反力向上为正；不随模型分配修改自动生成。"
+    },
+    {
+      "id": "support-schedule",
+      "title": "独立支座清单",
+      "locator": "Synthetic brief / support schedule",
+      "content": "该合成模型支座 C1、C2、C3、C4；每个支座要求 SDL 与 LIVE 反力记录。"
+    },
+    {
+      "id": "review-note",
+      "title": "演示审核范围说明",
+      "locator": "Synthetic QA scope §1",
+      "content": "本演示只核查数据一致性。固定演示容差 max(1 kN, 期望值的 1%)；不是澳标要求，也不包含结构安全判定。"
+    }
+  ]
+}

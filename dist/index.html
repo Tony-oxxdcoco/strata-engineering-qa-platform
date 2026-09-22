@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strata · 结构工程 QA 工作台</title>
+  <meta name="description" content="基于合成数据的结构工程 QA 演示。确定性检查、可追溯证据与人工复核。">
+  <meta name="theme-color" content="#111c32">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app"><div class="boot">STRATA <span>正在准备审查工作台…</span></div></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="input-dialog" aria-labelledby="input-title">
+    <form method="dialog" class="dialog-head"><h2 id="input-title">工程输入 · JSON</h2><button aria-label="关闭输入编辑器" class="icon-button">×</button></form>
+    <p>修改标准化工程数据，应用后重新运行检查。最多 1 MB，仅在当前浏览器处理。</p>
+    <label class="sr-only" for="json-editor">工程数据 JSON</label><textarea id="json-editor" spellcheck="false"></textarea>
+    <p id="editor-error" role="alert"></p>
+    <div class="dialog-actions"><button id="download-input" class="button secondary">下载当前输入</button><button id="apply-input" class="button primary">应用数据</button></div>
+  </dialog>
+  <input id="file-input" type="file" accept=".json,application/json" hidden>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
