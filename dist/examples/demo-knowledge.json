@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "knowledge-1.0",
+  "synthetic": true,
+  "authority": "SYNTHETIC",
+  "purpose": "controlled-demo",
+  "version": "knowledge-demo-1.0.0",
+  "rules": [
+    {
+      "id": "QA-001",
+      "version": "DEMO-2026.09",
+      "authority": "SYNTHETIC",
+      "approval": "demo-approved",
+      "status": "active",
+      "scope": "gravity-unfactored-static-excluding-self-weight",
+      "source": {
+        "title": "Synthetic QA manual: Record uniqueness / 模型记录唯一性",
+        "locator": "合成 QA 手册 §1 · 数据唯一性",
+        "text": "模型分配按楼层 + 工况唯一，反力按支座 + 工况唯一；记录 ID 也须唯一。\nFormula: count(unique keys) = count(records).\nRequired evidence: 非空模型记录.\nScope: unfactored static gravity, SDL and LIVE only, self-weight excluded, upward reaction positive. Numerical comparisons use the fixed demonstration tolerance max(1 kN, 1% of the absolute expected value). These are synthetic demonstration rules, not an Australian Standard or structural design approval."
+      },
+      "checkIds": [
+        "QA-001"
+      ],
+      "taskIds": [
+        "gravity-full"
+      ]
+    },
+    {
+      "id": "QA-002",
+      "version": "DEMO-2026.09",
+      "authority": "SYNTHETIC",
+      "approval": "demo-approved",
+      "status": "active",
+      "scope": "gravity-unfactored-static-excluding-self-weight",
+      "source": {
+        "title": "Synthetic QA manual: Floor and load-case coverage / 楼层与荷载工况覆盖",
+        "locator": "合成 QA 手册 §2 · 覆盖范围",
+        "text": "每个独立任务书要求，都有对应的模型分配；不能遗漏或额外增加楼层/工况。\nFormula: model keys = brief keys.\nRequired evidence: 独立任务书及完整楼层清单.\nScope: unfactored static gravity, SDL and LIVE only, self-weight excluded, upward reaction positive. Numerical comparisons use the fixed demonstration tolerance max(1 kN, 1% of the absolute expected value). These are synthetic demonstration rules, not an Australian Standard or structural design approval."
+      },
+      "checkIds": [
+        "QA-002"
+      ],
+      "taskIds": [
+        "gravity-full"
+      ]
+    },
+    {
+      "id": "QA-003",
+      "version": "DEMO-2026.09",
+      "authority": "SYNTHETIC",
+      "approval": "demo-approved",
+      "status": "active",
+      "scope": "gravity-unfactored-static-excluding-self-weight",
+      "source": {
+        "title": "Synthetic QA manual: Floor load distribution / 分层荷载分配",
+        "locator": "合成 QA 手册 §3 · 分层分配",
+        "text": "逐楼层、逐工况比较模型分配力与任务书的面积 × 荷载强度。总量相同不能替代分层检查。\nFormula: Fexpected = Abrief × qbrief.\nRequired evidence: 独立面积、荷载强度、模型分配及其证据.\nScope: unfactored static gravity, SDL and LIVE only, self-weight excluded, upward reaction positive. Numerical comparisons use the fixed demonstration tolerance max(1 kN, 1% of the absolute expected value). These are synthetic demonstration rules, not an Australian Standard or structural design approval."
+      },
+      "checkIds": [
+        "QA-003"
+      ],
+      "taskIds": [
+        "gravity-full",
+        "gravity-distribution"
+      ]
+    },
+    {
+      "id": "QA-004",
+      "version": "DEMO-2026.09",
+      "authority": "SYNTHETIC",
+      "approval": "demo-approved",
+      "status": "active",
+      "scope": "gravity-unfactored-static-excluding-self-weight",
+      "source": {
+        "title": "Synthetic QA manual: Load-case totals / 各工况荷载总量",
+        "locator": "合成 QA 手册 §4 · 荷载总量",
+        "text": "SDL 与 LIVE 分别汇总，不允许跨工况抵消；重复分配阻断总量判断。\nFormula: Σ Fmodel ≈ Σ (Abrief × qbrief).\nRequired evidence: 唯一且完整的荷载分配、独立任务书.\nScope: unfactored static gravity, SDL and LIVE only, self-weight excluded, upward reaction positive. Numerical comparisons use the fixed demonstration tolerance max(1 kN, 1% of the absolute expected value). These are synthetic demonstration rules, not an Australian Standard or structural design approval."
+      },
+      "checkIds": [
+        "QA-004"
+      ],
+      "taskIds": [
+        "gravity-full"
+      ]
+    },
+    {
+      "id": "QA-005",
+      "version": "DEMO-2026.09",
+      "authority": "SYNTHETIC",
+      "approval": "demo-approved",
+      "status": "active",
+      "scope": "gravity-unfactored-static-excluding-self-weight",
+      "source": {
+        "title": "Synthetic QA manual: Independent vertical reaction balance / 独立竖向反力核对",
+        "locator": "合成 QA 手册 §5 · 独立反力",
+        "text": "独立导出反力的向上幅值，逐工况与任务书预期的向下荷载幅值比较。仅附加恒载及活载，无自重与组合。\nFormula: Σ Rz,export ≈ Σ (Abrief × qbrief).\nRequired evidence: 同一范围的反力结果、支座清单、独立任务书.\nScope: unfactored static gravity, SDL and LIVE only, self-weight excluded, upward reaction positive. Numerical comparisons use the fixed demonstration tolerance max(1 kN, 1% of the absolute expected value). These are synthetic demonstration rules, not an Australian Standard or structural design approval."
+      },
+      "checkIds": [
+        "QA-005"
+      ],
+      "taskIds": [
+        "gravity-full",
+        "gravity-balance"
+      ]
+    },
+    {
+      "id": "QA-006",
+      "version": "DEMO-2026.09",
+      "authority": "SYNTHETIC",
+      "approval": "demo-approved",
+      "status": "active",
+      "scope": "gravity-unfactored-static-excluding-self-weight",
+      "source": {
+        "title": "Synthetic QA manual: Evidence completeness / 证据与资料完整性",
+        "locator": "合成 QA 手册 §6 · 证据完整性",
+        "text": "每个工程数值都必须关联有内容和定位的证据记录，且具备任务书、模型分配表、反力结果、审核说明。\nFormula: required evidence ⊆ supplied evidence.\nRequired evidence: 内容非空的证据条目及来源定位.\nScope: unfactored static gravity, SDL and LIVE only, self-weight excluded, upward reaction positive. Numerical comparisons use the fixed demonstration tolerance max(1 kN, 1% of the absolute expected value). These are synthetic demonstration rules, not an Australian Standard or structural design approval."
+      },
+      "checkIds": [
+        "QA-006"
+      ],
+      "taskIds": [
+        "gravity-full"
+      ]
+    },
+    {
+      "id": "COMB-001",
+      "version": "combination-demo-1.0.0",
+      "authority": "SYNTHETIC",
+      "approval": "demo-approved",
+      "status": "active",
+      "scope": "linear-static-combination-response",
+      "source": {
+        "title": "Synthetic linear-static combination response reconciliation",
+        "locator": "Synthetic combination fixture / checking method §1",
+        "text": "For linear-static responses in kN, calculate the expected response as the sum of each supplied factor multiplied by its independently supplied base-case response. Compare the separately supplied reported response with expected ± max(1 kN, 1% of abs(expected)); endpoints are included. Missing base cases, missing separate source evidence, empty terms, unsupported analysis or arithmetic failure produce NOT VERIFIED. The shipped examples are C1 = 1.2 SDL + 1.5 LIVE and C2 = SDL - LIVE. These chosen factors are synthetic examples, not an AS 1170 rule. The same calculation method may check other explicitly supplied combination IDs within the tool contract; this does not approve their factors or establish structural safety."
+      },
+      "checkIds": [
+        "C1",
+        "C2"
+      ],
+      "taskIds": [
+        "load-combination"
+      ]
+    }
+  ]
+}

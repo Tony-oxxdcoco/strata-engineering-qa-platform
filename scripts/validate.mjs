@@ -1,0 +1,11 @@
+import {mkdir,writeFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {runValidation} from '../dist/validation.js';
+import {runAgentValidation} from '../dist/agent.js';
+const directory=resolve(import.meta.dirname,'../output/validation');
+await mkdir(directory,{recursive:true});
+const engineering=runValidation(),agent=await runAgentValidation();
+await writeFile(resolve(directory,'engineering.json'),JSON.stringify(engineering,null,2)+'\n');
+await writeFile(resolve(directory,'agent.json'),JSON.stringify(agent,null,2)+'\n');
+console.log(JSON.stringify({engineering:engineering.summary,agent:agent.summary},null,2));
+if(engineering.summary.mismatched||agent.summary.mismatched)process.exitCode=1;
