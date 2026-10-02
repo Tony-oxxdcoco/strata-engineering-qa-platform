@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "combination-1.0",
+  "synthetic": true,
+  "project": {
+    "name": "Synthetic linear response fixture",
+    "revision": "COMB-R01"
+  },
+  "analysisType": "linear-static",
+  "unit": "kN",
+  "baseCases": [
+    {
+      "id": "SDL",
+      "value": 100,
+      "evidenceRef": "reference-responses"
+    },
+    {
+      "id": "LIVE",
+      "value": 50,
+      "evidenceRef": "reference-responses"
+    }
+  ],
+  "combinations": [
+    {
+      "id": "C1",
+      "terms": [
+        {
+          "caseId": "SDL",
+          "factor": 1.2
+        },
+        {
+          "caseId": "LIVE",
+          "factor": 1.5
+        }
+      ],
+      "reportedValue": 195,
+      "evidenceRef": "reported-combinations"
+    },
+    {
+      "id": "C2",
+      "terms": [
+        {
+          "caseId": "SDL",
+          "factor": 1
+        },
+        {
+          "caseId": "LIVE",
+          "factor": -1
+        }
+      ],
+      "reportedValue": 50,
+      "evidenceRef": "reported-combinations"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "reference-responses",
+      "title": "Independent synthetic base-response sheet",
+      "locator": "Fixture reference sheet, rows SDL and LIVE",
+      "content": "Independent reference responses for one fixed linear response component: SDL = 100 kN; LIVE = 50 kN. These numbers are supplied separately from the combination export."
+    },
+    {
+      "id": "reported-combinations",
+      "title": "Separately supplied synthetic combination export",
+      "locator": "Fixture combination export, rows C1 and C2",
+      "content": "Reported response values: C1 = 195 kN; C2 = 50 kN. Synthetic chosen factors are C1: 1.2 SDL + 1.5 LIVE; C2: 1 SDL - 1 LIVE. These factors do not represent an AS 1170 compliance rule."
+    }
+  ]
+}

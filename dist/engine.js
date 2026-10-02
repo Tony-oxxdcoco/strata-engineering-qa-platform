@@ -1,4 +1,4 @@
-export const ENGINE_VERSION = '0.1.0';
+export const ENGINE_VERSION = '0.2.0';
 export const RULE_VERSION = 'DEMO-2026.09';
 export const CASES = ['SDL', 'LIVE'];
 export const RULES = [
@@ -80,7 +80,7 @@ export function runChecks(input){
   });
   add('QA-004',assignmentReason?'NOT VERIFIED':totals.some(t=>t.status==='FAIL')?'FAIL':'PASS',assignmentReason|| (totals.some(t=>t.status==='FAIL')?'至少一个工况的总量超出演示容差。':'各工况模型总量与任务书一致。'),totals,assignmentReason?[assignmentReason]:[]);
   const reactionReason=baselineReason||(!d.supports.length?'独立支座清单缺失。':reactionDup.length||dup(d.reactions.map(r=>r.id)).length?'反力记录重复，无法确认总反力。':d.reactions.some(r=>!d.supports.includes(r.supportId)||!CASES.includes(r.caseId))?'反力包含未知支座或工况。':d.supports.some(s=>CASES.some(c=>!d.reactions.some(r=>r.supportId===s&&r.caseId===c)))?'反力未覆盖所有支座和工况。':!d.reactions.every(r=>evOK(r,'reaction-export'))?'反力结果证据缺失。':!evOK({evidenceRef:'support-schedule'})?'支座清单证据缺失。':null);
-  const reactionRows=CASES.map(c=>{const rs=d.reactions.filter(r=>r.caseId===c),expected=totals.find(t=>t.label===c).expected,actual=rs.reduce((s,r)=>s+r.fz,0);return {label:c,expected,actual:reactionReason?null:actual,unit:'kN',tolerance:expected===null?null:Math.max(1,expected*.01),status:reactionReason?'NOT VERIFIED':withinTolerance(actual,expected)?'PASS':'FAIL',reason:reactionReason,formula:`Σ Rz(${c}) ↔ Σ Abrief × qbrief`,location:`reactions[caseId=${c}] ↔ requirements[caseId=${c}]`,evidenceRefs:refs([...rs,...d.requirements.filter(r=>r.caseId===c),...d.floors])};});
+  const reactionRows=CASES.map(c=>{const rs=d.reactions.filter(r=>r.caseId===c),expected=totals.find(t=>t.label===c).expected,actual=rs.reduce((s,r)=>s+r.fz,0);return {label:c,expected,actual:reactionReason?null:actual,unit:'kN',tolerance:expected===null?null:Math.max(1,expected*.01),status:reactionReason?'NOT VERIFIED':withinTolerance(actual,expected)?'PASS':'FAIL',reason:reactionReason,formula:`Σ Rz(${c}) ↔ Σ Abrief × qbrief`,location:`reactions[caseId=${c}] ↔ requirements[caseId=${c}]`,evidenceRefs:refs([...rs,...d.requirements.filter(r=>r.caseId===c),...d.floors,{evidenceRef:'support-schedule'}])};});
   add('QA-005',reactionReason?'NOT VERIFIED':reactionRows.some(r=>r.status==='FAIL')?'FAIL':'PASS',reactionReason|| (reactionRows.some(r=>r.status==='FAIL')?'独立反力与预期荷载不平衡。':'独立反力与任务书预期荷载一致。'),reactionRows,reactionReason?[reactionReason]:[]);
   const missingEvidence=['design-brief','model-export','reaction-export','support-schedule','review-note'].filter(id=>!evOK({evidenceRef:id}));
   const dangling=['floors','requirements','assignments','reactions'].flatMap(list=>d[list].flatMap((r,i)=>evOK(r,{floors:'design-brief',requirements:'design-brief',assignments:'model-export',reactions:'reaction-export'}[list])?[]:[{label:`${list}[${i}] → ${r.evidenceRef}`,location:`${list}[${i}]`,evidenceRefs:[r.evidenceRef]}]));
@@ -88,12 +88,57 @@ export function runChecks(input){
   const summary={PASS:0,FAIL:0,'NOT VERIFIED':0};results.forEach(r=>summary[r.status]++);
   return {engineVersion:ENGINE_VERSION,ruleVersion:RULE_VERSION,results,summary,status:summary.FAIL?'FAIL':summary['NOT VERIFIED']?'NOT VERIFIED':'PASS',comparisons};
 }
-export async function createRun(input){
-  const snapshot=JSON.parse(JSON.stringify(input));const result=runChecks(snapshot);
+async function hashInput(snapshot){
   const data=new TextEncoder().encode(JSON.stringify(snapshot));
   const hash=await globalThis.crypto.subtle.digest('SHA-256',data);
-  const inputHash=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
-  return {...result,id:globalThis.crypto.randomUUID(),createdAt:new Date().toISOString(),inputHash,input:snapshot,reviews:[],audit:[{type:'CHECKS_COMPLETED',at:new Date().toISOString(),detail:`6 个规则已执行；输入 SHA-256 ${inputHash}`} ]};
+  return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
+}
+export async function createRun(input){
+  const snapshot=JSON.parse(JSON.stringify(input));const result=runChecks(snapshot);
+  const inputHash=await hashInput(snapshot);
+  return {...result,id:globalThis.crypto.randomUUID(),createdAt:new Date().toISOString(),inputHash,input:snapshot,reviews:[],audit:[{type:'CHECKS_COMPLETED',at:new Date().toISOString(),detail:`${result.results.length} 个规则已执行；输入 SHA-256 ${inputHash}`} ]};
+}
+// Compare JSON-shaped results without treating Infinity as null or depending on object key order.
+function sameValue(actual,expected){
+  if(Object.is(actual,expected))return true;
+  if(Array.isArray(expected))return Array.isArray(actual)&&actual.length===expected.length&&expected.every((value,i)=>Object.hasOwn(actual,i)&&sameValue(actual[i],value));
+  if(!obj(actual)||!obj(expected))return false;
+  const keys=Object.keys(expected);
+  return Object.keys(actual).length===keys.length&&keys.every(k=>Object.hasOwn(actual,k)&&sameValue(actual[k],expected[k]));
+}
+function assertRunConsistency(run){
+  if(!obj(run))throw Error('运行记录格式无效，请重新运行检查。');
+  if(run.engineVersion!==ENGINE_VERSION||run.ruleVersion!==RULE_VERSION)throw Error('引擎或规则版本不匹配，请使用当前版本重新运行检查。');
+  if(typeof run.inputHash!=='string'||!/^[a-f0-9]{64}$/.test(run.inputHash))throw Error('运行记录缺少有效的输入 SHA-256。');
+  const replay=runChecks(run.input);
+  for(const field of ['results','summary','status','comparisons'])if(!sameValue(run[field],replay[field]))throw Error(`运行记录 ${field} 与输入重算结果不一致，请重新运行检查。`);
+  const date=v=>str(v)&&Number.isFinite(Date.parse(v));
+  if(!str(run.id)||!date(run.createdAt)||!Array.isArray(run.reviews)||!Array.isArray(run.audit))throw Error('运行标识、时间或复核记录格式无效。');
+  for(const review of run.reviews){
+    if(!obj(review)||!replay.results.some(r=>r.id===review.ruleId)||!str(review.reviewer)||!str(review.note)||!['reviewed','request_evidence'].includes(review.disposition)||!date(review.at))throw Error('人工复核记录格式无效。');
+  }
+  for(const event of run.audit){
+    if(!obj(event)||!['CHECKS_COMPLETED','HUMAN_REVIEW'].includes(event.type)||!date(event.at)||typeof event.detail!=='string'||!event.detail.trim()||(event.note!==undefined&&!str(event.note)))throw Error('审计记录格式无效。');
+  }
+}
+// This detects inconsistent stored records; it does not authenticate a reviewer or sign the record.
+export async function verifyRun(run){
+  try{
+    const snapshot=structuredClone(run);
+    assertRunConsistency(snapshot);
+    if(await hashInput(snapshot.input)!==snapshot.inputHash)throw Error('输入快照与记录的 SHA-256 不一致，请重新运行检查。');
+    return {valid:true,reason:''};
+  }catch(error){
+    return {valid:false,reason:error instanceof Error?error.message:'运行记录无法验证，请重新运行检查。'};
+  }
+}
+export async function verifiedMarkdownReport(run){
+  // Keep the same snapshot across the asynchronous hash check and report generation.
+  let snapshot;
+  try{snapshot=structuredClone(run);}catch{throw Error('运行记录无法读取，请重新运行检查。');}
+  const verification=await verifyRun(snapshot);
+  if(!verification.valid)throw Error(verification.reason);
+  return markdownReport(snapshot);
 }
 export function addReview(run,{ruleId,reviewer,note,disposition}){
   if(!run||!run.results.some(r=>r.id===ruleId)||!str(reviewer)||!str(note)||!['reviewed','request_evidence'].includes(disposition))throw Error('请选择有效检查项，并填写复核姓名与意见。');
@@ -102,6 +147,8 @@ export function addReview(run,{ruleId,reviewer,note,disposition}){
 }
 export function markdownReport(run){
   if(!run)throw Error('请先运行检查。');
+  // Synchronous compatibility API checks replay consistency; use verifiedMarkdownReport for SHA-256 verification too.
+  assertRunConsistency(run);
   const safe=v=>String(v??'—').replaceAll('|','\\|').replaceAll('\n',' ');
   const lines=['# Strata 结构工程 QA 报告','',`项目：${safe(run.input.project.name)}`,`运行：${run.id}`,`时间：${run.createdAt}`,`输入 SHA-256：${run.inputHash}`,`引擎：${run.engineVersion} · 规则：${run.ruleVersion}`,'','> 合成规则演示；非澳标验收、非结构安全结论。未接入 LLM 或 CSI API。复核身份为用户自填，非工程签章。','','## 技术结果',`PASS ${run.summary.PASS} / FAIL ${run.summary.FAIL} / NOT VERIFIED ${run.summary['NOT VERIFIED']}`,''];
   for(const r of run.results){lines.push(`### ${r.id} ${r.name} — ${r.status}`,r.summary,`规则来源：${r.source}，${r.version}`,`公式：${r.formula}`,`容差：${r.tolerance}`,'','| 子项 | 期望 | 实际 | 状态/原因 | 计算/容差 | 输入位置 | 证据 ID |','| --- | --- | --- | --- | --- | --- | --- |');for(const x of r.details)lines.push(`| ${safe(x.label)} | ${safe(x.expected)} | ${safe(x.actual)} | ${safe(x.reason||x.status)} | ${safe(x.formula)} / ±${safe(x.tolerance)} kN | ${safe(x.location)} | ${safe((x.evidenceRefs||[]).join(', '))} |`);lines.push('');}
