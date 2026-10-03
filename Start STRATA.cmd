@@ -1,0 +1,10 @@
+@echo off
+cd /d "%~dp0"
+where node >nul 2>nul
+if errorlevel 1 (
+  echo Install Node.js 20+ first. See TEAM_START_HERE.md.
+  pause
+  exit /b 1
+)
+node scripts\start.mjs --open
+if errorlevel 1 pause

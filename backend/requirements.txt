@@ -1,0 +1,8 @@
+-c constraints.txt
+fastapi==0.135.2
+uvicorn==0.42.0
+pydantic==2.12.5
+SQLAlchemy==2.0.34
+httpx==0.27.0
+openpyxl==3.1.5
+pypdf==6.9.0

@@ -6,3 +6,8 @@ node_modules/
 *.log
 output/
 .playwright-cli/
+.runtime/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

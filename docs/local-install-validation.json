@@ -1,0 +1,35 @@
+{
+  "release": "1.0.0",
+  "date": "2026-10-03",
+  "platform": "macOS arm64",
+  "python": "3.12.7",
+  "node": "24.12.0",
+  "procedure": [
+    "Extract source-only release ZIP into a different directory",
+    "Verify every file against release-manifest.json",
+    "Run unpacked setup into its own .venv",
+    "Start unpacked application on an unused loopback port with an empty database",
+    "Bootstrap a new account, create a project and load synthetic examples",
+    "Queue review, poll durable worker and download verified JSON report"
+  ],
+  "results": {
+    "scope": "Unpacked source ZIP; its own freshly installed .venv and empty database; real HTTP and durable worker. macOS only.",
+    "health": "ok",
+    "worker": true,
+    "snapshots_loaded": 19,
+    "result": "PASS",
+    "checks": 6,
+    "report_export": "PASS",
+    "version": "1.0.0"
+  },
+  "later_changes": "Documentation, static-check script, package exclusions and launcher line-ending metadata only; one whitespace-only line removed from web/app.js. Runtime behavior unchanged.",
+  "not_executed": [
+    "Windows native installation",
+    "Linux native installation",
+    "Docker deployment",
+    "Live ETABS/SAFE integration",
+    "Customer engineering acceptance"
+  ],
+  "privacy": "No source account, uploaded project data, database or model weights copied into source package.",
+  "runtime_source_matches_tested_package_except_blank_line_whitespace": true
+}

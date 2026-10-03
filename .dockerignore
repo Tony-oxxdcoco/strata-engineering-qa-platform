@@ -1,0 +1,26 @@
+# Allowlist: customer uploads, report/proposal files, credentials and tests never
+# enter the build context. Runtime requirements and source are copied explicitly.
+**
+!Dockerfile
+!package.json
+!backend/
+!backend/requirements.txt
+!backend/constraints.txt
+!backend/strata/
+!backend/strata/**
+!web/
+!web/**
+!dist/
+!dist/**
+!scripts/
+!scripts/**
+!docs/
+!docs/*evaluation*.json
+**/__pycache__/**
+**/*.pyc
+**/.env*
+**/*.pem
+**/*.key
+**/*.db
+**/*.sqlite*
+**/.DS_Store

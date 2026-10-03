@@ -1,0 +1,1362 @@
+{
+  "schema_version": "knowledge-evaluation-1.0",
+  "generated_at": "2026-10-02T18:17:31.918977+00:00",
+  "retrieval_version": "lexical-bm25-1.0.0",
+  "scope": "Synthetic, fixed lexical retrieval and approval/scope gates; not real engineering correctness, source authenticity, end-to-end RAG or LLM accuracy.",
+  "implementation_sha256": "2851948ace5fdbf7281f10ee8b6eb461675e1b136c0c002020e377b92f384f8f",
+  "test_source_sha256": "04d9e4e19931dd4c327f0aa661fe31780b47ac4d2ee81eebd1a135fb8c32c184",
+  "fixture_sha256": "2803830cf7f2547aa7229625bda44f7f7a24bed7c5c196a23c201934f946f755",
+  "project_id": "project-a",
+  "task_id": "design-review",
+  "summary": {
+    "total": 45,
+    "matched": 45,
+    "mismatched": 0,
+    "expected_found": 29,
+    "expected_not_verified": 16,
+    "false_found": 0,
+    "false_not_verified": 0,
+    "top1_correct_on_expected_found": 29
+  },
+  "fixtures_reference": "backend/tests/test_knowledge.py: CORPUS, GOLD_QUERIES, gate_queries",
+  "cases": [
+    {
+      "id": "Q01",
+      "query": "CLIENT-LOAD",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 1001.846930030571,
+          "bm25": 1.846930030571,
+          "exact_id": true,
+          "matched_tokens": [
+            "en:load"
+          ],
+          "token_scores": {
+            "en:load": 1.846930030571
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q02",
+      "query": "楼层荷载分配",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 20.085204074576,
+          "bm25": 20.085204074576,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:分",
+            "zh1:层",
+            "zh1:楼",
+            "zh1:荷",
+            "zh1:载",
+            "zh1:配",
+            "zh2:分配",
+            "zh2:层荷",
+            "zh2:楼层",
+            "zh2:荷载",
+            "zh2:载分",
+            "zh3:层荷载",
+            "zh3:楼层荷",
+            "zh3:荷载分",
+            "zh3:载分配"
+          ],
+          "token_scores": {
+            "zh1:分": 0.28067937051,
+            "zh1:层": 0.384104890039,
+            "zh1:楼": 0.384104890039,
+            "zh1:荷": 0.202442811248,
+            "zh1:载": 0.212554722371,
+            "zh1:配": 0.28067937051,
+            "zh2:分配": 1.8711958034,
+            "zh2:层荷": 1.846930030571,
+            "zh2:楼层": 2.560699266926,
+            "zh2:荷载": 1.349618741651,
+            "zh2:载分": 1.846930030571,
+            "zh3:层荷载": 2.216316036685,
+            "zh3:楼层荷": 2.216316036685,
+            "zh3:荷载分": 2.216316036685,
+            "zh3:载分配": 2.216316036685
+          },
+          "matched_check_ids": []
+        },
+        {
+          "rule_id": "CLIENT-DUP",
+          "version": "1.0",
+          "score": 2.43255454442,
+          "bm25": 2.43255454442,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:分",
+            "zh1:配",
+            "zh2:分配"
+          ],
+          "token_scores": {
+            "zh1:分": 0.28067937051,
+            "zh1:配": 0.28067937051,
+            "zh2:分配": 1.8711958034
+          },
+          "matched_check_ids": []
+        },
+        {
+          "rule_id": "CLIENT-UNIT",
+          "version": "1.0",
+          "score": 1.716414266223,
+          "bm25": 1.716414266223,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:荷",
+            "zh1:载",
+            "zh2:荷载"
+          ],
+          "token_scores": {
+            "zh1:荷": 0.203754011289,
+            "zh1:载": 0.154300179677,
+            "zh2:荷载": 1.358360075257
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q03",
+      "query": "storey pressure allocation",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 7.813873848649,
+          "bm25": 7.813873848649,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:allocation",
+            "en:pressure",
+            "en:storey",
+            "phrase:pressure allocation",
+            "phrase:storey pressure"
+          ],
+          "token_scores": {
+            "en:allocation": 1.846930030571,
+            "en:pressure": 1.349618741651,
+            "en:storey": 1.846930030571,
+            "phrase:pressure allocation": 1.385197522928,
+            "phrase:storey pressure": 1.385197522928
+          },
+          "matched_check_ids": []
+        },
+        {
+          "rule_id": "CLIENT-FOUND",
+          "version": "1.0",
+          "score": 1.376186900613,
+          "bm25": 1.376186900613,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:pressure"
+          ],
+          "token_scores": {
+            "en:pressure": 1.376186900613
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q04",
+      "query": "附加恒载",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 11.017095401212,
+          "bm25": 11.017095401212,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:加",
+            "zh1:恒",
+            "zh1:载",
+            "zh1:附",
+            "zh2:加恒",
+            "zh2:恒载",
+            "zh2:附加",
+            "zh3:加恒载",
+            "zh3:附加恒"
+          ],
+          "token_scores": {
+            "zh1:加": 0.277039504586,
+            "zh1:恒": 0.277039504586,
+            "zh1:载": 0.212554722371,
+            "zh1:附": 0.277039504586,
+            "zh2:加恒": 1.846930030571,
+            "zh2:恒载": 1.846930030571,
+            "zh2:附加": 1.846930030571,
+            "zh3:加恒载": 2.216316036685,
+            "zh3:附加恒": 2.216316036685
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q05",
+      "query": "base reaction equilibrium",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-BAL",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-BAL",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-BAL",
+          "version": "1.0",
+          "score": 10.309077702424,
+          "bm25": 10.309077702424,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:base",
+            "en:equilibrium",
+            "en:reaction",
+            "phrase:base reaction",
+            "phrase:reaction equilibrium"
+          ],
+          "token_scores": {
+            "en:base": 1.767318556697,
+            "en:equilibrium": 2.483156194701,
+            "en:reaction": 2.870746887477,
+            "phrase:base reaction": 1.325488917523,
+            "phrase:reaction equilibrium": 1.862367146026
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q06",
+      "query": "竖向反力平衡",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-BAL",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-BAL",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-BAL",
+          "version": "1.0",
+          "score": 23.174161205298,
+          "bm25": 23.174161205298,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:力",
+            "zh1:反",
+            "zh1:向",
+            "zh1:平",
+            "zh1:竖",
+            "zh1:衡",
+            "zh2:力平",
+            "zh2:反力",
+            "zh2:向反",
+            "zh2:平衡",
+            "zh2:竖向",
+            "zh3:力平衡",
+            "zh3:反力平",
+            "zh3:向反力",
+            "zh3:竖向反"
+          ],
+          "token_scores": {
+            "zh1:力": 0.341300249822,
+            "zh1:反": 0.372473429205,
+            "zh1:向": 0.372473429205,
+            "zh1:平": 0.265097783505,
+            "zh1:竖": 0.372473429205,
+            "zh1:衡": 0.265097783505,
+            "zh2:力平": 1.767318556697,
+            "zh2:反力": 2.483156194701,
+            "zh2:向反": 2.483156194701,
+            "zh2:平衡": 1.767318556697,
+            "zh2:竖向": 2.483156194701,
+            "zh3:力平衡": 2.120782268036,
+            "zh3:反力平": 2.120782268036,
+            "zh3:向反力": 2.979787433641,
+            "zh3:竖向反": 2.979787433641
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q07",
+      "query": "reaction discrepancy",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-BAL",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-BAL",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-BAL",
+          "version": "1.0",
+          "score": 5.963554361697,
+          "bm25": 5.963554361697,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:discrepancy",
+            "en:reaction",
+            "phrase:reaction discrepancy"
+          ],
+          "token_scores": {
+            "en:discrepancy": 1.767318556697,
+            "en:reaction": 2.870746887477,
+            "phrase:reaction discrepancy": 1.325488917523
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q08",
+      "query": "linear static combination",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-COMB",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-COMB",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-COMB",
+          "version": "1.0",
+          "score": 10.38034363635,
+          "bm25": 10.38034363635,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:combination",
+            "en:linear",
+            "en:static",
+            "phrase:linear static",
+            "phrase:static combination"
+          ],
+          "token_scores": {
+            "en:combination": 2.619119907029,
+            "en:linear": 2.990392114071,
+            "en:static": 1.9083326461,
+            "phrase:linear static": 1.431249484575,
+            "phrase:static combination": 1.431249484575
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q09",
+      "query": "组合响应系数",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-COMB",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-COMB",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-COMB",
+          "version": "1.0",
+          "score": 24.578097775301,
+          "bm25": 24.578097775301,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:合",
+            "zh1:响",
+            "zh1:应",
+            "zh1:数",
+            "zh1:系",
+            "zh1:组",
+            "zh2:合响",
+            "zh2:响应",
+            "zh2:应系",
+            "zh2:系数",
+            "zh2:组合",
+            "zh3:合响应",
+            "zh3:响应系",
+            "zh3:应系数",
+            "zh3:组合响"
+          ],
+          "token_scores": {
+            "zh1:合": 0.287082882512,
+            "zh1:响": 0.392867986054,
+            "zh1:应": 0.392867986054,
+            "zh1:数": 0.286249896915,
+            "zh1:系": 0.286249896915,
+            "zh1:组": 0.392867986054,
+            "zh2:合响": 2.619119907029,
+            "zh2:响应": 2.619119907029,
+            "zh2:应系": 1.9083326461,
+            "zh2:系数": 1.9083326461,
+            "zh2:组合": 2.619119907029,
+            "zh3:合响应": 3.142943888435,
+            "zh3:响应系": 2.28999917532,
+            "zh3:应系数": 2.28999917532,
+            "zh3:组合响": 3.142943888435
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q10",
+      "query": "linear response factors",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-COMB",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-COMB",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-COMB",
+          "version": "1.0",
+          "score": 9.669556375421,
+          "bm25": 9.669556375421,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:factor",
+            "en:linear",
+            "en:response",
+            "phrase:linear response",
+            "phrase:response factor"
+          ],
+          "token_scores": {
+            "en:factor": 1.9083326461,
+            "en:linear": 2.990392114071,
+            "en:response": 1.9083326461,
+            "phrase:linear response": 1.431249484575,
+            "phrase:response factor": 1.431249484575
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q11",
+      "query": "梁挠度",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-DEF",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-DEF",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-DEF",
+          "version": "1.0",
+          "score": 9.812175712927,
+          "bm25": 9.812175712927,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:度",
+            "zh1:挠",
+            "zh1:梁",
+            "zh2:挠度",
+            "zh2:梁挠",
+            "zh3:梁挠度"
+          ],
+          "token_scores": {
+            "zh1:度": 0.297959268613,
+            "zh1:挠": 0.407752133328,
+            "zh1:梁": 0.407752133328,
+            "zh2:挠度": 2.718347555518,
+            "zh2:梁挠": 2.718347555518,
+            "zh3:梁挠度": 3.262017066622
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q12",
+      "query": "beam deflection serviceability",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-DEF",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-DEF",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-DEF",
+          "version": "1.0",
+          "score": 11.002661388555,
+          "bm25": 11.002661388555,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:beam",
+            "en:deflection",
+            "en:serviceability",
+            "phrase:beam deflection",
+            "phrase:deflection serviceability"
+          ],
+          "token_scores": {
+            "en:beam": 2.718347555518,
+            "en:deflection": 2.718347555518,
+            "en:serviceability": 2.01554606336,
+            "phrase:beam deflection": 2.038760666639,
+            "phrase:deflection serviceability": 1.51165954752
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "query": "挠度限值",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-DEF",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-DEF",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-DEF",
+          "version": "1.0",
+          "score": 12.897125455251,
+          "bm25": 12.897125455251,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:值",
+            "zh1:度",
+            "zh1:挠",
+            "zh1:限",
+            "zh2:度限",
+            "zh2:挠度",
+            "zh2:限值",
+            "zh3:度限值",
+            "zh3:挠度限"
+          ],
+          "token_scores": {
+            "zh1:值": 0.302331909504,
+            "zh1:度": 0.297959268613,
+            "zh1:挠": 0.407752133328,
+            "zh1:限": 0.302331909504,
+            "zh2:度限": 2.01554606336,
+            "zh2:挠度": 2.718347555518,
+            "zh2:限值": 2.01554606336,
+            "zh3:度限值": 2.418655276032,
+            "zh3:挠度限": 2.418655276032
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q14",
+      "query": "kN kPa unit conversion",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-UNIT",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-UNIT",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-UNIT",
+          "version": "1.0",
+          "score": 12.185432490376,
+          "bm25": 12.185432490376,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:conversion",
+            "en:kn",
+            "en:kpa",
+            "en:unit",
+            "phrase:kn kpa",
+            "phrase:unit conversion"
+          ],
+          "token_scores": {
+            "en:conversion": 2.572173964903,
+            "en:kn": 1.858892395234,
+            "en:kpa": 1.858892395234,
+            "en:unit": 2.572173964903,
+            "phrase:kn kpa": 1.394169296425,
+            "phrase:unit conversion": 1.929130473677
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q15",
+      "query": "荷载单位换算",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-UNIT",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-UNIT",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-UNIT",
+          "version": "1.0",
+          "score": 23.960108722455,
+          "bm25": 23.960108722455,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:位",
+            "zh1:单",
+            "zh1:换",
+            "zh1:算",
+            "zh1:荷",
+            "zh1:载",
+            "zh2:位换",
+            "zh2:单位",
+            "zh2:换算",
+            "zh2:荷载",
+            "zh2:载单",
+            "zh3:位换算",
+            "zh3:单位换",
+            "zh3:荷载单",
+            "zh3:载单位"
+          ],
+          "token_scores": {
+            "zh1:位": 0.442412616623,
+            "zh1:单": 0.442412616623,
+            "zh1:换": 0.385826094735,
+            "zh1:算": 0.385826094735,
+            "zh1:荷": 0.203754011289,
+            "zh1:载": 0.154300179677,
+            "zh2:位换": 2.572173964903,
+            "zh2:单位": 2.94941744415,
+            "zh2:换算": 2.572173964903,
+            "zh2:荷载": 1.358360075257,
+            "zh2:载单": 1.858892395234,
+            "zh3:位换算": 3.086608757883,
+            "zh3:单位换": 3.086608757883,
+            "zh3:荷载单": 2.23067087428,
+            "zh3:载单位": 2.23067087428
+          },
+          "matched_check_ids": []
+        },
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 1.76461627527,
+          "bm25": 1.76461627527,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:荷",
+            "zh1:载",
+            "zh2:荷载"
+          ],
+          "token_scores": {
+            "zh1:荷": 0.202442811248,
+            "zh1:载": 0.212554722371,
+            "zh2:荷载": 1.349618741651
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q16",
+      "query": "duplicate assignments",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-DUP",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-DUP",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-DUP",
+          "version": "1.0",
+          "score": 7.041922984047,
+          "bm25": 7.041922984047,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:assignment",
+            "en:duplicate",
+            "phrase:duplicate assignment"
+          ],
+          "token_scores": {
+            "en:assignment": 2.560699266926,
+            "en:duplicate": 2.560699266926,
+            "phrase:duplicate assignment": 1.920524450195
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q17",
+      "query": "重复分配",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-DUP",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-DUP",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-DUP",
+          "version": "1.0",
+          "score": 14.364415579445,
+          "bm25": 14.364415579445,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:分",
+            "zh1:复",
+            "zh1:配",
+            "zh1:重",
+            "zh2:分配",
+            "zh2:复分",
+            "zh2:重复",
+            "zh3:复分配",
+            "zh3:重复分"
+          ],
+          "token_scores": {
+            "zh1:分": 0.28067937051,
+            "zh1:复": 0.384104890039,
+            "zh1:配": 0.28067937051,
+            "zh1:重": 0.28067937051,
+            "zh2:分配": 1.8711958034,
+            "zh2:复分": 2.560699266926,
+            "zh2:重复": 2.560699266926,
+            "zh3:复分配": 3.072839120312,
+            "zh3:重复分": 3.072839120312
+          },
+          "matched_check_ids": []
+        },
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 2.43255454442,
+          "bm25": 2.43255454442,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:分",
+            "zh1:配",
+            "zh2:分配"
+          ],
+          "token_scores": {
+            "zh1:分": 0.28067937051,
+            "zh1:配": 0.28067937051,
+            "zh2:分配": 1.8711958034
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q18",
+      "query": "soil bearing pressure",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-FOUND",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-FOUND",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-FOUND",
+          "version": "1.0",
+          "score": 8.679841813306,
+          "bm25": 8.679841813306,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:bearing",
+            "en:pressure",
+            "en:soil",
+            "phrase:bearing pressure",
+            "phrase:soil bearing"
+          ],
+          "token_scores": {
+            "en:bearing": 2.595434665043,
+            "en:pressure": 1.376186900613,
+            "en:soil": 1.88328809906,
+            "phrase:bearing pressure": 1.412466074295,
+            "phrase:soil bearing": 1.412466074295
+          },
+          "matched_check_ids": []
+        },
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 1.349618741651,
+          "bm25": 1.349618741651,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:pressure"
+          ],
+          "token_scores": {
+            "en:pressure": 1.349618741651
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q19",
+      "query": "地基承载压力",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-FOUND",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-FOUND",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-FOUND",
+          "version": "1.0",
+          "score": 27.548594553809,
+          "bm25": 27.548594553809,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:力",
+            "zh1:压",
+            "zh1:地",
+            "zh1:基",
+            "zh1:承",
+            "zh1:载",
+            "zh2:压力",
+            "zh2:地基",
+            "zh2:基承",
+            "zh2:承载",
+            "zh2:载压",
+            "zh3:地基承",
+            "zh3:基承载",
+            "zh3:承载压",
+            "zh3:载压力"
+          ],
+          "token_scores": {
+            "zh1:力": 0.284486732742,
+            "zh1:压": 0.389315199756,
+            "zh1:地": 0.445464517657,
+            "zh1:基": 0.389315199756,
+            "zh1:承": 0.389315199756,
+            "zh1:载": 0.215437986719,
+            "zh2:压力": 2.595434665043,
+            "zh2:地基": 2.595434665043,
+            "zh2:基承": 2.595434665043,
+            "zh2:承载": 2.595434665043,
+            "zh2:载压": 2.595434665043,
+            "zh3:地基承": 3.114521598052,
+            "zh3:基承载": 3.114521598052,
+            "zh3:承载压": 3.114521598052,
+            "zh3:载压力": 3.114521598052
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q20",
+      "query": "missing evidence locator",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-SOURCE",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-SOURCE",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-SOURCE",
+          "version": "1.0",
+          "score": 8.158822018249,
+          "bm25": 8.158822018249,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:evidence",
+            "en:locator",
+            "en:missing",
+            "phrase:missing evidence"
+          ],
+          "token_scores": {
+            "en:evidence": 2.692842383273,
+            "en:locator": 1.987628958173,
+            "en:missing": 1.987628958173,
+            "phrase:missing evidence": 1.49072171863
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q21",
+      "query": "证据缺失",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-SOURCE",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-SOURCE",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-SOURCE",
+          "version": "1.0",
+          "score": 16.157054299637,
+          "bm25": 16.157054299637,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:失",
+            "zh1:据",
+            "zh1:缺",
+            "zh1:证",
+            "zh2:据缺",
+            "zh2:缺失",
+            "zh2:证据",
+            "zh3:据缺失",
+            "zh3:证据缺"
+          ],
+          "token_scores": {
+            "zh1:失": 0.403926357491,
+            "zh1:据": 0.403926357491,
+            "zh1:缺": 0.403926357491,
+            "zh1:证": 0.403926357491,
+            "zh2:据缺": 2.692842383273,
+            "zh2:缺失": 2.692842383273,
+            "zh2:证据": 2.692842383273,
+            "zh3:据缺失": 3.231410859927,
+            "zh3:证据缺": 3.231410859927
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q22",
+      "query": "thermal expansion",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-NEW-42",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-NEW-42",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-NEW-42",
+          "version": "1.0",
+          "score": 7.405316554,
+          "bm25": 7.405316554,
+          "exact_id": false,
+          "matched_tokens": [
+            "en:expansion",
+            "en:thermal",
+            "phrase:thermal expansion"
+          ],
+          "token_scores": {
+            "en:expansion": 2.692842383273,
+            "en:thermal": 2.692842383273,
+            "phrase:thermal expansion": 2.019631787454
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q23",
+      "query": "温度伸缩",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-NEW-42",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-NEW-42",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-NEW-42",
+          "version": "1.0",
+          "score": 16.048291577635,
+          "bm25": 16.048291577635,
+          "exact_id": false,
+          "matched_tokens": [
+            "zh1:伸",
+            "zh1:度",
+            "zh1:温",
+            "zh1:缩",
+            "zh2:伸缩",
+            "zh2:度伸",
+            "zh2:温度",
+            "zh3:度伸缩",
+            "zh3:温度伸"
+          ],
+          "token_scores": {
+            "zh1:伸": 0.403926357491,
+            "zh1:度": 0.295163635489,
+            "zh1:温": 0.403926357491,
+            "zh1:缩": 0.403926357491,
+            "zh2:伸缩": 2.692842383273,
+            "zh2:度伸": 2.692842383273,
+            "zh2:温度": 2.692842383273,
+            "zh3:度伸缩": 3.231410859927,
+            "zh3:温度伸": 3.231410859927
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q24",
+      "query": "请检索client-comb",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-COMB",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-COMB",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-COMB",
+          "version": "1.0",
+          "score": 1000.0,
+          "bm25": 0,
+          "exact_id": true,
+          "matched_tokens": [],
+          "token_scores": {},
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q25",
+      "query": "What is the weather tomorrow?",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No lexical evidence matches the query in the approved scope",
+      "scores": []
+    },
+    {
+      "id": "Q26",
+      "query": "明天北京天气预报",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No lexical evidence matches the query in the approved scope",
+      "scores": []
+    },
+    {
+      "id": "Q27",
+      "query": "请问这个规则是什么",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No lexical evidence matches the query in the approved scope",
+      "scores": []
+    },
+    {
+      "id": "Q28",
+      "query": "please show the rule",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No lexical evidence matches the query in the approved scope",
+      "scores": []
+    },
+    {
+      "id": "Q29",
+      "query": "CLIENT-UNKNOWN",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No lexical evidence matches the query in the approved scope",
+      "scores": []
+    },
+    {
+      "id": "Q30",
+      "query": "热度新闻",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No lexical evidence matches the query in the approved scope",
+      "scores": []
+    },
+    {
+      "id": "Q31",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No valid approved sources for the requested project and task",
+      "scores": []
+    },
+    {
+      "id": "Q32",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No valid approved sources for the requested project and task",
+      "scores": []
+    },
+    {
+      "id": "Q33",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No valid approved sources for the requested project and task",
+      "scores": []
+    },
+    {
+      "id": "Q34",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No valid approved sources for the requested project and task",
+      "scores": []
+    },
+    {
+      "id": "Q35",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No valid approved sources for the requested project and task",
+      "scores": []
+    },
+    {
+      "id": "Q36",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "Invalid approved rule in requested scope: Missing rule fields: source_sha256",
+      "scores": []
+    },
+    {
+      "id": "Q37",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "Invalid approved rule in requested scope: locator must be a non-empty string of at most 2048 characters",
+      "scores": []
+    },
+    {
+      "id": "Q38",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "Invalid approved rule in requested scope: text must be a non-empty string of at most 200000 characters",
+      "scores": []
+    },
+    {
+      "id": "Q39",
+      "query": "CLIENT-LOAD",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "Conflicting approved versions for rule CLIENT-LOAD",
+      "scores": []
+    },
+    {
+      "id": "Q40",
+      "query": "CLIENT-LOAD",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 1000.287682072452,
+          "bm25": 0.287682072452,
+          "exact_id": true,
+          "matched_tokens": [
+            "en:load"
+          ],
+          "token_scores": {
+            "en:load": 0.287682072452
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q41",
+      "query": "CLIENT-LOAD",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 1000.287682072452,
+          "bm25": 0.287682072452,
+          "exact_id": true,
+          "matched_tokens": [
+            "en:load"
+          ],
+          "token_scores": {
+            "en:load": 0.287682072452
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q42",
+      "query": "CLIENT-LOAD",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "2.0",
+          "score": 1000.287682072452,
+          "bm25": 0.287682072452,
+          "exact_id": true,
+          "matched_tokens": [
+            "en:load"
+          ],
+          "token_scores": {
+            "en:load": 0.287682072452
+          },
+          "matched_check_ids": []
+        }
+      ]
+    },
+    {
+      "id": "Q43",
+      "query": "CHK-LOAD",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-LOAD",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-LOAD",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-LOAD",
+          "version": "1.0",
+          "score": 103.693860061142,
+          "bm25": 3.693860061142,
+          "exact_id": false,
+          "matched_tokens": [
+            "check:chk-load",
+            "en:load"
+          ],
+          "token_scores": {
+            "check:chk-load": 1.846930030571,
+            "en:load": 1.846930030571
+          },
+          "matched_check_ids": [
+            "CHK-LOAD"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q44",
+      "query": "CHK-THERM",
+      "expected_status": "FOUND",
+      "expected_first_rule_id": "CLIENT-NEW-42",
+      "actual_status": "FOUND",
+      "actual_first_rule_id": "CLIENT-NEW-42",
+      "matched": true,
+      "reason": "Relevant approved sources retrieved; verify source files and mandatory check coverage before execution",
+      "scores": [
+        {
+          "rule_id": "CLIENT-NEW-42",
+          "version": "1.0",
+          "score": 101.987628958173,
+          "bm25": 1.987628958173,
+          "exact_id": false,
+          "matched_tokens": [
+            "check:chk-therm"
+          ],
+          "token_scores": {
+            "check:chk-therm": 1.987628958173
+          },
+          "matched_check_ids": [
+            "CHK-THERM"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q45",
+      "query": "CHK-UNKNOWN",
+      "expected_status": "NOT VERIFIED",
+      "expected_first_rule_id": null,
+      "actual_status": "NOT VERIFIED",
+      "actual_first_rule_id": null,
+      "matched": true,
+      "reason": "No lexical evidence matches the query in the approved scope",
+      "scores": []
+    }
+  ]
+}

@@ -1,0 +1,1111 @@
+{
+  "generated_at": "2026-10-03T05:17:58.770349+00:00",
+  "scope": "Hand-authored synthetic software acceptance only; no real client engineering accuracy or CSI interoperability claim.",
+  "tool_fingerprint": "5ec34f9ef62f297f3555e395e928368af002699ed4342f8903b2be3d24a86558",
+  "fixture_sha256": "ba5bd0de50275282e7f41c2aaa93515df98de18f9d83607aac6f4397ccfbb032",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "summary": {
+    "total": 18,
+    "matched": 18,
+    "false_pass": 0,
+    "false_pass_denominator_expected_nonpass": 11,
+    "false_pass_denominator_actual_pass": 7,
+    "expected_not_verified": 5,
+    "actual_not_verified": 5,
+    "software_errors": 0
+  },
+  "cases": [
+    {
+      "id": "S01",
+      "title": "Controlled gravity · clean",
+      "task": "gravity-full",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "d9c451c71a08f46f93e22df70d1618d28a93f1b6498a39f62a08e78e57a38b20",
+      "latency_ms": 47.926,
+      "calculation_ms": 24.349,
+      "citation_count": 6,
+      "explanation": "gravity-full: PASS.\nQA-001: PASS. Model keys and record IDs are unique.\nQA-002: PASS. Every required floor and load-case pair is present.\nQA-003: PASS. Each floor assignment agrees with its independent area and load intensity.\nQA-004: PASS. Each load-case total agrees with the independent brief.\nQA-005: PASS. Independent reactions agree with the load baseline within the supported scope.\nQA-006: PASS. All required evidence roles contain inspectable source content.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S02",
+      "title": "Controlled gravity · issues",
+      "task": "gravity-full",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "63f859c50736b101a4bb56969885ec6823b44de2859850e0fd15cb4874617d95",
+      "latency_ms": 62.753,
+      "calculation_ms": 25.628,
+      "citation_count": 6,
+      "explanation": "gravity-full: FAIL.\nQA-001: FAIL. Record uniqueness failed. Inspect the item values and original source details below.\nQA-002: PASS. Every required floor and load-case pair is present.\nQA-003: FAIL. Floor load distribution failed. Inspect the item values and original source details below.\nQA-004: NOT VERIFIED. Load-case totals could not be verified. Inspect the item values and original source details below.\nQA-005: PASS. Independent reactions agree with the load baseline within the supported scope.\nQA-006: NOT VERIFIED. Evidence completeness could not be verified. Inspect the item values and original source details below.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S03",
+      "title": "Controlled gravity · missing",
+      "task": "gravity-full",
+      "expected": "NOT VERIFIED",
+      "actual": "NOT VERIFIED",
+      "state": "WAITING",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "e7032aca4b7579ed4377f949e7b067c41550b9265f07b0a6ccdafe5fa11ea8fa",
+      "latency_ms": 48.265,
+      "calculation_ms": 25.378,
+      "citation_count": 6,
+      "explanation": "gravity-full: NOT VERIFIED.\nQA-001: PASS. Model keys and record IDs are unique.\nQA-002: PASS. Every required floor and load-case pair is present.\nQA-003: PASS. Each floor assignment agrees with its independent area and load intensity.\nQA-004: PASS. Each load-case total agrees with the independent brief.\nQA-005: NOT VERIFIED. Independent vertical reaction balance could not be verified. Inspect the item values and original source details below.\nQA-006: NOT VERIFIED. Evidence completeness could not be verified. Inspect the item values and original source details below.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S04",
+      "title": "Controlled gravity · redistribution",
+      "task": "gravity-full",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "596aabd202fe1049218a66bd9686256fbda0faf311b92a1e712eb7fa008c0bcf",
+      "latency_ms": 51.631,
+      "calculation_ms": 28.936,
+      "citation_count": 6,
+      "explanation": "gravity-full: FAIL.\nQA-001: PASS. Model keys and record IDs are unique.\nQA-002: PASS. Every required floor and load-case pair is present.\nQA-003: FAIL. Floor load distribution failed. Inspect the item values and original source details below.\nQA-004: PASS. Each load-case total agrees with the independent brief.\nQA-005: PASS. Independent reactions agree with the load baseline within the supported scope.\nQA-006: PASS. All required evidence roles contain inspectable source content.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S05",
+      "title": "Controlled combination · clean",
+      "task": "load-combination",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": {
+        "expected": [
+          195,
+          50
+        ],
+        "actual": [
+          195,
+          50
+        ],
+        "matched": true
+      },
+      "input_hash": "5528dd94db72aaf45c57d30f3fe77ba99ad8208fe575481a717385566059606e",
+      "latency_ms": 37.018,
+      "calculation_ms": 23.838,
+      "citation_count": 1,
+      "explanation": "load-combination: PASS.\nC1: PASS. Separately supplied reported response matches linear superposition within the fixed demo tolerance.\nC2: PASS. Separately supplied reported response matches linear superposition within the fixed demo tolerance.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S06",
+      "title": "Controlled combination · mismatch",
+      "task": "load-combination",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "71ebcc04c2a4c96076306ea7eaa59df53dc1ebe5bb38b579c96e6e85277ba3b7",
+      "latency_ms": 37.708,
+      "calculation_ms": 24.249,
+      "citation_count": 1,
+      "explanation": "load-combination: FAIL.\nC1: FAIL. Reported response differs from linear superposition beyond the fixed demo tolerance.\nC2: PASS. Separately supplied reported response matches linear superposition within the fixed demo tolerance.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S07",
+      "title": "Controlled combination · missing",
+      "task": "load-combination",
+      "expected": "NOT VERIFIED",
+      "actual": "NOT VERIFIED",
+      "state": "WAITING",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "6db5b4b31c63a8649c87c8a30079b60443acd942b0ccfba1d8bc0e3ed2a44053",
+      "latency_ms": 37.257,
+      "calculation_ms": 24.021,
+      "citation_count": 1,
+      "explanation": "load-combination: NOT VERIFIED.\nC1: NOT VERIFIED. Missing independent base case LIVE; unknown or nested combinations cannot be evaluated.\nC2: NOT VERIFIED. Missing independent base case LIVE; unknown or nested combinations cannot be evaluated.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S08",
+      "title": "Controlled combination · unsupported",
+      "task": "load-combination",
+      "expected": "NOT VERIFIED",
+      "actual": "NOT VERIFIED",
+      "state": "WAITING",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "d5d39d04fb44ffc6135c1d545a755a5569e30b808314703213c2c09395e3e763",
+      "latency_ms": 37.138,
+      "calculation_ms": 23.518,
+      "citation_count": 1,
+      "explanation": "load-combination: NOT VERIFIED.\nC1: NOT VERIFIED. Unsupported analysisType nonlinear; only linear-static superposition is supported.\nC2: NOT VERIFIED. Unsupported analysisType nonlinear; only linear-static superposition is supported.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S09",
+      "title": "Combination configuration · correct",
+      "task": "combination-configuration",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "8241852ad9c2f5706fa519155b0dd4986fe67991309d52a9d5665720a8a7ecdf",
+      "latency_ms": 10.774,
+      "calculation_ms": 0.071,
+      "citation_count": 1,
+      "explanation": "combination-configuration: PASS.\nCOMB-CONFIG: PASS. All checks within the explicitly declared scope passed.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S10",
+      "title": "Combination configuration · wrong factor",
+      "task": "combination-configuration",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "005126acdc4e85a90b783111f3f3552090bec6af56e4f0f4b48548b8b7629952",
+      "latency_ms": 10.762,
+      "calculation_ms": 0.058,
+      "citation_count": 1,
+      "explanation": "combination-configuration: FAIL.\nCOMB-CONFIG: FAIL. See per-item findings and missing prerequisites.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S11",
+      "title": "Combination configuration · completeness unknown",
+      "task": "combination-configuration",
+      "expected": "NOT VERIFIED",
+      "actual": "NOT VERIFIED",
+      "state": "WAITING",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "5528dd94db72aaf45c57d30f3fe77ba99ad8208fe575481a717385566059606e",
+      "latency_ms": 10.977,
+      "calculation_ms": 0.056,
+      "citation_count": 1,
+      "explanation": "combination-configuration: NOT VERIFIED.\nCOMB-CONFIG: NOT VERIFIED. See per-item findings and missing prerequisites.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S12",
+      "title": "ETABS handoff · source E1",
+      "task": "handoff",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "6e73bd73660a7b1831dd3d93e78b6fb0ddc96e935962371aa586ff2c8ca6990c",
+      "latency_ms": 11.003,
+      "calculation_ms": 0.077,
+      "citation_count": 1,
+      "explanation": "handoff: PASS.\nHANDOFF: PASS. All checks within the explicitly declared scope passed.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S13",
+      "title": "ETABS handoff · source E1",
+      "task": "handoff",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "6e73bd73660a7b1831dd3d93e78b6fb0ddc96e935962371aa586ff2c8ca6990c",
+      "latency_ms": 10.594,
+      "calculation_ms": 0.042,
+      "citation_count": 1,
+      "explanation": "handoff: FAIL.\nHANDOFF: FAIL. See per-item findings and missing prerequisites.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S14",
+      "title": "Seismic settings · correct",
+      "task": "seismic-configuration",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "dedd7adbe75628e94517089d466233f5a63dad9d86951ab9e8546b4ee24b014a",
+      "latency_ms": 10.074,
+      "calculation_ms": 0.042,
+      "citation_count": 1,
+      "explanation": "seismic-configuration: PASS.\nSEISMIC: PASS. All checks within the explicitly declared scope passed.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S15",
+      "title": "Seismic settings · deliberate error",
+      "task": "seismic-configuration",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "23cdffacbfd18717eee3951187fd723a2baaa97fe90237aa3679a1e524b92c11",
+      "latency_ms": 10.4,
+      "calculation_ms": 0.031,
+      "citation_count": 1,
+      "explanation": "seismic-configuration: FAIL.\nSEISMIC: FAIL. See per-item findings and missing prerequisites.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S16",
+      "title": "Mass source · correct",
+      "task": "mass-source",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "0140c1c85a2e875586ecd6adbf6797c91183320c8b0d835c42a8ac085c5846c3",
+      "latency_ms": 10.146,
+      "calculation_ms": 0.028,
+      "citation_count": 1,
+      "explanation": "mass-source: PASS.\nMASS-SOURCE: PASS. All checks within the explicitly declared scope passed.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S17",
+      "title": "Mass source · missing evidence",
+      "task": "mass-source",
+      "expected": "NOT VERIFIED",
+      "actual": "NOT VERIFIED",
+      "state": "WAITING",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "11e43c52e1b44b8683ec4c841aca57b5e112f454fa26c48a3afd4ce42ea45acf",
+      "latency_ms": 10.416,
+      "calculation_ms": 0.029,
+      "citation_count": 1,
+      "explanation": "mass-source: NOT VERIFIED.\nMASS-SOURCE: NOT VERIFIED. See per-item findings and missing prerequisites.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    },
+    {
+      "id": "S18",
+      "title": "Additional settings · two explicit checks",
+      "task": "additional-settings",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "numeric_oracle": null,
+      "input_hash": "06efc2f25d7f82daec201046c9818d5c78e5352dcbaebd0ceba7c9108d316246",
+      "latency_ms": 10.397,
+      "calculation_ms": 0.033,
+      "citation_count": 1,
+      "explanation": "additional-settings: PASS.\nSETTINGS: PASS. All checks within the explicitly declared scope passed.\nFindings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."
+    }
+  ],
+  "cache_experiment": {
+    "sample_pairs": 30,
+    "concurrency": 1,
+    "python": "3.12.7",
+    "cpu_architecture": "arm64",
+    "scope": "30 paired repeated gravity runs on this machine; identical input/rules; no model call; not production SLA or human time saving",
+    "uncached": [
+      {
+        "total_ms": 58.18095779977739,
+        "calculation_ms": 24.703
+      },
+      {
+        "total_ms": 47.78370796702802,
+        "calculation_ms": 24.978
+      },
+      {
+        "total_ms": 46.81350011378527,
+        "calculation_ms": 24.758
+      },
+      {
+        "total_ms": 47.15879098512232,
+        "calculation_ms": 24.566
+      },
+      {
+        "total_ms": 58.517915895208716,
+        "calculation_ms": 24.54
+      },
+      {
+        "total_ms": 47.59437497705221,
+        "calculation_ms": 24.531
+      },
+      {
+        "total_ms": 47.673792112618685,
+        "calculation_ms": 24.469
+      },
+      {
+        "total_ms": 59.50049986131489,
+        "calculation_ms": 24.498
+      },
+      {
+        "total_ms": 48.90083288773894,
+        "calculation_ms": 25.112
+      },
+      {
+        "total_ms": 48.85083297267556,
+        "calculation_ms": 24.532
+      },
+      {
+        "total_ms": 59.89375011995435,
+        "calculation_ms": 24.62
+      },
+      {
+        "total_ms": 48.11058286577463,
+        "calculation_ms": 24.492
+      },
+      {
+        "total_ms": 47.673416789621115,
+        "calculation_ms": 24.28
+      },
+      {
+        "total_ms": 48.52354200556874,
+        "calculation_ms": 24.391
+      },
+      {
+        "total_ms": 48.16920799203217,
+        "calculation_ms": 23.826
+      },
+      {
+        "total_ms": 49.60820800624788,
+        "calculation_ms": 24.851
+      },
+      {
+        "total_ms": 61.26995803788304,
+        "calculation_ms": 24.794
+      },
+      {
+        "total_ms": 49.79687510058284,
+        "calculation_ms": 24.669
+      },
+      {
+        "total_ms": 60.66570803523064,
+        "calculation_ms": 24.859
+      },
+      {
+        "total_ms": 50.53375009447336,
+        "calculation_ms": 24.497
+      },
+      {
+        "total_ms": 50.42374995537102,
+        "calculation_ms": 24.373
+      },
+      {
+        "total_ms": 51.08475009910762,
+        "calculation_ms": 25.025
+      },
+      {
+        "total_ms": 50.573958083987236,
+        "calculation_ms": 24.566
+      },
+      {
+        "total_ms": 51.52445798739791,
+        "calculation_ms": 24.902
+      },
+      {
+        "total_ms": 51.24454107135534,
+        "calculation_ms": 24.813
+      },
+      {
+        "total_ms": 61.79874995723367,
+        "calculation_ms": 24.758
+      },
+      {
+        "total_ms": 51.34266708046198,
+        "calculation_ms": 24.842
+      },
+      {
+        "total_ms": 52.62408312410116,
+        "calculation_ms": 25.275
+      },
+      {
+        "total_ms": 52.85583296790719,
+        "calculation_ms": 25.005
+      },
+      {
+        "total_ms": 53.07770799845457,
+        "calculation_ms": 25.068
+      }
+    ],
+    "cached": [
+      {
+        "total_ms": 19.99616716057062,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 19.87841702066362,
+        "calculation_ms": 0.008
+      },
+      {
+        "total_ms": 20.491000032052398,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 20.255041075870395,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 20.08787519298494,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 21.984208142384887,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 21.216416032984853,
+        "calculation_ms": 0.006
+      },
+      {
+        "total_ms": 22.213249932974577,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 21.271625068038702,
+        "calculation_ms": 0.006
+      },
+      {
+        "total_ms": 21.94345905445516,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 21.601333050057292,
+        "calculation_ms": 0.006
+      },
+      {
+        "total_ms": 22.09049998782575,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 22.38820889033377,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 34.34120793826878,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 22.539249854162335,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 23.36941589601338,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 25.470083113759756,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 23.53404089808464,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 23.225459037348628,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 23.79624987952411,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 35.398207837715745,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 23.412000155076385,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 36.610999843105674,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 24.65258282609284,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 24.61058390326798,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 24.928791914135218,
+        "calculation_ms": 0.008
+      },
+      {
+        "total_ms": 37.12212503887713,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 24.98508314602077,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 36.51933302171528,
+        "calculation_ms": 0.007
+      },
+      {
+        "total_ms": 25.69562499411404,
+        "calculation_ms": 0.007
+      }
+    ],
+    "p95_total_ms": {
+      "uncached": 61.27,
+      "cached": 36.611
+    },
+    "median_total_ms": {
+      "uncached": 50.554,
+      "cached": 23.297
+    }
+  },
+  "preserved_baseline": {
+    "engineering": {
+      "generatedAt": "2026-10-03T05:17:58.805Z",
+      "engineVersion": "0.2.0",
+      "combinationVersion": "combination-demo-1.0.0",
+      "scope": "Hand-authored synthetic fixtures; not real-project accuracy or engineering approval.",
+      "summary": {
+        "total": 16,
+        "matched": 16,
+        "mismatched": 0,
+        "expectedNotVerified": 19,
+        "actualNotVerified": 19,
+        "falsePass": 0
+      },
+      "cases": [
+        {
+          "id": "G01",
+          "title": "完整输入：6 项通过",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "expectedValues": {
+            "QA-004": [
+              8000,
+              4400
+            ],
+            "QA-005": [
+              8000,
+              4400
+            ]
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "error": null,
+          "numericChecks": [
+            {
+              "id": "QA-004",
+              "expected": [
+                8000,
+                4400
+              ],
+              "actual": [
+                8000,
+                4400
+              ],
+              "reported": [
+                8000,
+                4400
+              ],
+              "matched": true
+            },
+            {
+              "id": "QA-005",
+              "expected": [
+                8000,
+                4400
+              ],
+              "actual": [
+                8000,
+                4400
+              ],
+              "reported": [
+                8000,
+                4400
+              ],
+              "matched": true
+            }
+          ],
+          "matched": true
+        },
+        {
+          "id": "G02",
+          "title": "重复、错配与缺证据并存",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "FAIL",
+            "QA-002": "PASS",
+            "QA-003": "FAIL",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "PASS",
+            "QA-006": "NOT VERIFIED"
+          },
+          "actual": {
+            "QA-001": "FAIL",
+            "QA-002": "PASS",
+            "QA-003": "FAIL",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "PASS",
+            "QA-006": "NOT VERIFIED"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G03",
+          "title": "反力证据缺失",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "NOT VERIFIED"
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "NOT VERIFIED"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G04",
+          "title": "总量相同、分层错配",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "FAIL",
+            "QA-004": "PASS",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "FAIL",
+            "QA-004": "PASS",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G05",
+          "title": "未知单位阻断数值结论",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "NOT VERIFIED",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "PASS"
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "NOT VERIFIED",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "PASS"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G06",
+          "title": "独立任务书缺失",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "NOT VERIFIED",
+            "QA-003": "NOT VERIFIED",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "PASS"
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "NOT VERIFIED",
+            "QA-003": "NOT VERIFIED",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "PASS"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G07",
+          "title": "重复模型行不得先合并",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "FAIL",
+            "QA-002": "PASS",
+            "QA-003": "NOT VERIFIED",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "actual": {
+            "QA-001": "FAIL",
+            "QA-002": "PASS",
+            "QA-003": "NOT VERIFIED",
+            "QA-004": "NOT VERIFIED",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G08",
+          "title": "支座清单来源缺失",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "NOT VERIFIED"
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "NOT VERIFIED",
+            "QA-006": "NOT VERIFIED"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G09",
+          "title": "模型变更不重算独立反力",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "FAIL",
+            "QA-004": "FAIL",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "FAIL",
+            "QA-004": "FAIL",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G10",
+          "title": "零荷载允许独立验证",
+          "profile": "gravity",
+          "expected": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "expectedValues": {
+            "QA-004": [
+              0,
+              0
+            ],
+            "QA-005": [
+              0,
+              0
+            ]
+          },
+          "actual": {
+            "QA-001": "PASS",
+            "QA-002": "PASS",
+            "QA-003": "PASS",
+            "QA-004": "PASS",
+            "QA-005": "PASS",
+            "QA-006": "PASS"
+          },
+          "error": null,
+          "numericChecks": [
+            {
+              "id": "QA-004",
+              "expected": [
+                0,
+                0
+              ],
+              "actual": [
+                0,
+                0
+              ],
+              "reported": [
+                0,
+                0
+              ],
+              "matched": true
+            },
+            {
+              "id": "QA-005",
+              "expected": [
+                0,
+                0
+              ],
+              "actual": [
+                0,
+                0
+              ],
+              "reported": [
+                0,
+                0
+              ],
+              "matched": true
+            }
+          ],
+          "matched": true
+        },
+        {
+          "id": "G11",
+          "title": "乘积溢出拒绝执行",
+          "profile": "gravity",
+          "expected": "REJECTED",
+          "actual": "REJECTED",
+          "error": "数值计算溢出；无法可靠核验此输入。",
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "G12",
+          "title": "空数值拒绝执行",
+          "profile": "gravity",
+          "expected": "REJECTED",
+          "actual": "REJECTED",
+          "error": "floors[0]：需要 ID、正数面积和 evidenceRef。",
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "C01",
+          "title": "有符号线性组合：195 / 50 kN",
+          "profile": "combination",
+          "expected": {
+            "C1": "PASS",
+            "C2": "PASS"
+          },
+          "expectedValues": {
+            "C1": [
+              195
+            ],
+            "C2": [
+              50
+            ]
+          },
+          "actual": {
+            "C1": "PASS",
+            "C2": "PASS"
+          },
+          "error": null,
+          "numericChecks": [
+            {
+              "id": "C1",
+              "expected": [
+                195
+              ],
+              "actual": [
+                195
+              ],
+              "reported": [
+                195
+              ],
+              "matched": true
+            },
+            {
+              "id": "C2",
+              "expected": [
+                50
+              ],
+              "actual": [
+                50
+              ],
+              "reported": [
+                50
+              ],
+              "matched": true
+            }
+          ],
+          "matched": true
+        },
+        {
+          "id": "C02",
+          "title": "组合超差：210 ≠ 195 kN",
+          "profile": "combination",
+          "expected": {
+            "C1": "FAIL",
+            "C2": "PASS"
+          },
+          "actual": {
+            "C1": "FAIL",
+            "C2": "PASS"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "C03",
+          "title": "缺基础工况：不得当作零",
+          "profile": "combination",
+          "expected": {
+            "C1": "NOT VERIFIED",
+            "C2": "NOT VERIFIED"
+          },
+          "actual": {
+            "C1": "NOT VERIFIED",
+            "C2": "NOT VERIFIED"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        },
+        {
+          "id": "C04",
+          "title": "非线性分析：超出本轮范围",
+          "profile": "combination",
+          "expected": {
+            "C1": "NOT VERIFIED",
+            "C2": "NOT VERIFIED"
+          },
+          "actual": {
+            "C1": "NOT VERIFIED",
+            "C2": "NOT VERIFIED"
+          },
+          "error": null,
+          "numericChecks": [],
+          "matched": true
+        }
+      ]
+    },
+    "agent": {
+      "generatedAt": "2026-10-03T05:17:58.817Z",
+      "summary": {
+        "total": 10,
+        "matched": 10,
+        "mismatched": 0
+      },
+      "cases": [
+        {
+          "id": "AG-01",
+          "title": "Clean gravity fixture",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-02",
+          "title": "Gravity mismatch fixture",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-03",
+          "title": "Gravity evidence missing",
+          "expected": "NOT VERIFIED",
+          "actual": "NOT VERIFIED",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-04",
+          "title": "Clean combination fixture",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-05",
+          "title": "Combination mismatch fixture",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-06",
+          "title": "Combination base case missing",
+          "expected": "NOT VERIFIED",
+          "actual": "NOT VERIFIED",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-07",
+          "title": "Empty knowledge blocks calculation",
+          "expected": "NOT VERIFIED",
+          "actual": "NOT VERIFIED",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-08",
+          "title": "ETABS API unavailable",
+          "expected": "NOT VERIFIED",
+          "actual": "NOT VERIFIED",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-09",
+          "title": "Unknown model-selected task",
+          "expected": "NOT VERIFIED",
+          "actual": "NOT VERIFIED",
+          "matched": true,
+          "reason": "Handwritten fixture status matches the controlled workflow."
+        },
+        {
+          "id": "AG-10",
+          "title": "Unsupported model findings cannot override a mismatch",
+          "expected": "REJECTED; FAIL preserved",
+          "actual": "REJECTED; FAIL preserved",
+          "matched": true,
+          "reason": "Only an allowlisted taskId is accepted. Model-selected tools, arguments, values, explanations or claimed findings are not adopted."
+        }
+      ]
+    }
+  }
+}
