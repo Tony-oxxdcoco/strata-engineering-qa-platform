@@ -1,8 +1,8 @@
-# Controlled local QA workflow contract
+# 受控本地 QA 工作流契约
 
-This module is an implemented **controlled local workflow**, not a live LLM agent or production RAG service. It orchestrates the existing deterministic gravity/combination engines and curated synthetic rule retrieval. It does not call ETABS, SAFE, a model API or any network endpoint. The working engineering-data provider is `controlled-file`; every other provider is blocked explicitly.
+本文说明 `dist/` 保留的旧版本地模块。它编排已有确定性重力／组合引擎和合成规则检索，不调用 ETABS、SAFE、模型 API 或网络端点；可运行的数据提供器只有 `controlled-file`，其他提供器明确阻断。新版服务端 Agent 的实现见 [六项计划](plans/README.md)。
 
-## Public interface
+## 公共接口
 
 ```js
 import {
@@ -19,52 +19,52 @@ const run = await executeAgent({
 const markdown = await agentReport(run);
 ```
 
-`AGENT_TASKS` contains `{id,title,description,ruleIds}`:
+`AGENT_TASKS` 包含 `{id,title,description,ruleIds}`：
 
-| Task ID | Required rule IDs | Returned findings |
-| --- | --- | --- |
-| gravity-full | QA-001 through QA-006 | Six existing gravity checks |
-| gravity-distribution | QA-003 | Floor distribution only |
-| gravity-balance | QA-005 | Independent vertical reaction balance only |
-| load-combination | COMB-001 | One finding per supplied linear combination |
+| 任务 ID | 必需规则 ID | 返回发现 |
+|---|---|---|
+| gravity-full | QA-001 至 QA-006 | 六项重力检查 |
+| gravity-distribution | QA-003 | 仅楼层分布检查 |
+| gravity-balance | QA-005 | 仅独立竖向反力平衡 |
+| load-combination | COMB-001 | 每个给定线性组合一条发现 |
 
-For individual gravity tasks the registered existing engine computes its dependencies and the workflow selects the requested finding. COMB-001 is a method definition, so valid custom combination IDs use the same bounded calculation; the shipped C1/C2 IDs do not limit the method or imply approved design factors.
+单项重力任务由已注册引擎计算依赖，工作流再选取所需发现。COMB-001 定义计算方法，合法自定义组合 ID 可以使用同一受限计算；样例 C1／C2 不限制方法，也不代表设计因子已经批准。
 
-The immutable returned run contains `version`, `versions`, `id`, `createdAt`, `taskId`, `task:{id,title}`, `dataMode`, input/corpus snapshots, `inputHash`, `corpusHash`, `runHash`, `status`, `summary:{PASS,FAIL,'NOT VERIFIED'}`, `results`, `citations`, `explanation`, `toolTrace`, `callsUsed`, `callBudget`, rejected `requestFields`, and the explicit `scope` statement. All nested values are frozen. Editing the original request after invocation cannot alter the saved run. Findings use the engines' result/detail fields; the evidence stage also records their rule IDs.
+返回的不可变运行记录包括 `version`、`versions`、`id`、`createdAt`、`taskId`、`task:{id,title}`、`dataMode`、input／corpus 快照、`inputHash`、`corpusHash`、`runHash`、`status`、`summary:{PASS,FAIL,'NOT VERIFIED'}`、`results`、`citations`、`explanation`、`toolTrace`、`callsUsed`、`callBudget`、被拒绝的 `requestFields` 和明确的 `scope`。所有嵌套值冻结，调用后修改原请求不会改变保存记录。发现沿用引擎结果／明细字段，证据阶段记录对应规则 ID。
 
-The input and corpus hashes are SHA-256 of their saved JSON serialisations; property order is significant and JSON normalises negative zero to zero. `runHash` covers the entire saved run except itself. These hashes detect inconsistent snapshots; they are not signatures, authenticated source provenance or protection against an attacker who can replace the application.
+input／corpus 哈希为所存 JSON 序列化的 SHA-256，属性顺序有影响，JSON 将负零规范化为零。`runHash` 覆盖除自身外的整个运行记录。哈希可检测快照不一致，但不是签名或已认证来源，也不能防止攻击者替换应用。
 
-## Fixed orchestration and trace
+## 固定编排与轨迹
 
-The tool allowlist and maximum executed call count are both fixed in code. Callers cannot override them or supply tool implementations or arguments. Every run shows the following five positions in order:
+工具白名单和最大调用次数固定在代码中，调用者不能覆盖，不能注入工具实现或参数。每次运行按以下五步展示：
 
-1. `retrieve_engineering_rules`: retrieves the complete required rule set for the registered task. The knowledge module checks each source, scope, version, approval label and task binding against shipped synthetic definitions. Missing, retired, modified, conflicting or unsupported rules block the run.
-2. `request_engineering_data`: validates an explicitly synthetic input snapshot using its engine schema. Only the controlled-file adapter is available. Selecting ETABS/SAFE or an arbitrary provider produces NOT VERIFIED, with no silent fallback.
-3. `run_deterministic_check`: calls exactly one registered checking engine. This position is **skipped, not called**, if rule retrieval or the input/provider gate failed.
-4. `verify_evidence`: retains engine findings and their rule binding. Missing cited source records can downgrade PASS to NOT VERIFIED; they cannot upgrade a result. If no calculation ran, it emits an explicit AGENT-GATE NOT VERIFIED finding.
-5. `compose_response`: constructs a fixed explanation template using the checked status, counts, findings, numbers and exact retrieved rule citations. There is no free-form generative interpretation.
+1. `retrieve_engineering_rules`：取得注册任务完整的必需规则。知识模块按内置合成定义检查来源、范围、版本、批准标签和任务绑定；缺失、退役、修改、冲突或不支持的规则阻断运行。
+2. `request_engineering_data`：按引擎结构验证明确标记为合成的输入。只支持 controlled-file；选择 ETABS／SAFE 或任意其他提供器得到 NOT VERIFIED，不自动回退。
+3. `run_deterministic_check`：调用一个已注册检查引擎。规则或输入／提供器校验未通过时跳过，不执行计算。
+4. `verify_evidence`：保留引擎发现及规则绑定。缺少引用来源可以把 PASS 降为 NOT VERIFIED，不能升级结果。未执行计算时返回明确的 AGENT-GATE NOT VERIFIED。
+5. `compose_response`：根据状态、计数、发现、数值和精确规则引用生成固定说明，不做自由生成的工程解释。
 
-Each trace step is `{index,tool,status,called,inputs,outputs,sources,errors,durationMs}`. Status is `ok`, `blocked`, `skipped` or `error`; `called:false` means no tool ran and duration is zero. Successful checked mismatches are ordinary completed tool calls, not software errors. Elapsed durations are local measurements for that execution, not performance benchmarks. The call budget is five. No retry, recursion or model-chosen chain occurs. Blocked runs still verify the gate and compose a clear NOT VERIFIED response; fewer than five calls are then executed.
+每步轨迹为 `{index,tool,status,called,inputs,outputs,sources,errors,durationMs}`。状态为 `ok`、`blocked`、`skipped` 或 `error`；`called:false` 表示工具未运行，耗时为零。检查确认不一致属于正常完成的工具调用，不是软件错误。记录的耗时只是该次本地测量，不是性能基准。调用预算为五次，不重试、不递归、不由模型选择调用链。阻断运行仍核验原因并生成 NOT VERIFIED 说明，实际调用可以少于五次。
 
-Malformed non-JSON request data (for example NaN, cycles or sparse arrays) throws before execution to prevent lossy serialisation. Ordinary JSON input-schema errors are recorded as data-tool errors and produce NOT VERIFIED without a calculation call. Empty/missing/invalid rule content and unknown tasks also fail closed. Unsupported numeric-engine scope remains subject to that engine's NOT VERIFIED gates.
+非 JSON 请求，例如 NaN、循环或稀疏数组，在执行前抛错，避免有损序列化。通常的 JSON 输入结构错误记录为数据工具错误，返回 NOT VERIFIED，不调用计算。空／缺失／无效规则、未知任务同样阻断；数值引擎范围不支持时仍遵守它自身的 NOT VERIFIED 校验。
 
-## Model-output boundary
+## 模型输出边界
 
-`validateModelTaskProposal(proposal)` only accepts `{taskId}` for one of the four registered IDs. It returns `{accepted,taskId,reason}`. Unknown tasks or additional keys such as `status`, `findings`, `explanation`, `tool`, `args` or numerical overrides are rejected. `executeAgent` separately rejects request keys outside `taskId,input,corpus,dataMode`; therefore a caller cannot bypass the selection validator by adding claimed findings to the workflow request.
+`validateModelTaskProposal(proposal)` 只接受四个已注册 ID 之一的 `{taskId}`，返回 `{accepted,taskId,reason}`。未知任务或额外的 `status`、`findings`、`explanation`、`tool`、`args`、数值覆盖字段均拒绝。`executeAgent` 另行拒绝 `taskId,input,corpus,dataMode` 之外的请求字段，避免绕过任务校验直接提交伪造发现。
 
-Any future model router must use the selection validator and pass only an accepted task ID. The saved engineering input, curated corpus, tool arguments and outcomes remain controlled locally. Imported evidence text is data, not instructions. The shipped knowledge rules are explicitly synthetic and demo-approved, not client-approved standards. This implementation does not claim that an LLM has been tested, that retrieval eliminates hallucination, or that any factors establish code compliance.
+接入该模块的模型路由必须先通过任务校验，只传入获准 task ID。工程输入、规则库、工具参数和结果仍由本地模块控制。来源文字是数据，不是指令。内置规则明确为 synthetic 和 demo-approved，不是客户批准规范。本旧模块没有实际 LLM 测试，不宣称检索消除幻觉或样例因子满足规范；新版模型评测另见发布记录。
 
-## Verified report and validation
+## 报告核验与验证集
 
-`agentReport(run)` snapshots once, checks the run/input/corpus hashes, re-executes the same request and compares all technical fields, citations, explanation, versions, call counts and trace semantics. It validates historical timing values but does not compare new execution times with old ones. Changed results, changed source text, stale versions, altered inputs and inconsistent traces are rejected. The Markdown contains all engineering source records, exact retrieved rule text, calculation details, the complete tool trace and both input/corpus snapshots. It is labelled DRAFT — NOT ENGINEERING APPROVAL. There is no fabricated engineer review or signature.
+`agentReport(run)` 先取一次快照，检查 run／input／corpus 哈希，重跑同一请求，比较技术字段、引用、说明、版本、调用次数和轨迹语义。历史时间值需合法，但新旧执行耗时不要求相同。结果变化、来源变化、旧版本、输入变动或轨迹不一致均拒绝。Markdown 包含全部工程来源、精确规则原文、计算明细、完整工具轨迹和两个快照，标为 DRAFT — NOT ENGINEERING APPROVAL，不伪造工程师复核或签名。
 
-`runAgentValidation()` executes a fixed local suite and returns:
+`runAgentValidation()` 执行固定本地验证集，返回：
 
 ```text
 {generatedAt, summary:{total,matched,mismatched},
  cases:[{id,title,expected,actual,matched,reason}]}
 ```
 
-Its ten handwritten expectations cover clean/failed/missing-evidence gravity cases, clean/failed/missing-reference combinations, empty knowledge, unavailable ETABS, an unknown task, and rejection of a model claim while the actual combination mismatch remains FAIL. Missing-rule/provider/task fixtures also assert that no deterministic check was called. This is an observable software validation suite using synthetic fixtures, not measured engineering accuracy on client data.
+十个独立手写预期覆盖正确／失败／缺证据重力案例、正确／失败／缺参考组合、空知识库、ETABS 不可用、未知任务，以及拒绝模型伪造结论后真实组合仍为 FAIL。缺规则／提供器／任务案例还检查未调用确定性计算。这是合成软件验证，不能作为客户资料上的工程准确率。
 
-Run `node --test tests/agent.test.mjs` for the workflow, gating, provenance and replay tests. Existing gravity and combination suites validate their numerical methods separately.
+执行 `node --test tests/agent.test.mjs` 验证工作流、阻断、来源和重放；重力及组合测试分别验证数值方法。

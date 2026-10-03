@@ -1,8 +1,8 @@
-# Structured synthetic rule retrieval
+# 结构化合成规则检索契约
 
-This module provides exact task/rule filtering and small lexical full-text ranking over seven curated synthetic rule records. It is retrieval groundwork for a later RAG workflow. It does **not** run an LLM, use embeddings or a vector index, interpret a free-text task, access ETABS, approve engineering rules or claim structural compliance.
+本文说明旧版 `dist/` 知识模块：在七条合成规则上做精确任务／规则过滤和小规模词法排序。它不运行 LLM、不使用嵌入或向量索引、不理解自由文本任务、不访问 ETABS、不批准规则或声称结构合规。新版动态规则管理和 BM25 实现见 [知识计划](plans/02-knowledge.md)。
 
-## Interfaces
+## 接口
 
 ```js
 import {
@@ -16,15 +16,15 @@ const context = retrieveRules({ taskId: 'gravity-distribution', corpus });
 const matches = searchRules({ query: 'reaction balance', corpus, limit: 5 });
 ```
 
-Both retrieval functions return `{ status, reason, rules, citations }`. `status` is `FOUND` or `NOT VERIFIED`. A blocked result always has empty `rules` and `citations`; it cannot silently expose partial context for a complete task. `FOUND` means source retrieval succeeded, **not** that any engineering check passed.
+两个检索函数均返回 `{ status, reason, rules, citations }`，状态为 `FOUND` 或 `NOT VERIFIED`。阻断时 rules／citations 均为空，不能把部分内容作为完整任务依据。FOUND 只表示检索成功，不表示工程检查通过。
 
-`retrieveRules({ taskId, corpus, ruleIds?, version?, scope?, query? })` requires a registered exact task ID. Optional rule IDs, version and scope are exact filters. Every required task rule must remain active and available after filtering. Optional query text changes display ranking only; it cannot remove required rules or supply missing ones.
+`retrieveRules({ taskId, corpus, ruleIds?, version?, scope?, query? })` 要求精确的已注册任务 ID，可选规则 ID、版本和范围也是精确过滤。过滤后全部必需规则必须仍然有效且可用。query 只影响展示排序，不能删掉必需规则或补出缺失规则。
 
-`searchRules({ query, corpus, taskId?, ruleIds?, version?, scope?, limit? })` is for browsing. It returns only lexical matches, so its result does not authorize task execution. `limit` defaults to 10 and must be 1–100; query text is limited to 500 characters. Ranking sums literal query-token matches in rule/check IDs (weight 8), source title (4), locator (2) and source text (1), then breaks ties by rule ID. No search relevance or engineering-accuracy performance claim is made.
+`searchRules({ query, corpus, taskId?, ruleIds?, version?, scope?, limit? })` 用于浏览，只返回词法匹配，不能授权任务执行。limit 默认 10，范围 1–100；问题最多 500 字符。排序统计字面 token 匹配：规则／检查 ID 权重 8、来源标题 4、位置 2、正文 1，同分按规则 ID 排序。此模块没有已测量的搜索相关性或工程准确率结论。
 
-If `corpus` is omitted, the shipped corpus is used. Pass an explicit empty corpus or `null` to represent unavailable imported knowledge; do not replace an invalid import with the default corpus. All invalid retrieval inputs fail closed. `validateKnowledgeCorpus` throws a descriptive Error; callers may retain the rejected raw import for displaying its error, but must pass it through retrieval before running a tool. A UI file loader should reject JSON files above 1 MiB before parsing.
+省略 corpus 时使用内置规则库。导入知识不可用时应明确传空规则库或 null，不能把无效导入替换成默认库。无效检索输入均阻断。`validateKnowledgeCorpus` 抛出可读错误；调用方可保留原始导入用于显示错误，但运行工具前必须经过检索。界面读取器应在解析前拒绝超过 1 MiB 的 JSON。
 
-## Corpus contract and trust boundary
+## 规则库结构与信任边界
 
 ```js
 {
@@ -47,26 +47,26 @@ If `corpus` is omitted, the shipped corpus is used. Pass an explicit empty corpu
 }
 ```
 
-The example above illustrates the shape; use `getDemoKnowledge()` or `examples/demo-knowledge.json` for the full exact records. At most 100 records are accepted. Unknown fields, new rule IDs, unsupported versions, changed scopes, altered applicability, missing/changed source text and customer-approval claims are rejected. Record identity and source content must match the curated definitions shipped with this module. The label `demo-approved` means only that this demonstration ships that definition; a caller cannot approve a new or edited rule by writing that label.
+上例只说明结构；完整精确记录见 `getDemoKnowledge()` 或 `examples/demo-knowledge.json`。最多 100 条记录。未知字段、新规则 ID、不支持版本、范围／适用性改变、缺少或改变原文、声称客户批准都会被拒绝。记录身份和来源正文必须与模块内置定义相同。`demo-approved` 只说明演示包含该定义，调用者不能靠填写标签批准新规则或修改规则。
 
-An input may remove a rule or mark it `retired`, which can make a task unavailable. Duplicate rule definitions are ambiguous and reject the corpus, including identical duplicates; the module never silently picks the first, latest or most relevant competing record. Required missing or retired rules produce `NOT VERIFIED`. An empty rule list is valid as an empty corpus but supplies no task context.
+输入可以移除规则或将其标为 retired，任务因此可能不可用。重复定义即使完全相同也会让规则库被拒绝，不自动选第一条、最新或最相关的一条。缺少或退役的必需规则返回 NOT VERIFIED。空规则列表合法，但不提供任务依据。
 
-Source text is data, not instructions. This module does not execute it or allow it to change tool names, arguments, factors, tolerances or verification outcomes. Imported text that asks for such changes will fail the exact curated-content check. This local check is not a digital signature or a general solution to prompt injection: future client knowledge ingestion needs an independently controlled review/version workflow.
+来源文字不执行，也不能改变工具名称、参数、因子、容差或结果。要求改变这些内容的导入文本会被精确正文检查拒绝。该检查不是数字签名，也不是通用提示注入解决方案；客户知识导入仍需独立管理的复核和版本流程。
 
-## Registered task coverage
+## 注册任务覆盖
 
-| Task | Required rule IDs | Demonstration check IDs |
-| --- | --- | --- |
-| `gravity-full` | `QA-001` through `QA-006` | same six IDs |
+| 任务 | 必需规则 ID | 演示检查 ID |
+|---|---|---|
+| `gravity-full` | `QA-001` 至 `QA-006` | 相同六个 ID |
 | `gravity-distribution` | `QA-003` | `QA-003` |
 | `gravity-balance` | `QA-005` | `QA-005` |
-| `load-combination` | `COMB-001` | `C1`, `C2` |
+| `load-combination` | `COMB-001` | `C1`、`C2` |
 
-Gravity rules use the current engine `RULE_VERSION` and the scope `gravity-unfactored-static-excluding-self-weight`. The combination rule uses `COMBINATION_VERSION` and `linear-static-combination-response`. `C1` and `C2` identify the shipped combination examples. The same deterministic sum method can apply to other explicitly supplied IDs allowed by the combination tool contract; retrieval does not approve the supplied factors or expand supported analysis types.
+重力规则使用当前引擎 RULE_VERSION，范围为 `gravity-unfactored-static-excluding-self-weight`；组合规则使用 COMBINATION_VERSION 和 `linear-static-combination-response`。C1／C2 是内置组合案例 ID，同一确定性求和可用于组合工具契约允许的其他明确 ID。检索不批准输入因子，也不扩大分析类型。
 
-## Citations and workflow integration
+## 引用与工作流集成
 
-Each returned rule retains `source: {title, locator, text}`. Each corresponding citation is:
+每条规则保留 `source: {title, locator, text}`，对应引用结构为：
 
 ```js
 {
@@ -77,4 +77,4 @@ Each returned rule retains `source: {title, locator, text}`. Each corresponding 
 }
 ```
 
-`quote` is the exact complete curated `source.text`. It is not generated or paraphrased. UI code should render these strings as text. The execution workflow must gate on complete `retrieveRules` context, validate tool requests separately, and retain the corpus/version and returned citations with the run. Engineering input evidence remains a separate requirement: finding a rule does not make missing model data or reaction evidence valid.
+quote 是完整精确的 source.text，不由模型生成或改写。界面应把这些字符串作为文本显示。工作流必须取得完整 retrieveRules 依据，单独校验工具请求，并随运行保存规则库／版本和返回引用。工程输入证据仍是独立条件：找到规则不能补齐缺失模型数据或反力依据。

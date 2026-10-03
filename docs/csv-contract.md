@@ -1,8 +1,8 @@
-# Controlled CSV input contract
+# 受控 CSV 输入契约
 
-This is a Strata synthetic demonstration format, **not a native ETABS or SAFE export**. It feeds the same schema `1.0` and deterministic checks as the JSON examples. It does not call a solver, infer missing fields, generate reaction results or verify the authenticity of a source document.
+这是 STRATA 合成演示格式，不是原生 ETABS／SAFE 导出。它向与 JSON 样例相同的 schema `1.0` 和确定性检查提供输入，不调用求解器、不推断缺失字段、不生成反力、不认证来源真实性。本文记录保留在 `dist/` 的解析模块。
 
-## UI interface
+## 界面调用接口
 
 ```js
 import { parseControlledCsv, controlledCsvTemplate, ControlledCsvError } from './csv.js';
@@ -13,50 +13,50 @@ const input = parseControlledCsv(await file.text(), { filename: file.name });
 const templateText = controlledCsvTemplate(); // UTF-8, CRLF, downloadable text/csv
 ```
 
-`parseControlledCsv` returns a validated input object, including `importMetadata`. It throws `ControlledCsvError` with a readable `message`, one-based physical `row`, one-based CSV field `column`, `columnName`, and `code`. Codes are `CSV_INVALID`, `CSV_SYNTAX`, `CSV_HEADER`, `CSV_VALUE`, `CSV_LIMIT`, `CSV_DUPLICATE` and `CSV_MISSING_RECORD`. A missing record is reported at the end of the file. Render messages and imported fields as text, never HTML.
+`parseControlledCsv` 返回含 importMetadata 的已验证输入。失败抛出 ControlledCsvError，包含可读 message、从 1 开始的物理 row、CSV 字段 column、columnName 和 code。错误码：`CSV_INVALID`、`CSV_SYNTAX`、`CSV_HEADER`、`CSV_VALUE`、`CSV_LIMIT`、`CSV_DUPLICATE`、`CSV_MISSING_RECORD`。缺记录在文件结尾报告。错误和导入字段应显示为文本，不是 HTML。
 
-The module has no network or storage side effects and uses no third-party packages. It imports the existing engine validator and sample generator. Import provenance becomes part of the input snapshot when the caller creates a run; the existing run hash therefore includes it.
+模块不联网、不自行写存储、不依赖第三方包，只引用现有引擎校验器和样例生成器。调用者创建运行时，导入来源信息成为输入快照的一部分，也纳入运行哈希。
 
-## Header and records
+## 表头与记录
 
-All eleven column names must appear exactly once. Their order may change. Names and units are case-sensitive; unexpected columns and nonempty inapplicable cells are errors.
+十一列名称必须各出现一次，可以调整顺序。名称和单位区分大小写；额外列以及不适用但非空的单元格报错。
 
 ```csv
 record_type,id,floor_id,case_id,support_id,value,unit,evidence_ref,title,locator,content
 ```
 
-| record_type | Required cells | Meaning |
-| --- | --- | --- |
-| metadata | id, value | Exactly `schemaVersion,1.0` and `synthetic,true`. CSV imports support synthetic examples only. |
-| project | id, value | `name` is required. `revision`, `description`, `software` are optional and preserved when supplied. |
-| scope | id, value | Required IDs: `basis`, `selfWeight`, `reactionPositive`. Values are retained for the engine to assess. |
-| units | id, unit | Required IDs: `area`, `surfaceLoad`, `force`. Declared source units must be supported. |
-| floor | id, value, unit, evidence_ref | `value` is floor area; strictly positive. |
-| requirement | id, floor_id, case_id, value, unit, evidence_ref | `value` is independently supplied required surface load `q`. |
-| assignment | id, floor_id, case_id, value, unit, evidence_ref | `value` is assigned total floor force. |
-| support | id | Independently supplied support ID. |
-| reaction | id, support_id, case_id, value, unit, evidence_ref | `value` is independently supplied vertical reaction `fz`. |
-| evidence | id, title | `locator` and `content` contain supplied source information. Empty text is retained and fails the engine's evidence gate. |
+| record_type | 必填单元格 | 含义 |
+|---|---|---|
+| metadata | id, value | 必须为 `schemaVersion,1.0` 和 `synthetic,true`，CSV 仅支持合成案例。 |
+| project | id, value | name 必填；revision、description、software 可选，提供后保留。 |
+| scope | id, value | 必需 ID：basis、selfWeight、reactionPositive，保留值供引擎判断。 |
+| units | id, unit | 必需 ID：area、surfaceLoad、force，声明单位必须被支持。 |
+| floor | id, value, unit, evidence_ref | value 是楼层面积，严格大于零。 |
+| requirement | id, floor_id, case_id, value, unit, evidence_ref | value 是独立提供的所需面荷载 q。 |
+| assignment | id, floor_id, case_id, value, unit, evidence_ref | value 是分配的楼层总力。 |
+| support | id | 独立提供的支座 ID。 |
+| reaction | id, support_id, case_id, value, unit, evidence_ref | value 是独立提供的竖向反力 fz。 |
+| evidence | id, title | locator 和 content 是提供的来源信息；空正文保留，由引擎证据校验阻断。 |
 
-Every row also needs `record_type`. A floor is required. Other engineering lists can be empty so the engine can report incomplete coverage. `value` is a finite nonnegative decimal number, with scientific notation allowed; no thousands separator, hex, `NaN`, infinity or conversion to zero through underflow. Conversion uses JavaScript finite-precision numbers. Identifiers and required text cells are limited to 2,000 characters.
+每行都有 record_type，至少一个楼层。其他工程列表可空，由引擎报告覆盖不足。value 为有限、非负十进制数，允许科学计数；不允许千位分隔、十六进制、NaN、无穷或下溢转零。转换使用 JavaScript 有限精度数，ID 和必需文本最多 2,000 字符。
 
-The demonstrated engine scope is `basis=unfactored-static-gravity`, `selfWeight=excluded`, `reactionPositive=upward`. Other explicit scope values are retained and block relevant numerical verification. This import does not add support for load combinations or arbitrary load cases.
+演示范围：`basis=unfactored-static-gravity`、`selfWeight=excluded`、`reactionPositive=upward`。其他明确范围值保留，并阻断相关数值验证。此导入不增加组合或任意工况支持。
 
-## Units and evidence
+## 单位与证据
 
-| Dimension | Accepted unit spellings | Engine unit / conversion |
-| --- | --- | --- |
-| Area | `m2`, `m²` | `m2`; unchanged |
-| Force | `kN`, `N` | `kN`; divide N by 1,000 |
-| Surface load | `kN/m2`, `kN/m²`, `kPa`, `N/m2`, `N/m²` | `kN/m2`; divide N/m2 by 1,000; others unchanged |
+| 量纲 | 支持的单位拼写 | 引擎单位／转换 |
+|---|---|---|
+| 面积 | `m2`、`m²` | m2，数值不变 |
+| 力 | `kN`、`N` | kN；N 除以 1,000 |
+| 面荷载 | `kN/m2`、`kN/m²`、`kPa`、`N/m2`、`N/m²` | kN/m2；N/m2 除以 1,000，其余不变 |
 
-Each numeric row **must declare its own unit**, even when it matches the file's units record. Mixed supported units are allowed within a dimension. The units records document the source declaration; they never fill missing row units or override an explicit row unit. Unknown units reject the import. The output `units` object always uses engine units.
+每个数值行都必须声明单位，即使与文件 units 记录相同。同量纲允许混用支持单位。units 记录只保存来源声明，不能补缺失行单位或覆盖明确的行单位。未知单位拒绝导入，输出 units 始终采用引擎单位。
 
-The existing engine expects evidence IDs `design-brief`, `model-export`, `reaction-export`, `support-schedule`, and `review-note`. Floors and requirements reference `design-brief`; assignments reference `model-export`; reactions reference `reaction-export`. Import preserves these supplied references. Missing evidence rows, empty evidence content and dangling references are not filled in: the engine reports `NOT VERIFIED` where required.
+现有引擎需要 evidence ID：`design-brief`、`model-export`、`reaction-export`、`support-schedule`、`review-note`。楼层和要求引用 design-brief，分配引用 model-export，反力引用 reaction-export。导入保留这些引用；缺证据行、空正文或无效引用不补齐，由引擎按需要返回 NOT VERIFIED。
 
-Duplicate requirement, assignment and reaction rows are retained, including duplicate record IDs and duplicate engineering keys, so `QA-001` can return `FAIL`. Duplicate floor, support or evidence IDs are ambiguous under the existing input schema and reject the import with the offending CSV row. No records are silently deduplicated.
+重复 requirement／assignment／reaction 行保留，包括重复记录 ID 和工程键，供 QA-001 返回 FAIL。重复 floor／support／evidence ID 在输入结构中有歧义，因此报错并给出对应 CSV 行。没有静默去重。
 
-## Source provenance
+## 来源追踪
 
 ```js
 input.importMetadata = {
@@ -78,10 +78,10 @@ input.importMetadata = {
 };
 ```
 
-Every imported data record has row/type/ID/target provenance. Numeric rows also preserve the original textual number and unit, plus the normalized number and unit. Metadata is a trace of this CSV conversion, not independently authenticated engineering evidence.
+每条导入数据记录都有行／类型／ID／目标位置。数值记录还保留原始数字文本、原单位、转换后数字和单位。这是 CSV 转换轨迹，不是独立认证的工程依据。
 
-## CSV syntax and limits
+## CSV 语法与限制
 
-The parser supports a leading UTF-8 BOM, CRLF/LF line endings, quoted commas, doubled quotes (`""`) and embedded line breaks inside quoted fields. Quoted text is preserved. A quote inside an unquoted cell, a non-delimiter after a closing quote, an unterminated quote or a row with the wrong number of columns rejects the file. Blank lines are ignored; they still count toward physical row locations.
+支持开头 UTF-8 BOM、CRLF／LF 换行、引号内逗号、双引号转义（`""`）及引号内换行，引号内文本保留。未加引号字段内出现引号、闭合引号后不是分隔符、引号未闭合或列数不符均拒绝。空行忽略，但计入物理行号。
 
-The encoded text may contain at most **1,048,576 UTF-8 bytes**, at most **5,000 data records**, and at most **1,000 records in each engineering list**. Aggregate or calculated-value overflow also rejects the input. The downloadable `dist/examples/controlled-template.csv` is generated by `controlledCsvTemplate()` and round-trips the existing clean fixture without changing engineering values or evidence.
+编码文本最多 **1,048,576 UTF-8 字节**，最多 **5,000 条数据记录**，每个工程列表最多 **1,000 条**。汇总或计算值溢出也拒绝输入。`dist/examples/controlled-template.csv` 由 controlledCsvTemplate() 生成，回读后保留正确样例的工程值和证据。

@@ -1,9 +1,9 @@
-# Engineering QA workspace
+# 工程 QA 网页说明
 
-The UI uses native ES modules and CSS and is served by FastAPI from the same origin as `/api/v1`. It requires the backend; opening `index.html` as a local file or uploading it alone to static hosting is unsupported.
+网页使用原生 ES modules 和 CSS，由 FastAPI 与 `/api/v1` 在同一来源下提供。运行时需要后端，直接以本地文件打开 `index.html` 或只上传 HTML 到静态托管都不能运行完整应用。
 
-Routes are visual tabs, not separate server pages: Workspace, Knowledge, Review, Versions and Audit trail. Source uploads use authenticated requests; source and report downloads are fetched with the session token and opened as local Blob URLs. User/source strings are escaped before HTML rendering. Selection changes clear the displayed run, while the original remains in server history.
+页面通过标签切换：Workspace、Knowledge、Review、Versions、Audit trail。原始资料上传需要鉴权；下载来源文件和报告时，先带会话令牌请求，再以本地 Blob URL 打开。用户输入和来源文字在 HTML 展示前转义。切换选择时清除当前显示的运行结果，原记录仍保存在服务端历史中。
 
-First-time setup → create project → Load example → select input/task → Run review → inspect findings, citations and tool trace → reviewer confirmation → HTML print-to-PDF or JSON export. Upload real supporting documents without the auto-snapshot checkbox, create a draft rule from an exact excerpt, and approve it with the reviewer role. Spreadsheet/PDF extraction that needs a mapping stays explicit; it is not inferred into engineering data by the UI.
+首次设置 → 创建项目 → Load example → 选择输入／任务 → Run review → 查看发现、引用、工具轨迹 → 复核人确认 → 打印为 PDF 或导出 JSON。上传真实规则依据时取消自动创建快照，复制精确原文建立草稿，再由 reviewer 批准。表格／PDF 需要映射时明确补充，界面不自行猜测工程字段。
 
-Native JavaScript is retained for this bounded workspace to avoid maintaining a second build/runtime during the storage migration. React/TypeScript remains a future maintainability choice if team UI complexity warrants it; it is not a claimed implemented dependency. See the architecture decision record in `docs/plans/README.md`.
+本轮保留原生 JavaScript，减少存储迁移期间同时维护第二套构建和运行环境的工作。团队界面复杂度增大时，可以评估 React／TypeScript，目前没有实现该迁移。技术选择见 `docs/plans/README.md`。
