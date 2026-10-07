@@ -16,10 +16,11 @@ from . import model
 from .usage import reserve_call
 from .locking import lock_worker, unlock_worker
 from .evidence import requests as material_requests
+from .provenance import validate_file
 
 ROOT = Path(__file__).resolve().parents[2]
-WORKFLOW_VERSION = "server-workflow-1.1"
-TOOL_FINGERPRINT = digest({str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in [ROOT / "dist/engine.js", ROOT / "dist/combinations.js", ROOT / "backend/strata/data_tools.py", ROOT / "backend/strata/knowledge.py", ROOT / "backend/strata/contracts.py", ROOT / "backend/strata/adapters.py", ROOT / "backend/strata/evidence.py", Path(__file__), ROOT / "scripts/tool-bridge.mjs"]})
+WORKFLOW_VERSION = "server-workflow-1.2"
+TOOL_FINGERPRINT = digest({str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in [ROOT / "dist/engine.js", ROOT / "dist/combinations.js", ROOT / "backend/strata/data_tools.py", ROOT / "backend/strata/knowledge.py", ROOT / "backend/strata/contracts.py", ROOT / "backend/strata/adapters.py", ROOT / "backend/strata/evidence.py", ROOT / "backend/strata/provenance.py", ROOT / "backend/strata/ocr_api.py", Path(__file__), ROOT / "scripts/tool-bridge.mjs"]})
 from .contracts import REQUIRED, executable_rule, applicable, matches
 
 
@@ -114,6 +115,33 @@ class Runner:
                 data["trace"] = [*data.get("trace", []), {"at": now(), **event}]
             self.store.change(session, row, data)
 
+    def publish(self, run_id, fields, validate, cache_key=None, source_count=0):
+        """Publish result, finding register and audit atomically after revalidation.
+
+        SQLite's reserved write lock prevents a membership/rule update between
+        the last read and result publication. Other databases lock the run and
+        project rows, matching the membership mutations' project audit lock.
+        """
+        with self.store.session.begin() as session:
+            if self.store.engine.dialect.name == "sqlite":
+                session.connection().exec_driver_sql("BEGIN IMMEDIATE")
+            row = session.scalar(select(Resource).where(Resource.id == run_id).with_for_update())
+            if not row or row.data.get("state") == "CANCELLED":
+                raise Cancelled()
+            session.scalar(select(Resource).where(Resource.id == row.project_id).with_for_update())
+            validate(session)
+            checked = {k: fields[k] for k in ("results", "status", "summary")}
+            if cache_key:
+                self.store.add(session, "cache", row.project_id, {"key": cache_key, "output": checked, "output_hash": digest(checked)})
+            trace = [*row.data.get("trace", []), {"at": now(), "tool": "verify_evidence", "status": "ok", "source_count": source_count}, {"at": now(), "tool": "compose_response", "status": "ok", "method": "verified-tool-template"}]
+            self.store.change(session, row, {**row.data, **fields, "trace": trace})
+            for finding in checked["results"]:
+                if finding["status"] != "PASS":
+                    issue_id = "issue_" + digest([run_id, finding["id"]])
+                    if not session.get(Resource, issue_id):
+                        self.store.add(session, "issue", row.project_id, {"source_run_id": run_id, "finding_id": finding["id"], "title": finding.get("name", finding["id"]), "technical_status": finding["status"], "state": "OPEN", "assignee": None, "notes": [], "resolution_run_id": None}, issue_id)
+            self.store.audit(session, row.project_id, "workflow", "run.completed", run_id, {"status": checked["status"], "output_hash": digest(checked)})
+
     def block(self, run_id, reason, missing=None, infrastructure=False):
         result = {"id": "WORKFLOW-GATE", "status": "NOT VERIFIED", "summary": reason, "details": []}
         self.save(run_id, {**outcome([result]), "state": "ERROR" if infrastructure else "WAITING", "missing": missing or [reason], "material_requests": material_requests([result], missing=missing or [reason]), "explanation": reason, "finished_at": now()}, {"tool": "verify_evidence", "status": "blocked", "reason": reason})
@@ -122,7 +150,9 @@ class Runner:
         sources = self.store.list(session, project_id, "file")
         if not any(f.data["sha256"] == source_hash for f in sources):
             raise ValueError("Approved rule source is not present in this project")
-        self.store.get_blob(source_hash)
+        for source in sources:
+            if source.data["sha256"] == source_hash:
+                validate_file(self.store,session,source)
 
     def process(self, run_id):
         from .knowledge import retrieve, check_coverage
@@ -172,7 +202,7 @@ class Runner:
                 source = session.get(Resource, snapshot.data["file_id"])
                 if not source or source.project_id != project_id:
                     raise ValueError("Snapshot source is unavailable")
-                self.store.get_blob(source.data["sha256"])
+                validate_file(self.store,session,source)
                 rules = [dict(r.data["rule"], resource_id=r.id) for r in self.store.list(session, project_id, "rule")]
                 if input_data.get("synthetic") is not True:
                     rules = [r for r in rules if r["authority"] == "client"]
@@ -207,12 +237,15 @@ class Runner:
                     if digest(target) != compare.data["input_hash"]:
                         raise ValueError("Comparison snapshot integrity failed")
                     compare_source = session.get(Resource, compare.data["file_id"])
-                    self.store.get_blob(compare_source.data["sha256"])
+                    validate_file(self.store,session,compare_source)
+                    if selected == "handoff" and (compare.id == snapshot.id or compare_source.data["sha256"] == source.data["sha256"]):
+                        self.block(run_id, "Handoff requires distinct source and target evidence; one file cannot independently verify itself.", ["Independent target export"])
+                        return
                 key = digest({"project": project_id, "input": input_data, "target": target, "rules": retrieval["rules"], "task": selected, "workflow": WORKFLOW_VERSION, "tool_fingerprint": TOOL_FINGERPRINT})
                 cached = next((r.data for r in self.store.list(session, project_id, "cache") if r.data.get("key") == key), None)
                 if cached and digest(cached["output"]) != cached["output_hash"]:
                     raise ValueError("Cached output integrity verification failed")
-            self.save(run_id, {"input_hash": digest(input_data), "rule_hash": rule_hash, "rule_ids": rule_ids, "citations": retrieval["citations"], "cache_key": key, "source_hash": source.data["sha256"], "tool_fingerprint": TOOL_FINGERPRINT, "target_hash": digest(target) if target else None}, {"tool": "retrieve_engineering_rules", "status": "ok", "output": {"rule_ids": rule_ids, "coverage": coverage}})
+            self.save(run_id, {"input_hash": digest(input_data), "rule_hash": rule_hash, "rule_ids": rule_ids, "citations": retrieval["citations"], "cache_key": key, "source_file_id":source.id,"source_hash": source.data["sha256"],"target_file_id":compare_source.id if compare else None,"target_source_hash":compare_source.data["sha256"] if compare else None, "tool_fingerprint": TOOL_FINGERPRINT, "target_hash": digest(target) if target else None}, {"tool": "retrieve_engineering_rules", "status": "ok", "output": {"rule_ids": rule_ids, "coverage": coverage}})
             self.save(run_id, {}, {"tool": "request_engineering_data", "status": "ok", "output": {"snapshot_id": snapshot.id, "input_hash": digest(input_data), "provider": "stored-file"}})
             started = time.monotonic()
             if cached:
@@ -243,9 +276,8 @@ class Runner:
                 raise ValueError("Deterministic tool returned incomplete or inconsistent required findings")
             elapsed = round((time.monotonic() - started) * 1000, 3)
             self.save(run_id, {"cache_hit": bool(cached), "calculation_ms": elapsed}, {"tool": "run_deterministic_check", "status": "ok", "duration_ms": elapsed, "cache_hit": bool(cached), "output": checked})
-            # Re-read all rules/sources before final publication. Approval may
-            # have changed while a tool was working.
-            with self.store.session.begin() as session:
+            explanation = "\n".join([f"{selected}: {checked['status']}.", *[f"{r['id']}: {r['status']}. {r.get('summary', '')}" for r in checked["results"]], "Findings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."])
+            def validate_publication(session):
                 member = session.get(Membership, (project_id, data["created_by"]))
                 if not member or member.role not in {"engineer", "reviewer"}:
                     raise ValueError("Run owner engineering access was revoked during execution")
@@ -254,27 +286,21 @@ class Runner:
                     raise ValueError("Rule approval changed during execution")
                 for rule in current:
                     self.source_valid(session, project_id, rule["source_sha256"])
-                self.store.get_blob(source.data["sha256"])
+                live_source=session.get(Resource,source.id)
+                if not live_source or live_source.project_id!=project_id or live_source.data['sha256']!=source.data['sha256']: raise ValueError('Original source changed during execution')
+                validate_file(self.store,session,live_source)
                 if compare:
-                    self.store.get_blob(compare_source.data["sha256"])
+                    live_target_source=session.get(Resource,compare_source.id)
+                    if not live_target_source or live_target_source.project_id!=project_id or live_target_source.data['sha256']!=compare_source.data['sha256']: raise ValueError('Target original source changed during execution')
+                    validate_file(self.store,session,live_target_source)
                     persisted_target = session.get(Resource, compare.id)
-                    if digest(persisted_target.data["input"]) != compare.data["input_hash"]:
+                    if digest(persisted_target.data["input"]) != compare.data["input_hash"] or persisted_target.data["file_id"]!=compare_source.id:
                         raise ValueError("Target snapshot changed during execution")
                 persisted_source = session.get(Resource, snapshot.id)
-                if digest(persisted_source.data["input"]) != snapshot.data["input_hash"]:
+                if digest(persisted_source.data["input"]) != snapshot.data["input_hash"] or persisted_source.data["file_id"]!=source.id:
                     raise ValueError("Input snapshot changed during execution")
-                if not cached:
-                    self.store.add(session, "cache", project_id, {"key": key, "output": checked, "output_hash": digest(checked)})
-            explanation = "\n".join([f"{selected}: {checked['status']}.", *[f"{r['id']}: {r['status']}. {r.get('summary', '')}" for r in checked["results"]], "Findings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."])
-            self.save(run_id, {**checked, "state": "WAITING" if checked["status"] == "NOT VERIFIED" else "COMPLETED", "missing": [r.get("summary", r["id"]) for r in checked["results"] if r["status"] == "NOT VERIFIED"], "material_requests": material_requests(checked["results"], input_data, target, task=selected), "explanation": explanation, "finished_at": now(), "output_hash": digest(checked)}, {"tool": "verify_evidence", "status": "ok", "source_count": len(retrieval["citations"])})
-            self.save(run_id, {}, {"tool": "compose_response", "status": "ok", "method": "verified-tool-template"})
-            with self.store.session.begin() as session:
-                for finding in checked["results"]:
-                    if finding["status"] != "PASS":
-                        issue_id = "issue_" + digest([run_id, finding["id"]])
-                        if not session.get(Resource, issue_id):
-                            self.store.add(session, "issue", project_id, {"source_run_id": run_id, "finding_id": finding["id"], "title": finding.get("name", finding["id"]), "technical_status": finding["status"], "state": "OPEN", "assignee": None, "notes": [], "resolution_run_id": None}, issue_id)
-                self.store.audit(session, project_id, "workflow", "run.completed", run_id, {"status": checked["status"], "output_hash": digest(checked)})
+            fields = {**checked, "state": "WAITING" if checked["status"] == "NOT VERIFIED" else "COMPLETED", "missing": [r.get("summary", r["id"]) for r in checked["results"] if r["status"] == "NOT VERIFIED"], "material_requests": material_requests(checked["results"], input_data, target, task=selected), "explanation": explanation, "finished_at": now(), "output_hash": digest(checked)}
+            self.publish(run_id, fields, validate_publication, key if not cached else None, len(retrieval["citations"]))
         except Cancelled:
             return
         except Exception as error:

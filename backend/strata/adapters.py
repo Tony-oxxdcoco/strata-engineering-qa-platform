@@ -7,10 +7,26 @@ import json
 import math
 import re
 from pathlib import Path
-from .data_tools import UNITS, MAX_ROWS, _json, _pointer, ingest
+from .data_tools import UNITS, MAX_ROWS, _json, _json_float, _pointer, ingest
 from .storage import canonical, digest
 
 SCHEMA = 'strata-adapter/1'
+
+class _NumericLiteral(str):
+    """Keep a JSON floating-point lexeme until its exact location is known."""
+
+def _normalize_json_numbers(value, filename, profile, path='', depth=0):
+    if depth>32: raise MappingError([{'file':filename,'table':'*','field':path or '/', 'reason':'JSON nesting exceeds 32 levels'}])
+    if isinstance(value,_NumericLiteral):
+        try: return _json_float(str(value))
+        except ValueError as exc:
+            tables=[mapping['source'] for mapping in profile['tables'] if path.startswith(mapping['source']+'/') or path==mapping['source']]
+            raise MappingError([{'file':filename,'table':max(tables,key=len) if tables else '*','field':path or '/', 'reason':str(exc)}]) from exc
+    if isinstance(value,dict):
+        return {key:_normalize_json_numbers(child,filename,profile,path+'/'+key.replace('~','~0').replace('/','~1'),depth+1) for key,child in value.items()}
+    if isinstance(value,list):
+        return [_normalize_json_numbers(child,filename,profile,path+'/'+str(index),depth+1) for index,child in enumerate(value)]
+    return value
 
 class MappingError(ValueError):
     def __init__(self, errors):
@@ -52,7 +68,9 @@ def _validate_profile(value):
     destinations=[]
     sources=[]
     for table in value['tables']:
-        exact(table,['source','target','mode','fields','ignored_columns'],'Table')
+        required_table={'source','target','mode','fields','ignored_columns'}
+        if not isinstance(table,dict) or not required_table<=set(table) or set(table)-required_table-{'unique_by'}:
+            raise ValueError('Table: missing or unsupported fields')
         if not isinstance(table['source'],str) or not table['source'] or len(table['source'])>256: raise ValueError('Explicit table name/path required')
         if value['format']=='csv' and table['source']!='csv': raise ValueError('CSV table source must be csv')
         if value['format']=='json': pointer(table['source'])
@@ -73,6 +91,11 @@ def _validate_profile(value):
                 pointer(unit['output']); targets.append(unit['output']); aliases.extend(unit['aliases'])
         if len(aliases)!=len(set(aliases)): raise ValueError('Aliases, unit fields and ignored columns must not overlap')
         check_paths(targets)
+        if 'unique_by' in table:
+            if table['mode']!='rows' or not names(table['unique_by']): raise ValueError('unique_by needs explicit mapped paths on a rows table')
+            field_targets={field['target'] for field in table['fields']}
+            if not set(table['unique_by'])<=field_targets: raise ValueError('unique_by must reference explicitly mapped fields')
+            for path in table['unique_by']: pointer(path)
     if len(sources)!=len(set(sources)): raise ValueError('Map each source table once')
     check_paths(destinations)
     base=copy.deepcopy(value['base'])
@@ -104,6 +127,9 @@ def source_tables(filename, content, profile):
         if len(data)>MAX_ROWS+1: raise ValueError(f'{filename}: too many rows')
         rows=[]
         for index,row in enumerate(data[1:],2):
+            # Ignore physically empty rows only. A partially populated row is
+            # validated normally, and original line numbers remain unchanged.
+            if not row or all(value=='' for value in row): continue
             if len(row)!=len(data[0]): raise MappingError([{'file':filename,'table':'csv','row':index,'field':'*','reason':'Row width does not match header'}])
             rows.append((index,dict(zip(data[0],row)),{}))
         return {'csv':(data[0],rows)}
@@ -113,15 +139,17 @@ def source_tables(filename, content, profile):
             if key in obj: raise ValueError(f'{filename}: duplicate JSON key {key}')
             obj[key]=value
         return obj
-    raw=json.loads(text,object_pairs_hook=pairs,parse_constant=lambda x: (_ for _ in ()).throw(ValueError('Nonfinite JSON constant')))
+    raw=json.loads(text,object_pairs_hook=pairs,parse_float=_NumericLiteral,parse_constant=lambda x: (_ for _ in ()).throw(ValueError('Nonfinite JSON constant')))
+    raw=_normalize_json_numbers(raw,filename,profile)
     _json(raw)
     tables={}
     for mapping in profile['tables']:
         records=_pointer(raw,mapping['source'])
-        if isinstance(records,dict): records=[records]
+        single=isinstance(records,dict)
+        if single: records=[records]
         if not isinstance(records,list) or len(records)>MAX_ROWS or any(not isinstance(row,dict) for row in records): raise ValueError(f'{filename}: {mapping["source"]} must be an object or bounded object list')
         columns=sorted({key for row in records for key in row})
-        tables[mapping['source']]=(columns,[(i,row,{}) for i,row in enumerate(records)])
+        tables[mapping['source']]=(columns,[(i,row,{key:{'json_pointer':mapping['source']+('' if single else '/'+str(i))+'/'+key.replace('~','~0').replace('/','~1')} for key in row}) for i,row in enumerate(records)])
     return tables
 
 def number(value):
@@ -136,7 +164,7 @@ def apply_profile(filename, content, value):
     profile=validate_profile(value)
     try: tables=source_tables(filename,content,profile)
     except MappingError: raise
-    except (ValueError,KeyError,UnicodeError,csv.Error) as error: raise MappingError([{'file':filename,'table':'*','field':'*','reason':str(error)}]) from error
+    except (ValueError,KeyError,UnicodeError,csv.Error,RecursionError) as error: raise MappingError([{'file':filename,'table':'*','field':'*','reason':str(error)}]) from error
     result=copy.deepcopy(profile['base']); errors=[]; provenance=[]
     for table in profile['tables']:
         name=table['source']
@@ -150,7 +178,7 @@ def apply_profile(filename, content, value):
             known.update(field['aliases']); known.update(field.get('unit',{}).get('aliases',[]))
         for column in columns:
             if column not in known: error('Unknown column: map explicitly or list in ignored_columns',field=column)
-        output=[]
+        output=[]; identities={}
         for row_number,row,cells in rows:
             mapped={}
             for field in table['fields']:
@@ -184,9 +212,21 @@ def apply_profile(filename, content, value):
                         put(mapped,unit['output'],unit['target'])
                     put(mapped,field['target'],converted)
                     target=table['target']+(f'/{len(output)}' if table['mode']=='rows' else '')+field['target']
-                    provenance.append({'target':target,'original_value':original,'original_unit':original_unit,'value':converted,'unit':unit['target'] if unit else None,'location':{'file':filename,'table':name,'row':row_number,'column':column,'cell':cells.get(column,{}).get('coordinate')},'adapter':{'id':profile['id'],'version':profile['version'],'sha256':digest(profile)}})
+                    location={'file':filename,'table':name,'row':row_number,'column':column,'cell':cells.get(column,{}).get('coordinate')}
+                    if cells.get(column,{}).get('json_pointer'): location['json_pointer']=cells[column]['json_pointer']
+                    provenance.append({'target':target,'original_value':original,'original_unit':original_unit,'value':converted,'unit':unit['target'] if unit else None,'location':location,'adapter':{'id':profile['id'],'version':profile['version'],'sha256':digest(profile)}})
                 except (ValueError,OverflowError,TypeError) as exc: error(str(exc),row_number,column)
             output.append(mapped)
+            if table.get('unique_by'):
+                try:
+                    values=[_pointer(mapped,path) for path in table['unique_by']]
+                    identity=tuple(('number' if type(item) in (int,float) else type(item).__name__,item) for item in values)
+                except ValueError:
+                    error('Identity field is missing; duplicate records cannot be checked',row_number,', '.join(table['unique_by']))
+                else:
+                    if identity in identities:
+                        error(f'Duplicate explicit identity; first occurrence at row {identities[identity]}; records were not merged',row_number,', '.join(table['unique_by']))
+                    else: identities[identity]=row_number
         put(result,table['target'],output[0] if table['mode']=='single' else output)
     if errors: raise MappingError(errors)
     canonical(result)

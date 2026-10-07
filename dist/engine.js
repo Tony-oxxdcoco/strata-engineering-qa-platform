@@ -32,11 +32,12 @@ export function validateInput(d){
     if(!obj(r)||!str(r.id)||!str(r.caseId)||!str(r.evidenceRef)||!num(r[field])||r[field]<0||!str(list==='reactions'?r.supportId:r.floorId))throw Error(`${list}[${i}]：字段缺失或数值非法（${field} 需为有限非负数）。`);
   }
   const areas=new Map(d.floors.map(f=>[f.id,f.area]));
+  if(d.requirements.some(r=>areas.has(r.floorId)&&areas.get(r.floorId)!==0&&r.q!==0&&areas.get(r.floorId)*r.q===0))throw Error('Numeric multiplication underflow; input cannot be verified.');
   const products=d.requirements.filter(r=>areas.has(r.floorId)).map(r=>areas.get(r.floorId)*r.q);
   for(const values of [products,d.assignments.map(r=>r.force),d.reactions.map(r=>r.fz)])if(values.some(v=>!Number.isFinite(v))||!Number.isFinite(values.reduce((a,b)=>a+b,0)))throw Error('数值计算溢出；无法可靠核验此输入。');
   return d;
 }
-export function withinTolerance(actual,expected){return Number.isFinite(actual)&&Number.isFinite(expected)&&Math.abs(actual-expected)<=Math.max(1,Math.abs(expected)*0.01)+1e-9;}
+export function withinTolerance(actual,expected){return Number.isFinite(actual)&&Number.isFinite(expected)&&actual>=expected-Math.max(1,Math.abs(expected)*0.01)&&actual<=expected+Math.max(1,Math.abs(expected)*0.01);}
 export function runChecks(input){
   const d=validateInput(input), results=[];
   const evidence=new Map(d.evidence.map(e=>[e.id,e]));

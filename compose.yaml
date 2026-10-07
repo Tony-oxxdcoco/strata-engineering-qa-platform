@@ -10,13 +10,21 @@ services:
     ports:
       - "127.0.0.1:${STRATA_PORT:-4180}:4180"
     environment:
-      STRATA_DATA_DIR: /app/.runtime
+      STRATA_DATA_DIR: ${STRATA_CONTAINER_DATA_DIR:-/app/.runtime}
       STRATA_ALLOWED_HOSTS: ${STRATA_ALLOWED_HOSTS:-}
       STRATA_PUBLIC_ORIGIN: ${STRATA_PUBLIC_ORIGIN:-}
       # No value is stored here. Supply a temporary token via the operator environment.
       STRATA_SETUP_TOKEN: ${STRATA_SETUP_TOKEN:-}
+      # Optional profile uses a separate process sharing this local namespace.
+      # Blank means disabled; startup never downloads a model.
+      STRATA_OLLAMA_MODEL: ${STRATA_OLLAMA_MODEL:-}
+      STRATA_OLLAMA_URL: http://127.0.0.1:11434
+      STRATA_ETABS_URL: ${STRATA_ETABS_URL:-}
+      STRATA_ETABS_TOKEN: ${STRATA_ETABS_TOKEN:-}
+      STRATA_ETABS_TIMEOUT_SECONDS: ${STRATA_ETABS_TIMEOUT_SECONDS:-15}
     volumes:
       - runtime:/app/.runtime
+      - backups:/backups
     read_only: true
     tmpfs:
       - /tmp:rw,noexec,nosuid,size=64m
@@ -39,5 +47,31 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  ollama:
+    profiles: [model]
+    image: ${STRATA_OLLAMA_IMAGE:-ollama/ollama:0.40.0}
+    init: true
+    restart: unless-stopped
+    network_mode: service:app
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: 127.0.0.1:11434
+      OLLAMA_MODELS: /models
+    volumes:
+      - model-data:/models
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
 volumes:
   runtime:
+  backups:
+  model-data:

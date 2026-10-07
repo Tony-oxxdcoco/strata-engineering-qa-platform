@@ -1,6 +1,6 @@
 {
   "name": "strata-structural-qa",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,7 +12,8 @@
     "setup": "node scripts/setup.mjs",
     "setup:dev": "node scripts/setup.mjs --dev",
     "doctor": "node scripts/python-task.mjs doctor",
-    "demo:workflow": "node scripts/python-task.mjs demo"
+    "demo:workflow": "node scripts/python-task.mjs demo",
+    "check:i18n": "node scripts/check-i18n.mjs"
   },
   "engines": {
     "node": ">=20.11"

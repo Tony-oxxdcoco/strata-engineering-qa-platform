@@ -125,7 +125,7 @@ def config():
     parsed = urlsplit(base)
     if parsed.scheme != "http" or parsed.hostname not in {"localhost", "127.0.0.1", "::1"} or parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.path:
         raise ValueError("Only a configured loopback Ollama origin is supported")
-    return {"enabled": os.environ.get("STRATA_OLLAMA_MODEL") is not None, "model": os.environ.get("STRATA_OLLAMA_MODEL"), "provider": "local Ollama", "base": base}
+    return {"enabled": bool(os.environ.get("STRATA_OLLAMA_MODEL", "").strip()), "model": os.environ.get("STRATA_OLLAMA_MODEL", "").strip() or None, "provider": "local Ollama", "base": base}
 
 
 def no_duplicates(pairs):

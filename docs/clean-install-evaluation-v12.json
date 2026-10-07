@@ -1,0 +1,52 @@
+{
+  "scope": "Clean extracted source ZIP; fresh .venv; actual HTTP+backgroundworker; synthetic-only; no model API.",
+  "health": {
+    "status": "ok",
+    "version": "1.2.0",
+    "workflow": "server-workflow-1.2",
+    "storage": "server",
+    "worker": true,
+    "tasks": {
+      "gravity-full": "All six gravity QA checks: uniqueness, coverage, distribution, totals, reactions and evidence",
+      "gravity-distribution": "Floor-by-floor gravity load assignment against independent area and intensity",
+      "gravity-balance": "Independent vertical support reaction balance",
+      "load-combination": "Recalculate numerical linear static combination responses from independent base responses",
+      "combination-configuration": "Check required load combinations, cases and factors against an approved configuration",
+      "handoff": "Compare ETABS source and SAFE target with an approved transfer manifest",
+      "seismic-configuration": "Check explicitly supplied seismic settings against an approved checklist",
+      "mass-source": "Check mass source settings against an approved checklist",
+      "additional-settings": "Check other explicit model settings against an approved checklist"
+    }
+  },
+  "no_default_account": true,
+  "model_enabled": false,
+  "paid_api_used": false,
+  "case_match": "5/5",
+  "review_invalidation": true,
+  "reports": [
+    "en",
+    "zh-CN"
+  ],
+  "files": 8,
+  "snapshots": 6,
+  "rules": 2,
+  "environment": {
+    "platform": "macOS 26.5.2 arm64",
+    "python": "3.12.7",
+    "node": "24.12.0"
+  },
+  "fresh_virtualenv": true,
+  "dependency_install": "npm run setup:dev; pip check passed",
+  "final_empty_input_regression": {
+    "command": ".venv/bin/python -m pytest backend/tests/test_source_binding_security.py -q",
+    "passed": 4,
+    "failed": 0,
+    "warnings": 1
+  },
+  "final_package_verification": "output/releases/release-verification.json (external receipt; avoids a self-referential ZIP hash)",
+  "unverified_platforms": [
+    "Windows",
+    "Linux",
+    "Docker"
+  ]
+}

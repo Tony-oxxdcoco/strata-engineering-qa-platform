@@ -27,6 +27,8 @@ from .security import hash_password, token_hash, verify_password
 from .storage import Audit, LoginSession, Membership, Resource, Store, User, canonical, digest, now, public, uid
 from .workflow import REQUIRED, ROOT, WORKFLOW_VERSION, TOOL_FINGERPRINT, Runner, node_tool, outcome
 
+from .provenance import validate_file
+
 MAX_BODY = 14_000_000
 
 
@@ -76,11 +78,25 @@ def create_app(data_dir=None, testing=False, worker=True):
                     return JSONResponse({"detail": "Request exceeds 14 MB"}, 413)
                 parts.append(part)
             request._body = b"".join(parts)
+            media=request.headers.get('content-type','').split(';')[0].strip().lower()
+            if request._body and (not media or media=='application/json' or media.startswith('application/') and media.endswith('+json')):
+                from .data_tools import _json_float, _json
+                def unique(items):
+                    result={}
+                    for key,value in items:
+                        if key in result: raise ValueError('Duplicate JSON request field: '+key)
+                        result[key]=value
+                    return result
+                try:
+                    value=json.loads(request._body,object_pairs_hook=unique,parse_float=_json_float,parse_constant=lambda x: (_ for _ in ()).throw(ValueError('JSON numbers must be finite')))
+                    _json(value)
+                except (ValueError,RecursionError,UnicodeError) as error:
+                    return JSONResponse({'detail':{'kind':'INVALID_INPUT','message':str(error)[:600]}},422)
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
         response.headers["X-Frame-Options"] = "DENY"
-        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
         if request.url.path.startswith("/api/"):
             response.headers["Cache-Control"] = "no-store"
         else:
@@ -89,7 +105,11 @@ def create_app(data_dir=None, testing=False, worker=True):
 
     @app.exception_handler(ValueError)
     async def invalid(request, error):
-        return JSONResponse({"detail": {"message": str(error), "errors": error.errors}} if hasattr(error, "errors") else {"detail": str(error)[:600]}, 422)
+        path=request.url.path
+        kind='IMPORT_MAPPING_ERROR' if hasattr(error,'errors') else 'CONFIGURATION_ERROR' if any(x in path for x in ('/rules','/rule-packages','/adapters','/cases')) else 'IMPORT_ERROR' if '/files' in path or '/connector/import' in path else 'INVALID_INPUT'
+        detail={'kind':kind,'message':str(error)[:600]}
+        if hasattr(error,'errors'): detail['errors']=error.errors
+        return JSONResponse({'detail':detail},422)
 
     @app.exception_handler(IntegrityError)
     async def conflict(request, error):
@@ -144,7 +164,7 @@ def create_app(data_dir=None, testing=False, worker=True):
     @app.get("/api/v1/auth/setup")
     def setup():
         with store.session() as session:
-            return {"needs_setup": session.scalar(select(User.id).limit(1)) is None}
+            return {"needs_setup": session.scalar(select(User.id).limit(1)) is None, "token_required": bool(os.environ.get("STRATA_SETUP_TOKEN"))}
 
     @app.post("/api/v1/auth/bootstrap")
     def bootstrap(request: Request, body: dict = Body(...)):
@@ -324,27 +344,33 @@ def create_app(data_dir=None, testing=False, worker=True):
                             raise ValueError("Snapshot integrity failed")
                         source = resource(session, project.id, "file", saved.data["file_id"])
                         sha = source.data["sha256"]
+                        side='target' if key=='compare_to' else 'source'
+                        expected_source_hash=row.data.get('target_source_hash' if side=='target' else 'source_hash')
+                        expected_file=row.data.get('target_file_id' if side=='target' else 'source_file_id')
+                        if expected_source_hash and sha!=expected_source_hash or expected_file and source.id!=expected_file: raise ValueError('Original source binding changed after checking')
+                        chain_key=(source.id,source.revision,sha)
                         cache = session.info.setdefault("source_integrity", {})
-                        if sha not in cache:
+                        if chain_key not in cache:
                             try:
-                                store.get_blob(sha)
-                                cache[sha] = None
+                                validate_file(store,session,source)
+                                cache[chain_key] = None
                             except (ValueError, OSError) as error:
-                                cache[sha] = str(error)
-                        if cache[sha]:
-                            raise ValueError(cache[sha])
+                                cache[chain_key] = str(error)
+                        if cache[chain_key]:
+                            raise ValueError(cache[chain_key])
                 for rule_id in row.data.get("rule_ids", []):
                     applied = resource(session, project.id, "rule", rule_id)
                     sha = applied.data["rule"]["source_sha256"]
+                    rule_source_key=("rule",sha)
                     cache = session.info.setdefault("source_integrity", {})
-                    if sha not in cache:
+                    if rule_source_key not in cache:
                         try:
                             runner.source_valid(session, project.id, sha)
-                            cache[sha] = None
+                            cache[rule_source_key] = None
                         except (ValueError, OSError) as error:
-                            cache[sha] = str(error)
-                    if cache[sha]:
-                        raise ValueError(cache[sha])
+                            cache[rule_source_key] = str(error)
+                    if cache[rule_source_key]:
+                        raise ValueError(cache[rule_source_key])
             except (ValueError, OSError, HTTPException):
                 integrity_problem = "Stored input or original source integrity failed"
         if integrity_problem:
@@ -425,9 +451,14 @@ def create_app(data_dir=None, testing=False, worker=True):
             return Response(content, media_type="application/octet-stream", headers={"Content-Disposition": 'attachment; filename="source-file"', "X-Source-SHA256": row.data["sha256"]})
 
     def add_snapshot(session, project, source, body, account_id):
-        payload = body.get("input") or source.data["ingestion"].get("snapshot")
+        payload = body["input"] if "input" in body else source.data["ingestion"].get("snapshot")
         if not isinstance(payload, dict) or not payload:
             raise ValueError("File needs an explicit engineering mapping before a snapshot can be created")
+        from .data_tools import _json
+        _json(payload)
+        if source.data["ingestion"].get("status") in {"NEEDS_OCR", "OCR_PAGE_IMAGE"}:
+            raise ValueError("Scanned PDF values are unverified. Confirm the page transcription before creating a mapped snapshot.")
+        validate_file(store,session,source)
         canonical(payload)
         parent = body.get("parent_id")
         if parent:
@@ -455,7 +486,7 @@ def create_app(data_dir=None, testing=False, worker=True):
             project, _ = access(session, project_id, account, {"engineer", "reviewer"})
             original = resource(session, project_id, "snapshot", snapshot_id)
             source = resource(session, project_id, "file", original.data["file_id"])
-            store.get_blob(source.data["sha256"])
+            validate_file(store,session,source)
             if digest(original.data["input"]) != original.data["input_hash"]:
                 raise ValueError("Input integrity verification failed")
             corrected = apply_corrections(original.data["input"], body["corrections"])
@@ -473,8 +504,11 @@ def create_app(data_dir=None, testing=False, worker=True):
             store.audit(session, project_id, account["id"], "snapshot.activated", row.id)
             return {"snapshot": public(row)}
 
-    def source_contains(source, text, raw=None):
+    def source_contains(source, text, raw=None, locator=None):
         ingestion = source.data["ingestion"]
+        page_match=re.search(r'(?i)\bpage\s+(\d+)\b',locator or '')
+        if page_match:
+            return any(p.get('page')==int(page_match.group(1)) and text in p.get('text','') for p in ingestion.get('pages',[]))
         haystacks = [page.get("text", "") for page in ingestion.get("pages", [])]
         raw = store.get_blob(source.data["sha256"]) if raw is None else raw
         if source.data["filename"].lower().endswith((".txt", ".md", ".json", ".csv")):
@@ -504,7 +538,7 @@ def create_app(data_dir=None, testing=False, worker=True):
         with store.session.begin() as session:
             access(session, project_id, account, {"engineer", "reviewer"})
             sources = [r for r in store.list(session, project_id, "file") if r.data["sha256"] == rule["source_sha256"]]
-            if not sources or not source_contains(sources[0], rule["text"]):
+            if not sources or not source_contains(sources[0], rule["text"],locator=rule["locator"]):
                 raise ValueError("The exact rule excerpt must occur in an uploaded project source")
             if any(r.data["rule"]["id"] == rule["id"] and r.data["rule"]["version"] == rule["version"] for r in store.list(session, project_id, "rule")):
                 raise HTTPException(409, "Rule ID/version already exists; create a new version")
@@ -525,7 +559,7 @@ def create_app(data_dir=None, testing=False, worker=True):
                 if rule["status"] != "draft":
                     raise ValueError("Only a draft can be approved")
                 sources = [s for s in store.list(session, project_id, "file") if s.data["sha256"] == rule["source_sha256"]]
-                if not sources or not source_contains(sources[0], rule["text"]):
+                if not sources or not source_contains(sources[0], rule["text"],locator=rule["locator"]):
                     raise ValueError("Source excerpt verification failed")
                 for other in store.list(session, project_id, "rule"):
                     if other.id != row.id and other.data["rule"]["id"] == rule["id"] and other.data["rule"]["status"] == "approved":
@@ -632,13 +666,13 @@ def create_app(data_dir=None, testing=False, worker=True):
             if digest(snapshot.data["input"]) != snapshot.data["input_hash"] or row.data.get("input_hash") and row.data["input_hash"] != snapshot.data["input_hash"]:
                 raise ValueError("Input snapshot integrity failed")
             source = resource(session, project.id, "file", snapshot.data["file_id"])
-            store.get_blob(source.data["sha256"])
+            validate_file(store,session,source)
         if row.data.get("compare_to"):
             target = resource(session, project.id, "snapshot", row.data["compare_to"])
             if digest(target.data["input"]) != target.data["input_hash"] or row.data.get("target_hash") and row.data["target_hash"] != target.data["input_hash"]:
                 raise ValueError("Target snapshot integrity failed")
             source = resource(session, project.id, "file", target.data["file_id"])
-            store.get_blob(source.data["sha256"])
+            validate_file(store,session,source)
         if row.data.get("source_hash"):
             store.get_blob(row.data["source_hash"])
         for rid in row.data.get("rule_ids", []):
@@ -723,7 +757,8 @@ def create_app(data_dir=None, testing=False, worker=True):
             return {"comparison": compare_snapshots(before.data["input"], after.data["input"])}
 
     @app.get("/api/v1/projects/{project_id}/runs/{run_id}/report")
-    def report(project_id: str, run_id: str, format: str = "html", account=Depends(user)):
+    def report(project_id: str, run_id: str, format: str = "html", language:str="en", account=Depends(user)):
+        if language not in {"en","zh-CN"}: raise ValueError("Unsupported report language")
         with store.session() as session:
             project, _ = access(session, project_id, account)
             row = resource(session, project_id, "run", run_id)
@@ -735,7 +770,7 @@ def create_app(data_dir=None, testing=False, worker=True):
                 if row.data.get(key):
                     snapshot = resource(session, project_id, "snapshot", row.data[key])
                     source = resource(session, project_id, "file", snapshot.data["file_id"])
-                    provenance.append({"side": side, "snapshot_id": snapshot.id, "title": snapshot.data["title"], "input_hash": snapshot.data["input_hash"], "synthetic": snapshot.data["input"].get("synthetic", False), "parent_id": snapshot.data.get("parent_id"), "mapping_note": snapshot.data.get("mapping_note"), "adapter_id": snapshot.data.get("adapter_id"), "adapter_hash": snapshot.data.get("adapter_hash"), "mapping_provenance": snapshot.data.get("provenance", []), "corrections": snapshot.data.get("corrections", []), "filename": source.data["filename"], "source_sha256": source.data["sha256"]})
+                    provenance.append({"side": side, "snapshot_id": snapshot.id, "title": snapshot.data["title"], "input_hash": snapshot.data["input_hash"], "synthetic": snapshot.data["input"].get("synthetic", False), "parent_id": snapshot.data.get("parent_id"), "mapping_note": snapshot.data.get("mapping_note"), "adapter_id": snapshot.data.get("adapter_id"), "adapter_hash": snapshot.data.get("adapter_hash"), "mapping_provenance": snapshot.data.get("provenance", []), "corrections": snapshot.data.get("corrections", []), "filename": source.data["filename"], "source_sha256": source.data["sha256"], "derived_from":source.data.get("derived_from"),"ocr_id":source.data.get("ocr_id"),"ocr_confirmation_hash":source.data.get("confirmation_hash"),"original_pdf_sha256":source.data.get("original_pdf_sha256"),"page_image_sha256":source.data.get("page_image_sha256")})
             chain = lineage(session, project_id, row)
             findings = [public(i) for i in store.list(session, project_id, "issue") if i.data["source_run_id"] in chain]
             if format == "json":
@@ -743,7 +778,7 @@ def create_app(data_dir=None, testing=False, worker=True):
             if format != "html":
                 raise ValueError("Supported report formats: html, json. Print HTML to PDF.")
             from .reporting import render_report
-            markup = render_report(project.data, view, provenance, findings, now())
+            markup = render_report(project.data, view, provenance, findings, now(),language=language)
             return HTMLResponse(markup)
 
     @app.get("/api/v1/model")
@@ -754,7 +789,7 @@ def create_app(data_dir=None, testing=False, worker=True):
     @app.get("/api/v1/validation")
     def validation(account=Depends(user)):
         records = {}
-        names = {"system": "system-evaluation-2026-10-07-v11.json" if (ROOT / "docs/system-evaluation-2026-10-07-v11.json").is_file() else "system-evaluation-2026-10-03.json", "retrieval": "knowledge-evaluation-2026-10-03.json", "model_baseline": "model-evaluation-v1-development.json", "model_development": "model-evaluation-v3-development.json", "model_holdout": "model-evaluation-v3-holdout.json"}
+        names = {"system": "system-evaluation-v12.json" if (ROOT / "docs/system-evaluation-v12.json").is_file() else "system-evaluation-2026-10-07-v11.json", "retrieval": "retrieval-evaluation-v12.json", "model_baseline": "model-evaluation-v1-development.json", "model_development": "model-evaluation-v3-development.json", "model_holdout": "model-evaluation-v12-holdout.json"}
         for key, name in names.items():
             path = ROOT / "docs" / name
             if path.is_file():
@@ -777,11 +812,39 @@ def create_app(data_dir=None, testing=False, worker=True):
             access(session, project_id, account, {"engineer", "reviewer"})
         exported = export_snapshot(**body)
         with store.session.begin() as session:
+            # Deduplicate before creating an input revision. The SQLite write
+            # reservation prevents two identical concurrent imports from each
+            # creating a new snapshot and invalidating a current review.
+            if store.engine.dialect.name == "sqlite":
+                session.connection().exec_driver_sql("BEGIN IMMEDIATE")
             project, _ = access(session, project_id, account, {"engineer", "reviewer"})
+            if store.engine.dialect.name != "sqlite":
+                session.scalar(select(Resource).where(Resource.id == project_id).with_for_update())
+            identity = ["contract", "model_id", "revision", "profile", "software_version", "snapshot_sha256"]
+            expected_input = json.loads(exported["bytes"])
+            expected_hash = digest(expected_input)
+            for existing_file in store.list(session, project_id, "file"):
+                prior = existing_file.data.get("connector", {})
+                if (existing_file.data.get("sha256") == exported["provenance"]["snapshot_sha256"]
+                        and all(prior.get(key) == exported["provenance"][key] for key in identity)):
+                    store.get_blob(existing_file.data["sha256"])
+                    candidate = next((snap for snap in store.list(session, project_id, "snapshot")
+                                      if snap.data["file_id"] == existing_file.id
+                                      and snap.data.get("input_hash") == expected_hash
+                                      and digest(snap.data["input"]) == expected_hash), None)
+                    if candidate:
+                        store.audit(session, project_id, account["id"], "connector.reused", candidate.id,
+                                    {"identity": {key: exported["provenance"][key] for key in identity},
+                                     "observed_exported_at": exported["provenance"]["exported_at"]})
+                        return {"file": public(existing_file), "snapshot": public(candidate), "reused": True,
+                                "observed_connector": exported["provenance"],
+                                "interoperability": "This validates the received contract, not the underlying CSI implementation"}
             source = add_file(session, project_id, "connector-export.json", exported["bytes"], account["id"])
             store.change(session, source, {**source.data, "connector": exported["provenance"]})
             snapshot = add_snapshot(session, project, source, {"title": f"CSI export · {body['revision']}"}, account["id"])
-            return {"file": public(source), "snapshot": public(snapshot), "interoperability": "This validates the received contract, not the underlying CSI implementation"}
+            return {"file": public(source), "snapshot": public(snapshot), "reused": False,
+                    "observed_connector": exported["provenance"],
+                    "interoperability": "This validates the received contract, not the underlying CSI implementation"}
 
     @app.post("/api/v1/projects/{project_id}/seed")
     def seed(project_id: str, account=Depends(user)):
@@ -822,6 +885,8 @@ def create_app(data_dir=None, testing=False, worker=True):
 
     from .adaptation_api import register_adaptation
     register_adaptation(app, store, runner, user, access, resource, require_fields, add_file, add_snapshot, source_contains, new_run, run_view)
+    from .ocr_api import register_ocr
+    register_ocr(app,store,user,access,resource,require_fields)
 
     web = ROOT / "web"
     if web.exists():

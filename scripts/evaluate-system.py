@@ -89,6 +89,7 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, default=ROOT / "docs/system-evaluation-2026-10-03.json")
     args=parser.parse_args()
     result=evaluate()
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2)+"\n")
     print(json.dumps({"artifact":str(args.output),"summary":result["summary"],"cache":result["cache_experiment"]["median_total_ms"]}))
     raise SystemExit(0 if result["summary"]["matched"] == result["summary"]["total"] else 1)

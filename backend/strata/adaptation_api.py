@@ -15,6 +15,24 @@ def register_adaptation(app, store, runner, user, access, resource, require_fiel
     def contracts(account=Depends(user)):
         return {'items':registry(),'policy':'Only implemented deterministic tools; no uploaded code or formulas.'}
 
+    @app.post(prefix+'/files/{file_id}/mapping-tables')
+    def inspect_tables(project_id:str,file_id:str,body:dict=Body(...),account=Depends(user)):
+        """Inspect shape/raw samples, never infer engineering field meanings."""
+        require_fields(body,['sources'])
+        from pathlib import Path
+        from .adapters import source_tables
+        sources=body.get('sources',[])
+        if not isinstance(sources,list) or len(sources)>20 or any(not isinstance(p,str) or len(p)>256 for p in sources): raise ValueError('Provide explicit bounded JSON table paths')
+        with store.session() as session:
+            access(session,project_id,account,{'engineer','reviewer'})
+            source=resource(session,project_id,'file',file_id)
+            fmt=Path(source.data['filename']).suffix.lower().lstrip('.')
+            if fmt not in ('csv','xlsx','json'): raise ValueError('Mapping table inspection supports CSV, XLSX and explicit JSON object paths')
+            if fmt=='json' and not sources: raise ValueError('Select explicit JSON table paths; no field meaning is inferred')
+            try: tables=source_tables(source.data['filename'],store.get_blob(source.data['sha256']),{'format':fmt,'tables':[{'source':p} for p in sources]})
+            except RecursionError as error: raise ValueError('JSON nesting exceeds the supported depth') from error
+            return {'format':fmt,'tables':[{'source':name,'columns':columns,'row_count':len(rows),'samples':[{'row':row,'values':values,'cells':cells} for row,values,cells in rows[:3]]} for name,(columns,rows) in tables.items()]}
+
     @app.post(prefix+'/adapters')
     def save_adapter(project_id:str,body:dict=Body(...),account=Depends(user)):
         require_fields(body,['profile'],['profile']); profile=validate_profile(body['profile'])
@@ -97,7 +115,7 @@ def register_adaptation(app, store, runner, user, access, resource, require_fiel
                 source=SimpleNamespace(data={'filename':filename,'sha256':sha,'ingestion':extraction})
             else:
                 source=next((s for s in store.list(session,project_id,'file') if s.data['sha256']==sha),None)
-            if source is None or not source_contains(source,rule['text'],raw=files[sha][1] if sha in files else None): raise ValueError(f"Rule {rule['id']}/{rule['version']}: exact source excerpt missing")
+            if source is None or not source_contains(source,rule['text'],raw=files[sha][1] if sha in files else None,locator=rule['locator']): raise ValueError(f"Rule {rule['id']}/{rule['version']}: exact source excerpt missing")
 
     @app.post(prefix+'/rule-packages/import')
     def import_package(project_id:str,body:dict=Body(...),account=Depends(user)):

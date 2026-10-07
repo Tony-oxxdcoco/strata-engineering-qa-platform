@@ -14,6 +14,7 @@ import json
 import math
 import re
 import zipfile
+import xml.etree.ElementTree as ET
 from pathlib import PurePath
 from typing import Any
 
@@ -127,6 +128,8 @@ def _schema(data: Any) -> None:
             _require(isinstance(record, dict) and all(_text(record.get(k)) for k in ("id", "caseId", "evidenceRef", entity)) and _number(record.get(field)) and record[field] >= 0, f"Invalid {name} record.")
     # Retain duplicate engineering records for the deterministic uniqueness check.
     areas = {r["id"]: r["area"] for r in data["floors"]}
+    _require(not any(areas[r["floorId"]] != 0 and r["q"] != 0 and areas[r["floorId"]] * r["q"] == 0
+                     for r in data["requirements"] if r["floorId"] in areas), "Engineering area × pressure underflow; nonzero input was not replaced with zero.")
     series = [[areas[r["floorId"]] * r["q"] for r in data["requirements"] if r["floorId"] in areas], [r["force"] for r in data["assignments"]], [r["fz"] for r in data["reactions"]]]
     for values in series:
         _require(all(_number(v) for v in values) and _number(sum(values)), "Engineering product or sum overflow.")
@@ -265,6 +268,30 @@ def _xlsx(content: bytes) -> tuple[list, list, list]:
         with zipfile.ZipFile(io.BytesIO(content)) as archive:
             infos = archive.infolist()
             _require(len(infos) <= 2000 and sum(i.file_size for i in infos) <= 50 * 1024 * 1024, "XLSX uncompressed size exceeds limit.")
+            _unique([info.filename for info in infos], "XLSX archive entry names")
+            # openpyxl follows Excel's floating-point representation and may
+            # turn a nonzero XML literal such as 1e-999 into zero. Inspect the
+            # bounded source literals before conversion, including ignored
+            # columns, so ingestion never silently loses a supplied number.
+            for info in infos:
+                if not (info.filename.startswith("xl/worksheets/") and info.filename.endswith(".xml")):
+                    continue
+                try:
+                    document = ET.fromstring(archive.read(info))
+                except ET.ParseError as error:
+                    raise DataValidationError(f"{info.filename}: invalid worksheet XML.") from error
+                namespace = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+                for cell in document.iter(namespace + "c"):
+                    if cell.get("t", "n") != "n":
+                        continue
+                    value = cell.find(namespace + "v")
+                    if value is None or value.text is None:
+                        continue
+                    try:
+                        _require(bool(re.fullmatch(r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?", value.text)), "Invalid numeric literal.")
+                        _json_float(value.text)
+                    except DataValidationError as error:
+                        raise DataValidationError(f"{info.filename}!{cell.get('r', '?')}: {error}") from error
         workbook = load_workbook(io.BytesIO(content), read_only=True, data_only=False, keep_links=False)
     except DataValidationError:
         raise
@@ -285,8 +312,9 @@ def _xlsx(content: bytes) -> tuple[list, list, list]:
                     last = max(i for i, cell in enumerate(cells) if cell.value is not None)
                     header = cells[:last + 1]
                     _require(all(cell.data_type != "f" and _text(cell.value) for cell in header), f"{sheet.title}!{row_number}: headers must be nonempty text.")
-                    table["columns"] = [cell.value.strip() for cell in header]
+                    table["columns"] = [cell.value for cell in header]
                     _unique(table["columns"], f"headers in {sheet.title}")
+                    _unique([value.strip() for value in table["columns"]], f"ambiguous whitespace headers in {sheet.title}")
                     table["header_row"] = row_number
                     continue
                 _require(all(cell.value is None for cell in cells[len(table['columns']):]), f"{sheet.title}!{row_number}: value outside named columns.")

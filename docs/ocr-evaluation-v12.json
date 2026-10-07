@@ -1,0 +1,150 @@
+{
+  "provider": "macos-vision",
+  "page": 1,
+  "text": "SYNTHETIC OCR SOFTWARE TEST - NOT CLIENT ENGINEERING DATA\nObject\nA-01\nA-02\nA-03\nForce\n-0.75\n1.20\n100.05\nVerify decimal points, minus signs, units and each row / column relationship.\nUnit\nN\nKN",
+  "lines": [
+    {
+      "box": [
+        0.03750001668294255,
+        0.9071428585731169,
+        0.5208333129882812,
+        0.043199607770736836
+      ],
+      "confidence": 1,
+      "text": "SYNTHETIC OCR SOFTWARE TEST - NOT CLIENT ENGINEERING DATA"
+    },
+    {
+      "box": [
+        0.06537280530396025,
+        0.7809184174264276,
+        0.07419625091552737,
+        0.042640777483378356
+      ],
+      "confidence": 1,
+      "text": "Object"
+    },
+    {
+      "box": [
+        0.06395348753296214,
+        0.6666666667746297,
+        0.05523255920410157,
+        0.047263681072078345
+      ],
+      "confidence": 1,
+      "text": "A-01"
+    },
+    {
+      "box": [
+        0.06395348792283574,
+        0.5497512442564023,
+        0.05668604660034181,
+        0.049751242546186125
+      ],
+      "confidence": 1,
+      "text": "A-02"
+    },
+    {
+      "box": [
+        0.0639534886111663,
+        0.43781094567042844,
+        0.05668604660034181,
+        0.047263681072078345
+      ],
+      "confidence": 1,
+      "text": "A-03"
+    },
+    {
+      "box": [
+        0.3808139534433528,
+        0.7835820902898842,
+        0.06395348739624024,
+        0.03980099338374732
+      ],
+      "confidence": 1,
+      "text": "Force"
+    },
+    {
+      "box": [
+        0.37742225325044104,
+        0.6599053926612748,
+        0.06492293548583983,
+        0.05581110470915496
+      ],
+      "confidence": 1,
+      "text": "-0.75"
+    },
+    {
+      "box": [
+        0.3793604659930359,
+        0.5447761218767726,
+        0.053779067993164065,
+        0.05970148844261691
+      ],
+      "confidence": 1,
+      "text": "1.20"
+    },
+    {
+      "box": [
+        0.38051030214316245,
+        0.4339303077141915,
+        0.08054916381835936,
+        0.055024957003658725
+      ],
+      "confidence": 1,
+      "text": "100.05"
+    },
+    {
+      "box": [
+        0.040697678399232357,
+        0.22345890378520106,
+        0.5087209167480469,
+        0.03027243810157254
+      ],
+      "confidence": 1,
+      "text": "Verify decimal points, minus signs, units and each row / column relationship."
+    },
+    {
+      "box": [
+        0.7078488376472144,
+        0.7835820900885102,
+        0.04651162719726565,
+        0.03980099338374732
+      ],
+      "confidence": 1,
+      "text": "Unit"
+    },
+    {
+      "box": [
+        0.7063953489278592,
+        0.5547263679391741,
+        0.020348836898803624,
+        0.04228855812386301
+      ],
+      "confidence": 1,
+      "text": "N"
+    },
+    {
+      "box": [
+        0.7063953490811725,
+        0.44278607069342213,
+        0.03197674369812009,
+        0.03980099338374721
+      ],
+      "confidence": 1,
+      "text": "KN"
+    }
+  ],
+  "state": "PENDING_REVIEW",
+  "warning": "Small decimals, minus signs, units and column relationships must be checked against the page image.",
+  "synthetic_only": true,
+  "token_checks": {
+    "-0.75": true,
+    "1.20": true,
+    "100.05": true,
+    "kN": false,
+    "N": true,
+    "A-01": true,
+    "A-02": true,
+    "A-03": true
+  }
+}

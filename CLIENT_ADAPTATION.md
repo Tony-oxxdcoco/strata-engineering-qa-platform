@@ -1,61 +1,73 @@
-# 客户资料接入指南（STRATA 1.1.0）
+# 客户资料接入指南（STRATA 1.2.0）
 
-这份指南对应当前源码。网页和 API 字段保持英文，团队说明使用中文。`examples/` 下的规则、数据和答案全部是合成测试材料。客户规则不能用示例参数替代；软件中的 Approve 只是有权限账号的审核记录。
+接入顺序是：原资料 → 明确映射与单位 → 数据快照 → 适用且已批准的规则 → 已注册的确定性工具 → 证据核验 → 工程师复核。基础流程不用付费 API，本地模型可选。`examples/` 中的工程规则、数据和预期答案都是合成测试材料，不能直接充当客户批准内容。
 
-## 1. 当前工作方式
+本文对应当前代码。客户批准字段含义、规则和预期答案后，优先修改配置；新增工程方法必须实现并验证计算工具，不能只修改提示词。
 
-原文件 → 明确字段映射 → 新快照 → 适用且已批准的规则 → 注册过的确定性工具 → 证据核验 → PASS / FAIL / NOT VERIFIED → 工程师复核。
+## 1. 从哪里修改
 
-资料、规则或工具发生变化时，旧记录保留，但不再作为当前确认使用。基础流程不调用付费 API。可选本地模型只选择任务，不计算数值，不填写缺失字段，不决定工程结论。
-
-| 修改目标 | 对应代码 | 首先运行的验证 |
+| 目标 | 实际代码／配置 | 针对性验证 |
 |---|---|---|
-| 复用已有 CSV / XLSX / JSON 的不同列名 | `backend/strata/adapters.py`、`examples/adapter-*.json` | `backend/tests/test_adaptation.py` |
-| 新增解析格式 | `backend/strata/data_tools.py: ingest()` | `backend/tests/test_data_tools.py` |
-| 调整已支持方法的参数 / 容差 / 条件 | `backend/strata/contracts.py`、规则包 | 适配测试 + 对应数值测试 |
-| 新增工程计算方法 | `contracts.py`、`data_tools.py`、`workflow.py`、`model.py` | 工具单元测试 + 完整工作流独立案例 |
-| 新增客户案例 | `backend/strata/cases.py`、`adaptation_api.py` 的 `/cases`、`/evaluations` | 案例对照与真实客户验收 |
-| 补资料和关联重检 | `evidence.py`、`app.py` 的 `/corrections`、`/resume` | 失效 / 人工审核测试 |
+| CSV／XLSX／JSON 列名、类型和单位映射 | `backend/strata/adapters.py`、`backend/strata/adaptation_api.py`、`web/editors.js`；`examples/adapter-*.json` | `backend/tests/test_adaptation.py`、`backend/tests/test_engineering_boundaries_v12.py` |
+| 新增文件解析格式 | `backend/strata/data_tools.py` 的 `ingest()`；适配时另改 `adapters.source_tables()` | `backend/tests/test_data_tools.py`，新格式的边界样本 |
+| 已支持方法的参数、容差与适用条件 | `backend/strata/contracts.py`；客户规则版本／规则包；`web/editors.js` | 参数契约、对应工具、规则失效与完整工作流 |
+| 新计算工具 | `backend/strata/contracts.py`、`backend/strata/data_tools.py`／`dist/` 注册工具、`backend/strata/workflow.py`、`backend/strata/model.py` | 独立数值答案、异常边界与端到端案例 |
+| 客户案例／批量对照 | `backend/strata/cases.py`、`backend/strata/adaptation_api.py`、`web/editors.js` | 固定输入和规则、独立预期、评测差异分类 |
+| 扫描页校对及来源链 | `backend/strata/ocr.py`、`backend/strata/ocr_api.py`、`backend/strata/provenance.py`、`web/ocr-ui.js` | `backend/tests/test_ocr_v12.py`、`backend/tests/test_source_binding_security.py` |
+| CSI 只读接口 | `backend/strata/connector.py`、`backend/strata/app.py` 的 `connector_import()` | `backend/tests/test_connector_network.py`、`backend/tests/test_connector_import.py`，客户环境另做真实联调 |
+| 界面与报告文案 | `web/locales/en.js`、`web/locales/zh-CN.js`、`web/i18n.js`；`backend/strata/locales/` | `npm run check:i18n`，两种语言下的实际操作 |
 
-上表给的是文件内函数名。所有新模块仍使用现有 SQLite Resource 存储、项目角色和持久任务队列，没有第二套业务数据库。
+沿用现有项目权限、SQLite Resource 存储、原文件和持久队列，不需要新增业务数据库。路径均相对仓库根目录。
 
-## 2. 接入数据：先配置，后映射
+## 2. 已支持格式：建立适配配置
 
-先在网页 **Adaptation → Import profile** 注册配置，再用 **Upload source for mapping** 上传原始 CSV / JSON。上传时关闭自动创建快照；通过 **Apply to source → Preview mapping** 检查映射，确认后创建新快照。XLSX 可以正常上传，再应用同格式配置。
+在 **Adaptation → Upload source for mapping** 上传原文件，进入 **Create adapter** 检查存储来源、工作表、列名和原始样本。为每个字段填写明确目标路径、类型、必填项、别名和单位，再保存版本。也可以 **Import profile** 导入经过审核的 JSON 配置；导出的配置可在其他项目复用，原文件和应用结果仍按项目隔离。
 
-配置完整例子见 `examples/adapter-transfer.json` 和 `adapter-mass.json`：
+点击 **Apply to source → Preview mapping** 检查映射结果；确认后 **Create snapshot**。预览不创建快照，失败保留原文件，响应指明文件、表、行、字段和原因。未知单位、歧义别名或非法数值不会通过默认值掩盖。
 
-- `id` / `version`：配置不可覆盖。同一 ID 改定义必须用新版本。
-- `authority`：合成材料使用 `synthetic`，客户材料使用 `client`；`base.synthetic` 必须分别为 `true` / `false`。
-- `format`：`csv`、`xlsx`、`json`。CSV 的 `source` 固定为 `csv`；XLSX 使用准确工作表名；JSON 使用指向对象或对象列表的 JSON Pointer。
-- `tables[].mode`：`single` 要求恰好一条记录；`rows` 产生列表。
-- `aliases`：只有列出的名称才匹配，区分大小写；同时出现两个别名会报歧义。
-- `required` / `type`：必填值不允许为空；支持 `number`、`string`、`boolean`。CSV 布尔值为小写 `true` / `false`，不猜测 0/1。
-- `unit`：明确给出单位列、目标单位和输出路径；当前使用 `data_tools.UNITS` 的有限单位表。未知单位、维度不一致、溢出或下溢均报错。不能把单位缺失当成 kN。
-- `ignored_columns`：明确允许忽略的列。其他未知列报错。XLSX 只映射配置中指定的工作表；其他工作表仍保存在原文件中，不进入这次检查。
-- `base`：显式提供不来自表格的元数据。`configuration_complete: true` 必须有完整导出的依据，不能为了通过检查随意填写。
+配置参考 `examples/adapter-transfer.json`、`examples/adapter-mass.json`：
 
-出错响应包含 `file`、`table`、`row`、`field`、`reason`。失败不会创建半成品快照；已经上传的原文件可继续下载。成功快照保存 `adapter_id`、配置 hash、`provenance` 原值 / 原单位 / 新值 / 位置，原文件 hash 和原字节另存。配置是映射声明，不会自动证明其字段含义正确。
+- `id`／`version` 固定配置身份。同一版本不可覆盖，改变定义要新建版本。
+- `authority` 是 `synthetic` 或 `client`；对应 `base.synthetic` 必须明确为 `true` 或 `false`。设置 client 不能替代客户批准。
+- `format` 是 `csv`、`xlsx`、`json`。CSV 使用 `source: csv`；XLSX 使用准确工作表名；JSON 使用明确 JSON Pointer。JSON 来源检查需要先填写想检查的表路径。
+- `tables[].mode` 的 `single` 要求一条记录，`rows` 产生列表。列顺序可以变化；字段只按声明的别名匹配，区分大小写，同时出现两个别名会报歧义。
+- `required`／`type` 明确是否允许缺值、使用 number／string／boolean。CSV 布尔值使用小写 `true`／`false`，不猜测 0/1。原始数值文本与标准化数值分别保留。
+- `unit` 明确单位来源列、输出单位和路径；转换只使用 `data_tools.UNITS` 的有限单位表。未知单位、维度不兼容、非有限数值、溢出或下溢被拒绝。
+- `ignored_columns` 明确允许忽略的额外列。未声明的列报错；未选中的 XLSX 工作表保留在原文件中，不会自动分配。物理空行可跳过，实际来源行号保留。
+- `unique_by` 可为 `rows` 指定已映射字段路径组成的唯一键。重复身份明确报错，不会合并。同名对象是否允许、外键是否存在仍需由具体数据契约与工具检查，不能依赖自动猜测。
+- `base` 记录明确常量，例如 revision。`configuration_complete: true` 必须有独立资料支持，不能为了获得 PASS 随意勾选。
 
-资料必须先经过对应工具的数据结构要求。适配器产出的“可解析快照”不等于工程检查 PASS。禁止映射器执行 Excel 公式、Python 或表达式。
+成功快照保存配置身份与 hash、原文件 hash、原值／原单位／标准化值和来源位置。原字节独立保留。可解析快照仍可能缺少工程检查需要的数据；字段映射不执行 Excel 公式、Python 或任意表达式。
 
-### 真正新增一种文件格式
+**Create snapshot** 还支持明确类型的手工字段表单，必须填写映射依据。**Versions → Inspect input → Correct a field** 要求原值、新值、类型、来源位置和理由，并创建后继快照；旧快照不覆盖。不要把手工映射当成缺证据时的自动补值渠道。
 
-如果只是现有格式的列名不同，新增配置即可。如果是新格式：
+### 新增文件格式
 
-1. 在 `data_tools.ingest()` 增加有字节、记录数、嵌套深度限制的解析分支；返回原始来源定位，禁止执行文件中的代码。
-2. 如果需要表格适配，扩展 `adapters.source_tables()` 的明确格式分支和配置格式白名单。不要用模糊猜列名代替配置。
-3. 在 `web/app.js` 的上传扩展名白名单、文件选择器中添加该格式。
-4. 在 `test_data_tools.py` 和 `test_adaptation.py` 加入正常、损坏、缺字段、未知单位的独立样本。
-5. 检查全量回归和导出来源记录，确认旧格式行为保留。
+现有格式仅列名不同，新增配置即可。确实需要新格式时：
 
-扫描 PDF 目前只标记 NEEDS_OCR；没有实现 OCR。需要 OCR 时应另建提取和人工确认流程，不能把识别文本直接当工程数值。
+1. 在 `data_tools.ingest()` 增加受限解析，设置字节、记录数、嵌套／工作表等边界，拒绝活动内容，返回明确来源位置。
+2. 需要表格映射时，扩展 `adapters.source_tables()` 及格式白名单，保留原值和原单位；禁止模糊推测字段含义。
+3. 更新 `web/app.js` 上传白名单及 `web/editors.js` 的格式选项，同步两个语言文件。
+4. 加入正常、损坏、空数据、重复身份、歧义别名、错误单位和来源追溯测试；独立建立预期，不复用被测输出作为答案。
+5. 检查旧格式、导出和来源 hash 行为。新格式未完成验证前，不在界面声明支持。
 
-## 3. 接入规则：包可迁移，批准不可迁移
+CSV／XLSX／JSON 的实际限制以解析器和配置契约为准，不承诺支持所有供应商导出。PDF 文本提取不等于结构化表格解析，也不会自动识别所有工程字段。
 
-格式见 `examples/rule-package.synthetic.json`。客户接入时使用 `material_type: client`，每条规则 `authority: client`，保留合法可用的原标准 / 客户内部文件。包中的 `sources` 提供文件名、SHA-256、base64 原内容；也可以引用本项目已上传的准确 hash。
+## 3. 扫描 PDF：先校对，再引用
 
-网页 **Adaptation → Validate / import package** 先校验，再导入。API 分别为：
+可选 OCR 使用 macOS Vision；需要 macOS、`swift`、`pdftoppm`，并设置 `STRATA_OCR_ENABLED=1`。Windows／Linux 尚未接入 OCR 提供者。原 PDF、渲染页图、识别文本、文本位置、更正和确认记录分别保留。
+
+**Knowledge → Scanned page review** 中选择单页识别，状态为 PENDING_REVIEW。reviewer 必须逐项核对数字、负号、小数点、单位和表格列对应关系，填写更正及理由后确认。确认生成可引用的文本文件；之后仍需明确映射，系统不会把 OCR 表格自动变成工程数据。
+
+未经确认的扫描页或页图不能直接生成工程快照。本轮一张自制测试页中小数和负号被识别，但 `kN` 识别错误；即使 OCR 置信分数高也不能跳过核对。手工转录同样需要获授权的原来源和核对依据。
+
+接入其他 OCR 提供者时，应延续 `backend/strata/ocr_api.py` 的确认状态、页图和原 PDF hash 绑定，延续 `backend/strata/provenance.py` 对来源链的核验。不能用换引擎或改提示词绕过人工确认。
+
+## 4. 接入规则：批准状态不能随包迁移
+
+规则包格式见 `examples/rule-package.synthetic.json`。客户包使用 `material_type: client`，每条规则使用 `authority: client`，并附获授权的规范／内部 QA 文件。包内 `sources` 携带名称、SHA-256 和 base64 原内容，或引用本项目已有的准确来源 hash。
+
+网页 **Adaptation → Validate / import package** 可选择配置文件，先校验再导入。API：
 
 ```text
 POST /api/v1/projects/{project_id}/rule-packages/validate
@@ -63,40 +75,33 @@ POST /api/v1/projects/{project_id}/rule-packages/import
 GET  /api/v1/projects/{project_id}/rule-packages/export?material_type=client
 ```
 
-POST 请求体为 `{"package": <package object>}`。包上限 50 条规则、20 个源文件、原始内容合计 10 MB；整个 HTTP 请求还有 14 MB 限制。源文件和规则全量预检后才写入数据库。引用必须是原文件中可核对的准确文本。导入始终重置为 draft，不信任包内 approved_by / approved_at。reviewer 在 **Knowledge** 中逐条批准；同一规则 ID 的旧批准版本会退役。
+POST 请求体为 `{"package": <package object>}`。包受规则数、源文件数、字节量和整体请求限制；具体上限见 `backend/strata/adaptation_api.py`。导入先全量预检，再保存；准确引用必须能在来源文本中核对。结构化 `Page N` 定位会核对对应页；自由格式工作表／单元格 locator 仍需 reviewer 核对，不能当作程序已验证坐标。批准者／批准时间不会迁移，导入总是 draft，由 reviewer 在 **Knowledge** 批准。同一规则 ID 的旧批准版本退役。
 
-`contracts.executable_rule()` 集中限制任务、检查 ID、参数、条件和单位。允许：
+单条规则也可用 **Add rule** 图形表单配置参数与适用条件。`contracts.executable_rule()` 限制为已实现方法：组合配置的工况／因子／额外项策略／容差，交接的两侧 revision／字段路径／单位／绝对相对容差，以及配置项 `eq`／`in`／`range`。适用条件也只能使用固定比较方式；条件未知不得授权执行，条件为 false 的规则不适用。
 
-- 组合配置：明确组合、基础工况、因子、额外项策略、`factor_tolerance`；
-- 交接比较：明确两侧 revision、字段映射、单位、绝对 / 相对容差；
-- 配置检查：`eq`、`in`、含上下界的 `range`，布尔值与数字不同；
-- `conditions`：同样只用 `eq` / `in` / `range` 表达适用条件。条件未知不能授权执行；条件为 false 的规则被排除。
+未知参数、任意公式和代码被拒绝。既有重力算术和基础 load-combination 方法仍限定合成配置，不能仅将 authority 改成 client 就用于真实工程。
 
-未知字段、任意公式和代码被拒绝。既有 gravity 和基础 load-combination 算术工具继续限定为合成配置，不能仅把 authority 改成 client 就用于真实工程。
+调整参数的流程：新建规则版本 → 修改明确参数／条件 → 加入独立边界案例 → 校验 → reviewer 批准 → 重跑受影响任务。引用缺失、规则冲突或未知适用条件应进入 NOT VERIFIED。BM25 与精确 ID 用于检索，检索相似度不能成为工程批准依据。
 
-参数调整不改提示词：新建规则版本 → 改参数 → 加入独立预期案例 → 校验 → reviewer 批准 → 重新运行受影响检查。不能声称一个自行填写的容差来自工程规范。
+## 5. 新增确定性计算工具
 
-## 4. 新增计算工具
+先取得客户确认的方法、输入要求、单位、适用范围和独立算例，再写工具。
 
-先取得客户定义的工程方法、输入、单位、适用范围和独立算例，再实现工具。
+1. 在 `backend/strata/data_tools.py` 增加纯确定性函数，或扩展隔离 Node bridge 中的固定工具。明确验证缺字段、有限数值、单位、对象关联与支持范围。
+2. 在 `backend/strata/contracts.py` 注册任务、check IDs 和严格参数契约，不允许规则输入执行代码。写清工程方法与拒绝范围。
+3. 在 `backend/strata/workflow.py` 添加固定调用分支、证据要求和结果完整性核验；将新增计算依赖加入 `TOOL_FINGERPRINT`，避免旧缓存复用。
+4. 更新 `backend/strata/model.py` 任务白名单、`web/app.js` 任务入口及两个语言文件。手动选择任务始终可用，模型不能改工程数值和判定。
+5. 用独立推导、不同实现或数学不变量验证软件计算；覆盖正常、边界、重复记录、符号／单位错误、缺资料、溢出和空集合，再加入完整工作流案例。
 
-1. 在 `data_tools.py` 新增纯确定性函数，或在隔离 Node bridge 中增加固定注册工具；验证有限数值、单位、缺字段和支持范围。
-2. 在 `contracts.py` 注册任务 / check IDs / 严格参数契约，不允许输入提供代码。工程方法和参数解释必须写清。
-3. 在 `workflow.py` 增加固定工具分支、结果完整性检查；必要时更新 `TOOL_FINGERPRINT` 文件清单。新增计算依赖也要进入该清单。
-4. 在 `model.py` 的任务白名单和 `web/app.js` 增加任务选项。模型只做意图路由，显式选择任务仍可运行。
-5. 工具单元测试覆盖正常、边界、错误、缺资料、溢出和单位；用工程师独立计算的答案加入案例。通过后才能提供配置入口。
+软件验证仍不等于工程师验收。缓存包含输入、目标、规则和工具身份；发布结果前再次检查权限、资料及规则有效性。新功能必须保留历史结果、旧确认和当前失效原因。
 
-现有缓存键包含输入、目标、规则和工具指纹；新代码不能绕开它。旧结果和旧确认应保留，并显示已失效。
+## 6. 独立案例与批量评测
 
-## 5. 加入客户案例和批量评测
+先生成快照、批准规则，再用 **Adaptation → Register case** 填写图形表单：案例 ID／版本、client 或 synthetic、任务、输入与交接目标、固定规则版本、总体预期、逐项预期、数值容差、独立答案作者和依据。
 
-先上传真实资料、生成快照、注册对应规则版本。通过 `POST /cases` 注册 `strata-case/1` 对象，示例见 `examples/case-suite.synthetic.json` 中的独立预期内容；网页 **Register case** 给出结构模板和快照 ID。
+高级格式是 `strata-case/1`，参考 `examples/case-suite.synthetic.json`。客户输入必须明确 `synthetic: false`。`truth.independent: true` 只是作者声明；真正答案需来自客户工程师、独立计算或审核过的依据，不能直接复制系统输出。
 
-每个案例至少包括：案例 ID / 版本、显式 client / synthetic 类型、任务、输入快照、可选目标快照、固定规则 ID / 版本、预期总体状态、逐项状态、独立答案作者及依据。资料的原文件保存在快照关联的 file 记录中。客户案例的输入须明确 `synthetic: false`。
-
-`truth.independent: true` 是作者声明，不是系统自动认证。真正答案必须来自客户工程师、独立计算或审阅过的工程依据。禁止运行被测系统后把输出直接写入 expected。
-
-`expected.findings[].key` 形如 `HANDOFF` 或 `HANDOFF/vertical-transfer`。数值断言使用 `numbers` 中的 `path`、`value`、`absolute_tolerance`、`relative_tolerance`。`expected.complete: true` 会报告额外的非通过项；新增的 PASS 信息项允许保留。路径要求见 `cases.py: flattened()` / `compare()`。
+逐项 key 例如 `HANDOFF`、`HANDOFF/vertical-transfer`；数值断言使用 `numbers` 的 `path`、`value`、`absolute_tolerance`、`relative_tolerance`。路径定义见 `cases.flattened()`／`compare()`。`expected.complete: true` 会报告意外的非通过项。
 
 ```text
 POST /api/v1/projects/{project_id}/evaluations
@@ -106,26 +111,54 @@ GET /api/v1/projects/{project_id}/evaluations/{evaluation_id}
 GET /api/v1/projects/{project_id}/evaluations/{evaluation_id}/report
 ```
 
-一批最多 20 条，受原项目队列上限约束。添加案例不用修改评测器；每批保存预期答案副本和 hash，实际执行固定批准版本，后台照常可恢复。
+每批最多 20 条，受项目队列限制。系统保存独立预期副本与 hash，固定批准规则版本，添加客户案例通常不用修改评测程序。界面显示总体错误通过、逐项漏检／误报／错误通过／证据不足／数值偏差／缺项。
 
-显示总体错误通过案例数、逐项漏检 / 误报 / 错误通过 / 证据不足 / 数值偏差 / 缺项。父项与子项各自对照，逐项计数可能包含同一问题的父子记录；不要将它当成工程缺陷个数。队列未完成时仅统计已完成案例。
+父项和子项分别对照，不能把逐项计数当作独立工程缺陷个数。未完成批次只统计已完成案例。评测针对固定输入，工作台另选活动快照不会改其答案；来源损坏、规则退役、工具变化和运行失败仍会使结果无效。
 
-评测针对案例固定输入，忽略“工作台后来选了其他活动快照”这一显示过期原因；规则退役、工具变更、原文件损坏和执行失败仍使案例无效。这不改变工作台人工确认必须针对当前输入的要求。
+检索或模型调参时分开发集和保留集，保留答案与版本来源。本轮旧 24 题模型保留集已经再次观察，后续不得将同一题集当成新的独立测试集。
 
-## 6. 运行命令
+## 7. CSI、双语与验证命令
+
+CSI 接入是部署者配置的只读接口，界面仅在连接器启用时显示导入。契约见 [docs/csi-connector-contract.md](docs/csi-connector-contract.md)，模拟服务为 `scripts/csi-mock-server.py`。身份、revision、profile、版本、单位、时间与 hash 都需匹配；相同身份和内容的重复响应复用旧来源，不造成重复快照和旧确认失效。模拟验证不能称为真实 ETABS／SAFE 联调，也不能把 Windows／许可依赖放进 Linux 应用容器。
+
+新增界面文案放入 `web/locales/en.js`、`web/locales/zh-CN.js`；HTML 报告放入 `backend/strata/locales/`。英文默认，界面偏好键为 `strata.workbench.language`。内部状态和 API 数据不改，客户原文不翻译。报告接口使用 `language=en` 或 `language=zh-CN`，例如：
+
+```text
+GET /api/v1/projects/{project_id}/runs/{run_id}/report?format=html&language=zh-CN
+```
+
+开发环境运行：
 
 ```sh
 npm run setup:dev
 npm run doctor
 npm test
-.venv/bin/python -m pytest backend/tests tests/test_backup.py -q
 npm run check
+npm run check:i18n
+npm run validate
+.venv/bin/python -m pytest backend/tests tests -q
 .venv/bin/python scripts/evaluate-system.py --output output/system-evaluation.json
+.venv/bin/python scripts/evaluate-retrieval.py --output output/retrieval-evaluation.json
 npm run demo:workflow
 ```
 
-Windows 的 Python 路径替换为 `.venv\Scripts\python.exe`。Windows 命令仅提供，当前发行验证环境为 macOS，不能称作已测试。
+Windows 将 Python 路径替换为 `.venv\Scripts\python.exe`，平台未实测。独立运行 Python 测试时需能找到 Node，必要时设置 `STRATA_NODE`。系统评测显式写入 `output/`，避免覆盖旧版本历史记录。
 
-默认 demo 使用隔离临时数据库，不改你已有项目，输出 `output/adaptation-demo/`，结束后临时数据库删除。保留演示项目供网页查看：先启动服务器和创建账号，再运行 `npm run demo:workflow -- --url http://127.0.0.1:4180`，按提示输入本地账号密码。该模式用真实 HTTP / 队列，并新建一个标注 SYNTHETIC 的项目，不发送到云端。
+已有本地 Ollama 与模型后，真实模型验证可另执行：
 
-客户材料到来后，优先确认字段和单位 → 做一个映射配置 → 一条批准规则 → 三个独立 PASS / FAIL / NOT VERIFIED 案例 → 客户工程师复核。软件评测通过不能替代这一步。
+```sh
+STRATA_OLLAMA_MODEL=qwen2.5:7b .venv/bin/python scripts/evaluate-agent-boundaries.py --output output/agent-boundaries.json
+STRATA_OLLAMA_MODEL=qwen2.5:7b .venv/bin/python scripts/evaluate-model.py --split holdout --label local-replay --output output/model-holdout.json
+```
+
+这两个命令不会下载模型。`evaluate-model.py` 会拒绝覆盖既有输出文件，重复评测请换一个新的输出文件名，保留历史记录。前者使用自制工程案例，后者是旧题重评；两者都不能外推为客户工程准确率。实际验证范围见 [v1.2 发布记录](docs/release-v1.2.md)。
+
+## 8. 客户到来后先补这五组材料
+
+1. **资料与映射**：获授权的真实 CSV／XLSX／JSON／PDF 或 ETABS／SAFE 导出，字段含义、单位、对象身份及关联、版本／revision 和完整性定义。先做一个适配配置；新格式才改解析器。
+2. **规则与依据**：批准 QA 清单、适用条件、参数／容差、规范版本和合法引用，批准／复核负责人。已有比较方法改规则版本；新工程方法新增工具并验证。
+3. **独立案例**：至少各一条正确、故意错误和缺证据案例，独立预期、应发现的问题与容差。先注册案例，再开展客户对照验收。
+4. **CSI 环境**：Windows、CSI 许可及实际版本，客户 IT 维护的只读导出入口、认证方式、profile 与契约样本。先核对模拟契约，再真实联调和结果对照。
+5. **使用与部署**：工程师操作流程、必须人工确认的步骤、资料保密和保留政策；多人共享时另行提供机构服务器、账号策略和备份安排。云端部署本轮继续暂缓。
+
+最先完成“一份映射 → 一条批准规则 → PASS／FAIL／NOT VERIFIED 三个独立案例 → 客户工程师复核”，再扩大工程范围。不要用合成成绩替代客户确认。

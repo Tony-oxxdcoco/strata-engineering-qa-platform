@@ -1,0 +1,421 @@
+{
+  "scope": "Actual Chrome UI navigation. Synthetic project only; desktop1280x900/mobile390x844. Not browser/OS coverage guarantee.",
+  "rows": [
+    {
+      "lang": "en",
+      "view": "workspace",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Review with evidence.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "knowledge",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Make the source explicit.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "review",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Keep decisions accountable.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "versions",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "See what changed.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "audit",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "A record of the work.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "team",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Share deliberately.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "validation",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Test the workflow, not the claim.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "adaptation",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Prepare once. Reuse with evidence.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "workspace",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "依据证据开展复核。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "knowledge",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "明确记录依据来源。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "review",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "让每个决定有据可查。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "versions",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "查看版本变化。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "audit",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "保留完整工作记录。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "team",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "按需分配访问权限。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "validation",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "用验证结果评估工作流。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "adaptation",
+      "size": {
+        "width": 1280,
+        "height": 900
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "配置一次，复用并保留证据。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "workspace",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Review with evidence.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "knowledge",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Make the source explicit.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "review",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Keep decisions accountable.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "versions",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "See what changed.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "audit",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "A record of the work.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "team",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Share deliberately.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "validation",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Test the workflow, not the claim.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "en",
+      "view": "adaptation",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "en",
+      "overflow": false,
+      "heading": "Prepare once. Reuse with evidence.",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "workspace",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "依据证据开展复核。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "knowledge",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "明确记录依据来源。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "review",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "让每个决定有据可查。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "versions",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "查看版本变化。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "audit",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "保留完整工作记录。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "team",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "按需分配访问权限。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "validation",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "用验证结果评估工作流。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    },
+    {
+      "lang": "zh-CN",
+      "view": "adaptation",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "htmlLang": "zh-CN",
+      "overflow": false,
+      "heading": "配置一次，复用并保留证据。",
+      "projectPreserved": true,
+      "blankOptions": 0
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "scope": "YAML structure only; docker compose config/build/run NOT RUN",
+  "persistent_volumes": [
+    "runtime",
+    "backups",
+    "model-data"
+  ],
+  "app_loopback_port": [
+    "127.0.0.1:${STRATA_PORT:-4180}:4180"
+  ],
+  "optional_model": "profile model; shared loopback namespace; no published model port",
+  "result": "PASS",
+  "verification_runs": [
+    {
+      "scope": "connector existing + local TCP/provenance/timeout + package privacy",
+      "passed": 40
+    },
+    {
+      "scope": "publication boundaries + deployment/jobs/backup",
+      "passed": 23
+    },
+    {
+      "scope": "connector authenticated API",
+      "passed": 4
+    },
+    {
+      "scope": "JSON media + report injection",
+      "passed": 5
+    },
+    {
+      "scope": "original and handoff source bindings",
+      "passed": 3
+    }
+  ],
+  "native_CSI": "NOT VERIFIED: all connector services and engineering inputs used here are synthetic",
+  "docker_runtime": "NOT RUN: Docker CLI and Desktop absent",
+  "platforms": {
+    "macOS": "Scoped Python/API/local TCP checks ran",
+    "Windows": "NOT RUN",
+    "Linux": "NOT RUN"
+  },
+  "warning": "Existing Starlette/httpx TestClient deprecation; not suppressed"
+}

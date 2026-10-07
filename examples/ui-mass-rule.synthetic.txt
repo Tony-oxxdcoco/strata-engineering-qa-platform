@@ -1,0 +1,1 @@
+SYNTHETIC TEST MATERIAL. Require mass.include_self_weight true and mass.source approved-schedule. Missing evidence is NOT VERIFIED. These exact chosen values are test expectations, not a client engineering checklist.

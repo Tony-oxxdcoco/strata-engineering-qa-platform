@@ -1,0 +1,90 @@
+{
+  "verified_at": "2026-10-07T10:04:49.556603+00:00",
+  "material_type": "synthetic",
+  "result": "PASS",
+  "interface": "Actual separately started restored application, authenticated HTTP and original file downloads",
+  "checks": {
+    "snapshots": 3,
+    "historical_runs": 5,
+    "historical_statuses": [
+      "FAIL",
+      "NOT VERIFIED",
+      "PASS"
+    ],
+    "current_pass_review": "APPROVED",
+    "superseded_approvals_display_stale": true,
+    "issue_state": "RESOLVED",
+    "audit_chain_valid": true,
+    "restore_receipt_old_sessions_invalidated": 1,
+    "ocr_pages": [
+      {
+        "page": 1,
+        "state": "CONFIRMED",
+        "confirmation_hash": "ee80bfa721118c02127f0d19a27e23c99c90d102007e6900fa76078b4b3e7811",
+        "corrections_retained": true
+      }
+    ],
+    "original_file_downloads": [
+      {
+        "filename": "confirmed-ocr-page-1-8994fe8b.txt",
+        "size_bytes": 86,
+        "sha256": "919a6c246a74ab516433058cab74db67b38d52ed6a7a2e96a8a32a85deed8048",
+        "download_status": 200,
+        "hash_matches": true
+      },
+      {
+        "filename": "ocr-page-1-8994fe8b.png",
+        "size_bytes": 186423,
+        "sha256": "ec01644178e746758ccfffebca8b3d0edac3e921b1c1b53844f9a71d92a75657",
+        "download_status": 200,
+        "hash_matches": true
+      },
+      {
+        "filename": "scan.synthetic.pdf",
+        "size_bytes": 45030,
+        "sha256": "8994fe8b95daae2ac0b8b220777bac164a4e1579dc1000da0c64548b87d10986",
+        "download_status": 200,
+        "hash_matches": true
+      },
+      {
+        "filename": "ui-mass-rule.synthetic.txt",
+        "size_bytes": 217,
+        "sha256": "48bb91d4f8d3c5260700295cab436adf55a25490b4d11483dd2419d5962f2b4f",
+        "download_status": 200,
+        "hash_matches": true
+      },
+      {
+        "filename": "mass-pass.csv",
+        "size_bytes": 41,
+        "sha256": "499bb085d93f854c9d6bbfe82ff04d0ff57d9b8cec9cf85041be8ccf1e6ca6d4",
+        "download_status": 200,
+        "hash_matches": true
+      }
+    ],
+    "reports": [
+      {
+        "format": "json",
+        "language": "en",
+        "http_status": 200,
+        "size_bytes": 8667
+      },
+      {
+        "format": "html",
+        "language": "en",
+        "http_status": 200,
+        "size_bytes": 7399
+      },
+      {
+        "format": "html",
+        "language": "zh-CN",
+        "http_status": 200,
+        "size_bytes": 7409
+      }
+    ]
+  },
+  "limitations": [
+    "Only synthetic project restored.",
+    "Session invalidation count verified from restore receipt; no old bearer token replayed.",
+    "No Docker or cross-platform restore runtime tested."
+  ]
+}

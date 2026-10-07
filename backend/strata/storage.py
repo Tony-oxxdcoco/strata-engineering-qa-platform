@@ -102,7 +102,7 @@ class Store:
         return sha
 
     def get_blob(self, sha):
-        if len(sha) != 64 or any(c not in "0123456789abcdef" for c in sha):
+        if not isinstance(sha,str) or len(sha) != 64 or any(c not in "0123456789abcdef" for c in sha):
             raise ValueError("Invalid source hash")
         content = (self.blobs / sha).read_bytes()
         if hashlib.sha256(content).hexdigest() != sha:

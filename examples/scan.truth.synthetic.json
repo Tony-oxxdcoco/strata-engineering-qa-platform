@@ -1,0 +1,33 @@
+{
+  "authority": "synthetic",
+  "independent": true,
+  "basis": "Literal table defined by the fixture author before recognition; not checker output.",
+  "rows": [
+    {
+      "id": "A-01",
+      "force": -0.75,
+      "unit": "kN"
+    },
+    {
+      "id": "A-02",
+      "force": 1.2,
+      "unit": "N"
+    },
+    {
+      "id": "A-03",
+      "force": 100.05,
+      "unit": "kN"
+    }
+  ],
+  "required_tokens": [
+    "-0.75",
+    "1.20",
+    "100.05",
+    "kN",
+    "N",
+    "A-01",
+    "A-02",
+    "A-03"
+  ],
+  "confirmation_text": "SYNTHETIC OCR SOFTWARE TEST\nObject Force Unit\nA-01 -0.75 kN\nA-02 1.20 N\nA-03 100.05 kN"
+}

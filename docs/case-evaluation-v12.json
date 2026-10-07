@@ -1,0 +1,345 @@
+{
+  "id": "evaluation_1a0e0569cd1129a0a191508a",
+  "created_at": "2026-10-07T09:48:22.850138+00:00",
+  "state": "COMPLETED",
+  "progress": {
+    "finished": 5,
+    "total": 5
+  },
+  "summary": {
+    "total": 5,
+    "matched": 5,
+    "false_pass_cases": 0,
+    "expected_nonpass_cases": 3,
+    "invalid_cases": 0,
+    "findings": {
+      "missed_issues": 0,
+      "false_alarms": 0,
+      "false_pass": 0,
+      "insufficient_evidence": 2,
+      "numeric_mismatches": 0,
+      "missing_findings": 0,
+      "unexpected_findings": 0
+    }
+  },
+  "items": [
+    {
+      "case_id": "transfer-correct",
+      "version": "1",
+      "title": "SYNTHETIC transfer-correct",
+      "authority": "synthetic",
+      "run_id": "run_da75fad7e1d9d03785e28f86",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "false_pass_case": false,
+      "invalid_reasons": [],
+      "counts": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 0,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      },
+      "items": [
+        {
+          "key": "HANDOFF",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "HANDOFF/vertical-transfer",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "numbers": [
+            {
+              "absolute_tolerance": 0.001,
+              "path": "/expected",
+              "relative_tolerance": 0,
+              "value": 100,
+              "actual": 100.0,
+              "tolerance": 0.001,
+              "matched": true
+            },
+            {
+              "absolute_tolerance": 0.001,
+              "path": "/actual",
+              "relative_tolerance": 0,
+              "value": 100,
+              "actual": 100.0,
+              "tolerance": 0.001,
+              "matched": true
+            },
+            {
+              "absolute_tolerance": 0.001,
+              "path": "/delta",
+              "relative_tolerance": 0,
+              "value": 0,
+              "actual": 0.0,
+              "tolerance": 0.001,
+              "matched": true
+            }
+          ]
+        }
+      ],
+      "unexpected_items": [],
+      "truth": {
+        "author": "STRATA synthetic fixture author",
+        "basis": "Independently written literal table values and test checklist: 100000 N = 100 kN; deliberate target 120000 N = 120 kN. Explicit mass flags as stated in the test source. Not derived from checker outputs.",
+        "independent": true
+      },
+      "oracle_sha256": "63e79311c145fdf8e631aaaaf8a22c4207c321062068f9ac094c58ff72254145",
+      "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+    },
+    {
+      "case_id": "transfer-deliberate-error",
+      "version": "1",
+      "title": "SYNTHETIC transfer-deliberate-error",
+      "authority": "synthetic",
+      "run_id": "run_3b8af8fda14e9c4884d1e7d5",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "false_pass_case": false,
+      "invalid_reasons": [],
+      "counts": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 0,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      },
+      "items": [
+        {
+          "key": "HANDOFF",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "HANDOFF/vertical-transfer",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "numbers": [
+            {
+              "absolute_tolerance": 0.001,
+              "path": "/expected",
+              "relative_tolerance": 0,
+              "value": 100,
+              "actual": 100.0,
+              "tolerance": 0.001,
+              "matched": true
+            },
+            {
+              "absolute_tolerance": 0.001,
+              "path": "/actual",
+              "relative_tolerance": 0,
+              "value": 120,
+              "actual": 120.0,
+              "tolerance": 0.001,
+              "matched": true
+            },
+            {
+              "absolute_tolerance": 0.001,
+              "path": "/delta",
+              "relative_tolerance": 0,
+              "value": 20,
+              "actual": 20.0,
+              "tolerance": 0.001,
+              "matched": true
+            }
+          ]
+        }
+      ],
+      "unexpected_items": [],
+      "truth": {
+        "author": "STRATA synthetic fixture author",
+        "basis": "Independently written literal table values and test checklist: 100000 N = 100 kN; deliberate target 120000 N = 120 kN. Explicit mass flags as stated in the test source. Not derived from checker outputs.",
+        "independent": true
+      },
+      "oracle_sha256": "b2a7ca28888ce7b87ae0ebd5a7bc68599ec2be3f676f8b7224585c1c34e42c5e",
+      "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+    },
+    {
+      "case_id": "mass-pass",
+      "version": "1",
+      "title": "SYNTHETIC mass-pass",
+      "authority": "synthetic",
+      "run_id": "run_8134c0cf5f838b60f7a6883f",
+      "expected": "PASS",
+      "actual": "PASS",
+      "state": "COMPLETED",
+      "matched": true,
+      "false_pass_case": false,
+      "invalid_reasons": [],
+      "counts": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 0,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      },
+      "items": [
+        {
+          "key": "MASS-SOURCE",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "MASS-SOURCE/setting-1",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "MASS-SOURCE/setting-2",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "numbers": []
+        }
+      ],
+      "unexpected_items": [],
+      "truth": {
+        "author": "STRATA synthetic fixture author",
+        "basis": "Independently written literal table values and test checklist: 100000 N = 100 kN; deliberate target 120000 N = 120 kN. Explicit mass flags as stated in the test source. Not derived from checker outputs.",
+        "independent": true
+      },
+      "oracle_sha256": "d402a8e0d53dd5e1ab54f9e9b956f34b8e5c9dd3d866ae08ac7339d627dc4300",
+      "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+    },
+    {
+      "case_id": "mass-error",
+      "version": "1",
+      "title": "SYNTHETIC mass-error",
+      "authority": "synthetic",
+      "run_id": "run_98d54cc298fc847e8f518ed8",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "false_pass_case": false,
+      "invalid_reasons": [],
+      "counts": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 0,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      },
+      "items": [
+        {
+          "key": "MASS-SOURCE",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "MASS-SOURCE/setting-1",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "MASS-SOURCE/setting-2",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "numbers": []
+        }
+      ],
+      "unexpected_items": [],
+      "truth": {
+        "author": "STRATA synthetic fixture author",
+        "basis": "Independently written literal table values and test checklist: 100000 N = 100 kN; deliberate target 120000 N = 120 kN. Explicit mass flags as stated in the test source. Not derived from checker outputs.",
+        "independent": true
+      },
+      "oracle_sha256": "5de881a3f7a255fdd011db2da91af84d9e155c595cd568b69e0c38c84eab10e0",
+      "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+    },
+    {
+      "case_id": "mass-missing",
+      "version": "1",
+      "title": "SYNTHETIC mass-missing",
+      "authority": "synthetic",
+      "run_id": "run_dd00a77b2fca47c6282d67b8",
+      "expected": "NOT VERIFIED",
+      "actual": "NOT VERIFIED",
+      "state": "WAITING",
+      "matched": true,
+      "false_pass_case": false,
+      "invalid_reasons": [],
+      "counts": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 2,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      },
+      "items": [
+        {
+          "key": "MASS-SOURCE",
+          "expected": "NOT VERIFIED",
+          "actual": "NOT VERIFIED",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "MASS-SOURCE/setting-1",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "MASS-SOURCE/setting-2",
+          "expected": "NOT VERIFIED",
+          "actual": "NOT VERIFIED",
+          "matched": true,
+          "numbers": []
+        }
+      ],
+      "unexpected_items": [],
+      "truth": {
+        "author": "STRATA synthetic fixture author",
+        "basis": "Independently written literal table values and test checklist: 100000 N = 100 kN; deliberate target 120000 N = 120 kN. Explicit mass flags as stated in the test source. Not derived from checker outputs.",
+        "independent": true
+      },
+      "oracle_sha256": "29e388a063c595c70376b1f487fbf1fd0554a12ca1eac047d143ae41adea34c6",
+      "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+    }
+  ],
+  "scope": "Declared independent oracles. Synthetic cases are software tests; client technical validation is still required.",
+  "generated_at": "2026-10-07T09:48:22.877873+00:00",
+  "tool_fingerprint": "e96df86c2c921b4547d960cb82affdf8c46e91512c125384d8a5006ed9a2421d",
+  "suite_sha256": "cb4a7dfb717c99bd53bd9a62835b025e00b3759eb536850ba2aff95d30e4c87f",
+  "review_invalidation": {
+    "verified": true,
+    "retained_reviews": 1,
+    "reasons": [
+      "A newer input revision is active"
+    ]
+  }
+}

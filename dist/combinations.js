@@ -133,6 +133,8 @@ export function runCombinationChecks(input) {
       }
       if (!evidenceOK(base.evidenceRef)) reasons.push(`Base case ${base.id} is missing a source record with title, locator and content.`);
       if (base.evidenceRef && base.evidenceRef === combination.evidenceRef) reasons.push(`Base case ${base.id} and its reported combination use the same evidence record; separately supplied reference and reported sources are required.`);
+      const reference=evidence.get(base.evidenceRef), reported=evidence.get(combination.evidenceRef);
+      if(reference&&reported&&reference.id!==reported.id&&reference.locator===reported.locator&&reference.content===reported.content) reasons.push(`Base case ${base.id} and reported response have identical source content and location; independent evidence is not established.`);
       const product = term.factor * base.value;
       if (!Number.isFinite(product)) reasons.push(`Arithmetic overflow in ${term.caseId}: factor × base response.`);
       else if (product === 0 && term.factor !== 0 && base.value !== 0) reasons.push(`Arithmetic underflow in ${term.caseId}: factor × base response.`);

@@ -1,0 +1,46 @@
+{
+  "verified_at": "2026-10-07T10:04:49.427304+00:00",
+  "material_type": "synthetic",
+  "result": "PASS",
+  "interface": "Real browser UI plus authenticated HTTP to a real local synthetic contract server; not ETABS/SAFE",
+  "browser_session": "strata-csi",
+  "checks": {
+    "browser_first_account_created": true,
+    "browser_project_created": true,
+    "configured_import_ui_visible": true,
+    "first_import_notice": "Connector snapshot imported. Original export and provenance were retained.",
+    "second_import_notice": "Connector returned a previously imported snapshot. No new revision was created.",
+    "files": 1,
+    "snapshots": 1,
+    "reuse_audit_events": 1,
+    "active_snapshot_unchanged": true,
+    "original_bytes_download_sha256": "c7c4fcb60a2b8914120a8d1c9ed3c73afc42adb7330210bfccd3a937634c173c",
+    "snapshot_equals_original_json": true,
+    "browser_original_values_visible": {
+      "assignment_force": 20,
+      "force_unit": "kN",
+      "revision": "R-SYNTHETIC"
+    },
+    "browser_provenance_visible": [
+      "contract",
+      "model_id",
+      "revision",
+      "profile",
+      "software_version",
+      "exported_at",
+      "snapshot_sha256"
+    ],
+    "audit_chain_valid": true,
+    "browser_console_errors": 0,
+    "browser_console_warnings": 0
+  },
+  "screenshots": [
+    "output/playwright/csi-ui-reused.png",
+    "output/playwright/csi-ui-original-values.png",
+    "output/playwright/csi-ui-source-provenance.png"
+  ],
+  "limitations": [
+    "Synthetic mock endpoint; no CSI software or license involved.",
+    "No real client engineering model or approved standard used."
+  ]
+}

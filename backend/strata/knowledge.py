@@ -328,6 +328,19 @@ def check_coverage(retrieval_result, required_check_ids):
             if rule["id"] in seen and seen[rule["id"]] != rule:
                 raise ValueError("Coverage contains conflicting approved rules")
             seen[rule["id"]] = rule
+        # The registered calculation tools do not combine separate executable
+        # parameter packages for one check. Selecting the first ranked rule
+        # would silently discard another approved requirement. Supplemental
+        # clauses must be represented in one reviewed package, or a new tool
+        # must explicitly implement and validate aggregation.
+        ambiguous = {
+            check: sorted(rule["id"] for rule in seen.values() if check in rule["check_ids"])
+            for check in required
+        }
+        ambiguous = {check: ids for check, ids in ambiguous.items() if len(ids) > 1}
+        if ambiguous:
+            raise ValueError("Multiple approved executable rules cover one required check; rule aggregation is not registered: " +
+                             "; ".join(check + "=" + ",".join(ids) for check, ids in sorted(ambiguous.items())))
         available = {check for rule in found for check in rule["check_ids"]}
         covered = [check for check in required if check in available]
         missing = [check for check in required if check not in available]

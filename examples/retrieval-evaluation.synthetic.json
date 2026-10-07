@@ -1,0 +1,516 @@
+{
+  "schema": "strata-retrieval-evaluation/1",
+  "material_type": "synthetic",
+  "truth": "Hand-authored retrieval expectations, not generated from retrieve. No customer standard, client QA rule, or engineering accuracy claim.",
+  "candidate": {
+    "id": "unapproved-synonym-expansion",
+    "synonyms": {
+      "floor": "storey",
+      "weight": "mass",
+      "earthquake": "seismic",
+      "dead": "permanent"
+    }
+  },
+  "corpus": [
+    {
+      "id": "SYN-LOAD",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Storey permanent load allocation",
+      "text": "Synthetic retrieval test document. Compare storey pressure allocation against separately supplied reference values.",
+      "locator": "synthetic-retrieval.txt#SYN-LOAD",
+      "task_ids": [
+        "gravity-distribution"
+      ],
+      "check_ids": [
+        "QA-003"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    },
+    {
+      "id": "SYN-BAL",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Gravity reaction equilibrium",
+      "text": "Synthetic retrieval test document. Compare foundation reaction discrepancy against an independent resultant.",
+      "locator": "synthetic-retrieval.txt#SYN-BAL",
+      "task_ids": [
+        "gravity-balance"
+      ],
+      "check_ids": [
+        "QA-005"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    },
+    {
+      "id": "SYN-MASS",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Mass source origin",
+      "text": "Synthetic retrieval test document. Check the independently declared mass origin and source configuration.",
+      "locator": "synthetic-retrieval.txt#SYN-MASS",
+      "task_ids": [
+        "mass-source"
+      ],
+      "check_ids": [
+        "MASS-SOURCE"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    },
+    {
+      "id": "SYN-SEISM",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Seismic setup configuration",
+      "text": "Synthetic retrieval test document. Use the declared seismic system and configuration completeness.",
+      "locator": "synthetic-retrieval.txt#SYN-SEISM",
+      "task_ids": [
+        "seismic-configuration"
+      ],
+      "check_ids": [
+        "SEISMIC"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    },
+    {
+      "id": "SYN-SHORT",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Short building displacement limit",
+      "text": "Synthetic retrieval test document. Short buildings use a synthetic declared 0.5 kN/m2 comparison; this is an artificial retrieval distractor, not a design requirement.",
+      "locator": "synthetic-retrieval.txt#SYN-SHORT",
+      "task_ids": [
+        "additional-settings"
+      ],
+      "check_ids": [
+        "SETTINGS"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00",
+      "conditions": [
+        {
+          "path": "/building/height",
+          "operator": "range",
+          "min": 0,
+          "max": 50
+        }
+      ]
+    },
+    {
+      "id": "SYN-TALL",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Tall building displacement limit",
+      "text": "Synthetic retrieval test document. Tall buildings use a synthetic declared 0.5 kN/m2 comparison; this is an artificial retrieval distractor, not a design requirement.",
+      "locator": "synthetic-retrieval.txt#SYN-TALL",
+      "task_ids": [
+        "additional-settings"
+      ],
+      "check_ids": [
+        "SETTINGS"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00",
+      "conditions": [
+        {
+          "path": "/building/height",
+          "operator": "range",
+          "min": 50.001,
+          "max": 500
+        }
+      ]
+    },
+    {
+      "id": "SYN-UNIT",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Unit conversion record",
+      "text": "Synthetic retrieval test document. Preserve original kPa and kN/m2 values and the explicit conversion path.",
+      "locator": "synthetic-retrieval.txt#SYN-UNIT",
+      "task_ids": [
+        "handoff"
+      ],
+      "check_ids": [
+        "HANDOFF"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    },
+    {
+      "id": "SYN-LOAD-OLD",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "0",
+      "title": "SYNTHETIC Storey permanent load allocation",
+      "text": "Synthetic retrieval test document. Obsolete storey pressure reference.",
+      "locator": "synthetic-retrieval.txt#SYN-LOAD-OLD",
+      "task_ids": [
+        "gravity-distribution"
+      ],
+      "check_ids": [
+        "QA-003"
+      ],
+      "status": "retired",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    },
+    {
+      "id": "SYN-LOAD-DRAFT",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Storey permanent load allocation",
+      "text": "Synthetic retrieval test document. Unapproved pressure allocation reference.",
+      "locator": "synthetic-retrieval.txt#SYN-LOAD-DRAFT",
+      "task_ids": [
+        "gravity-distribution"
+      ],
+      "check_ids": [
+        "QA-003"
+      ],
+      "status": "draft",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": null,
+      "approved_at": null
+    },
+    {
+      "id": "SYN-SECRET",
+      "project_id": "OTHER-PROJECT",
+      "version": "1",
+      "title": "SYNTHETIC Storey permanent load allocation",
+      "text": "Synthetic retrieval test document. Pressure allocation private to a different project.",
+      "locator": "synthetic-retrieval.txt#SYN-SECRET",
+      "task_ids": [
+        "gravity-distribution"
+      ],
+      "check_ids": [
+        "QA-003"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    },
+    {
+      "id": "SYN-PROVENANCE",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "version": "1",
+      "title": "SYNTHETIC Source verification",
+      "text": "Synthetic retrieval test document. Missing file hash and locator require evidence review.",
+      "locator": "synthetic-retrieval.txt#SYN-PROVENANCE",
+      "task_ids": [
+        "handoff"
+      ],
+      "check_ids": [
+        "SOURCE-CHECK"
+      ],
+      "status": "approved",
+      "authority": "synthetic",
+      "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "approved_by": "synthetic-author",
+      "approved_at": "2026-10-07T09:00:00+11:00"
+    }
+  ],
+  "queries": [
+    {
+      "case_id": "DEV-01",
+      "split": "development",
+      "query": "storey pressure allocation",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-LOAD"
+    },
+    {
+      "case_id": "DEV-02",
+      "split": "development",
+      "query": "floor",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-LOAD"
+    },
+    {
+      "case_id": "DEV-03",
+      "split": "development",
+      "query": "weight",
+      "task_id": "mass-source",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-MASS"
+    },
+    {
+      "case_id": "DEV-04",
+      "split": "development",
+      "query": "earthquake",
+      "task_id": "seismic-configuration",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-SEISM"
+    },
+    {
+      "case_id": "DEV-05",
+      "split": "development",
+      "query": "QA-003",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-LOAD",
+      "required_check_ids": [
+        "QA-003"
+      ]
+    },
+    {
+      "case_id": "DEV-06",
+      "split": "development",
+      "query": "displacement 0.5 kN/m2",
+      "task_id": "additional-settings",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-SHORT",
+      "context": {
+        "building": {
+          "height": 20
+        }
+      }
+    },
+    {
+      "case_id": "DEV-07",
+      "split": "development",
+      "query": "displacement 0.5 kN/m2",
+      "task_id": "additional-settings",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-TALL",
+      "context": {
+        "building": {
+          "height": 100
+        }
+      }
+    },
+    {
+      "case_id": "DEV-08",
+      "split": "development",
+      "query": "displacement 0.5 kN/m2",
+      "task_id": "additional-settings",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": null,
+      "context": {}
+    },
+    {
+      "case_id": "DEV-09",
+      "split": "development",
+      "query": "source verification",
+      "task_id": "handoff",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-PROVENANCE"
+    },
+    {
+      "case_id": "DEV-10",
+      "split": "development",
+      "query": "dead battery",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": null
+    },
+    {
+      "case_id": "DEV-11",
+      "split": "development",
+      "query": "random weather forecast",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": null
+    },
+    {
+      "case_id": "DEV-12",
+      "split": "development",
+      "query": "unit conversion",
+      "task_id": "handoff",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-UNIT"
+    },
+    {
+      "case_id": "HOLD-01",
+      "split": "holdout",
+      "query": "storey allocation reference",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-LOAD"
+    },
+    {
+      "case_id": "HOLD-02",
+      "split": "holdout",
+      "query": "weight configuration origin",
+      "task_id": "mass-source",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-MASS"
+    },
+    {
+      "case_id": "HOLD-03",
+      "split": "holdout",
+      "query": "earthquake configuration completeness",
+      "task_id": "seismic-configuration",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-SEISM"
+    },
+    {
+      "case_id": "HOLD-04",
+      "split": "holdout",
+      "query": "foundation reaction discrepancy",
+      "task_id": "gravity-balance",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-BAL"
+    },
+    {
+      "case_id": "HOLD-05",
+      "split": "holdout",
+      "query": "displacement 0.5 kPa",
+      "task_id": "additional-settings",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-SHORT",
+      "context": {
+        "building": {
+          "height": 50
+        }
+      }
+    },
+    {
+      "case_id": "HOLD-06",
+      "split": "holdout",
+      "query": "displacement 0.5 kPa",
+      "task_id": "additional-settings",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-TALL",
+      "context": {
+        "building": {
+          "height": 80
+        }
+      }
+    },
+    {
+      "case_id": "HOLD-07",
+      "split": "holdout",
+      "query": "displacement 0.5 kPa",
+      "task_id": "additional-settings",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": null,
+      "context": {
+        "building": {
+          "height": null
+        }
+      }
+    },
+    {
+      "case_id": "HOLD-08",
+      "split": "holdout",
+      "query": "dead smartphone",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": null
+    },
+    {
+      "case_id": "HOLD-09",
+      "split": "holdout",
+      "query": "QA-003-EXTRA",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": null
+    },
+    {
+      "case_id": "HOLD-10",
+      "split": "holdout",
+      "query": "QA-003",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-LOAD-OLD",
+      "mutations": [
+        {
+          "id": "SYN-LOAD",
+          "status": "retired"
+        },
+        {
+          "id": "SYN-LOAD-OLD",
+          "status": "approved",
+          "version": "2"
+        }
+      ],
+      "expected_version": "2"
+    },
+    {
+      "case_id": "HOLD-11",
+      "split": "holdout",
+      "query": "QA-003",
+      "task_id": "gravity-distribution",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": null,
+      "add_rules": [
+        {
+          "id": "SYN-LOAD",
+          "project_id": "SYNTHETIC-RETRIEVAL",
+          "version": "2",
+          "title": "SYNTHETIC Storey reference conflict",
+          "text": "Synthetic retrieval test document. A different approved version of the same record.",
+          "locator": "synthetic-retrieval.txt#SYN-LOAD",
+          "task_ids": [
+            "gravity-distribution"
+          ],
+          "check_ids": [
+            "QA-003"
+          ],
+          "status": "approved",
+          "authority": "synthetic",
+          "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "approved_by": "synthetic-author",
+          "approved_at": "2026-10-07T09:00:00+11:00"
+        }
+      ]
+    },
+    {
+      "case_id": "HOLD-12",
+      "split": "holdout",
+      "query": "SOURCE-CHECK HANDOFF",
+      "task_id": "handoff",
+      "project_id": "SYNTHETIC-RETRIEVAL",
+      "expected_top": "SYN-PROVENANCE",
+      "expected_rule_ids": [
+        "SYN-PROVENANCE",
+        "SYN-UNIT"
+      ],
+      "required_check_ids": [
+        "SOURCE-CHECK",
+        "HANDOFF"
+      ]
+    }
+  ],
+  "experimental_protocol": {
+    "development_changes_after_initial_smoke": {
+      "DEV-02": "floor",
+      "DEV-03": "weight",
+      "DEV-04": "earthquake"
+    },
+    "reason": "Initial development queries included shared words that hid lexical-only misses; remove only those shared development words to expose the intended synonym stress.",
+    "holdout_modified_after_observation": false,
+    "candidate_changed_after_observation": false,
+    "holdout_now_observed": true
+  }
+}

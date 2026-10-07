@@ -23,10 +23,11 @@ COPY --chown=strata:strata backend/strata /app/backend/strata
 COPY --chown=strata:strata web /app/web
 COPY --chown=strata:strata dist /app/dist
 COPY --chown=strata:strata scripts /app/scripts
+COPY --chown=strata:strata examples /app/examples
 COPY --chown=strata:strata docs/*evaluation*.json /app/docs/
 # .js files imported by the Node bridge are ES modules.
 COPY --chown=strata:strata package.json /app/package.json
-RUN mkdir /app/.runtime && chown strata:strata /app/.runtime && chmod 700 /app/.runtime
+RUN mkdir /app/.runtime /backups && chown strata:strata /app/.runtime /backups && chmod 700 /app/.runtime /backups
 
 USER 10001:10001
 EXPOSE 4180

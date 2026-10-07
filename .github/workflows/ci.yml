@@ -49,4 +49,4 @@ jobs:
       - name: Controlled validation fixtures
         run: npm run validate
       - name: Backend and backup regressions
-        run: python -m pytest backend/tests tests/test_backup.py -q
+        run: python -m pytest backend/tests tests -q

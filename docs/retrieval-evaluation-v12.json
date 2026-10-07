@@ -1,0 +1,880 @@
+{
+  "material_type": "synthetic",
+  "baseline_version": "lexical-bm25-1.0.0",
+  "candidate": {
+    "id": "unapproved-synonym-expansion",
+    "synonyms": {
+      "floor": "storey",
+      "weight": "mass",
+      "earthquake": "seismic",
+      "dead": "permanent"
+    }
+  },
+  "experimental_protocol": {
+    "development_changes_after_initial_smoke": {
+      "DEV-02": "floor",
+      "DEV-03": "weight",
+      "DEV-04": "earthquake"
+    },
+    "reason": "Initial development queries included shared words that hid lexical-only misses; remove only those shared development words to expose the intended synonym stress.",
+    "holdout_modified_after_observation": false,
+    "candidate_changed_after_observation": false,
+    "holdout_now_observed": true
+  },
+  "summaries": [
+    {
+      "split": "development",
+      "method": "bm25",
+      "cases": 12,
+      "matched": 9,
+      "positive_top1_hits": 6,
+      "positive_cases": 9,
+      "negative_correct_rejections": 3,
+      "negative_cases": 3,
+      "unsupported_matches": 0,
+      "median_ms": 0.098
+    },
+    {
+      "split": "development",
+      "method": "candidate-synonyms",
+      "cases": 12,
+      "matched": 11,
+      "positive_top1_hits": 9,
+      "positive_cases": 9,
+      "negative_correct_rejections": 2,
+      "negative_cases": 3,
+      "unsupported_matches": 1,
+      "median_ms": 0.067
+    },
+    {
+      "split": "holdout",
+      "method": "bm25",
+      "cases": 12,
+      "matched": 12,
+      "positive_top1_hits": 8,
+      "positive_cases": 8,
+      "negative_correct_rejections": 4,
+      "negative_cases": 4,
+      "unsupported_matches": 0,
+      "median_ms": 0.056
+    },
+    {
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "cases": 12,
+      "matched": 11,
+      "positive_top1_hits": 8,
+      "positive_cases": 8,
+      "negative_correct_rejections": 3,
+      "negative_cases": 4,
+      "unsupported_matches": 1,
+      "median_ms": 0.055
+    }
+  ],
+  "rows": [
+    {
+      "case_id": "DEV-01",
+      "split": "development",
+      "method": "bm25",
+      "query": "storey pressure allocation",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.253
+    },
+    {
+      "case_id": "DEV-01",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "storey pressure allocation",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.089
+    },
+    {
+      "case_id": "DEV-02",
+      "split": "development",
+      "method": "bm25",
+      "query": "floor",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": false,
+      "unsupported_match": false,
+      "elapsed_ms": 0.056
+    },
+    {
+      "case_id": "DEV-02",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "floor",
+      "expanded_terms": [
+        "storey"
+      ],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.135
+    },
+    {
+      "case_id": "DEV-03",
+      "split": "development",
+      "method": "bm25",
+      "query": "weight",
+      "expanded_terms": [],
+      "expected_top": "SYN-MASS",
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": false,
+      "unsupported_match": false,
+      "elapsed_ms": 0.125
+    },
+    {
+      "case_id": "DEV-03",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "weight",
+      "expanded_terms": [
+        "mass"
+      ],
+      "expected_top": "SYN-MASS",
+      "actual_rule_ids": [
+        "SYN-MASS"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.066
+    },
+    {
+      "case_id": "DEV-04",
+      "split": "development",
+      "method": "bm25",
+      "query": "earthquake",
+      "expanded_terms": [],
+      "expected_top": "SYN-SEISM",
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": false,
+      "unsupported_match": false,
+      "elapsed_ms": 0.099
+    },
+    {
+      "case_id": "DEV-04",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "earthquake",
+      "expanded_terms": [
+        "seismic"
+      ],
+      "expected_top": "SYN-SEISM",
+      "actual_rule_ids": [
+        "SYN-SEISM"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.057
+    },
+    {
+      "case_id": "DEV-05",
+      "split": "development",
+      "method": "bm25",
+      "query": "QA-003",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": {
+        "status": "FOUND",
+        "covered_check_ids": [
+          "QA-003"
+        ],
+        "missing_check_ids": [],
+        "rule_ids": [
+          "SYN-LOAD"
+        ],
+        "reason": "All required checks have declared approved rule coverage; source and execution gates still apply"
+      },
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.053
+    },
+    {
+      "case_id": "DEV-05",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "QA-003",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": {
+        "status": "FOUND",
+        "covered_check_ids": [
+          "QA-003"
+        ],
+        "missing_check_ids": [],
+        "rule_ids": [
+          "SYN-LOAD"
+        ],
+        "reason": "All required checks have declared approved rule coverage; source and execution gates still apply"
+      },
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.05
+    },
+    {
+      "case_id": "DEV-06",
+      "split": "development",
+      "method": "bm25",
+      "query": "displacement 0.5 kN/m2",
+      "expanded_terms": [],
+      "expected_top": "SYN-SHORT",
+      "actual_rule_ids": [
+        "SYN-SHORT"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.137
+    },
+    {
+      "case_id": "DEV-06",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "displacement 0.5 kN/m2",
+      "expanded_terms": [],
+      "expected_top": "SYN-SHORT",
+      "actual_rule_ids": [
+        "SYN-SHORT"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.068
+    },
+    {
+      "case_id": "DEV-07",
+      "split": "development",
+      "method": "bm25",
+      "query": "displacement 0.5 kN/m2",
+      "expanded_terms": [],
+      "expected_top": "SYN-TALL",
+      "actual_rule_ids": [
+        "SYN-TALL"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.098
+    },
+    {
+      "case_id": "DEV-07",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "displacement 0.5 kN/m2",
+      "expanded_terms": [],
+      "expected_top": "SYN-TALL",
+      "actual_rule_ids": [
+        "SYN-TALL"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.066
+    },
+    {
+      "case_id": "DEV-08",
+      "split": "development",
+      "method": "bm25",
+      "query": "displacement 0.5 kN/m2",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.011
+    },
+    {
+      "case_id": "DEV-08",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "displacement 0.5 kN/m2",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.01
+    },
+    {
+      "case_id": "DEV-09",
+      "split": "development",
+      "method": "bm25",
+      "query": "source verification",
+      "expanded_terms": [],
+      "expected_top": "SYN-PROVENANCE",
+      "actual_rule_ids": [
+        "SYN-PROVENANCE"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.204
+    },
+    {
+      "case_id": "DEV-09",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "source verification",
+      "expanded_terms": [],
+      "expected_top": "SYN-PROVENANCE",
+      "actual_rule_ids": [
+        "SYN-PROVENANCE"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.09
+    },
+    {
+      "case_id": "DEV-10",
+      "split": "development",
+      "method": "bm25",
+      "query": "dead battery",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.05
+    },
+    {
+      "case_id": "DEV-10",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "dead battery",
+      "expanded_terms": [
+        "permanent"
+      ],
+      "expected_top": null,
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": false,
+      "unsupported_match": true,
+      "elapsed_ms": 0.067
+    },
+    {
+      "case_id": "DEV-11",
+      "split": "development",
+      "method": "bm25",
+      "query": "random weather forecast",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.049
+    },
+    {
+      "case_id": "DEV-11",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "random weather forecast",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.048
+    },
+    {
+      "case_id": "DEV-12",
+      "split": "development",
+      "method": "bm25",
+      "query": "unit conversion",
+      "expanded_terms": [],
+      "expected_top": "SYN-UNIT",
+      "actual_rule_ids": [
+        "SYN-UNIT"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.08
+    },
+    {
+      "case_id": "DEV-12",
+      "split": "development",
+      "method": "candidate-synonyms",
+      "query": "unit conversion",
+      "expanded_terms": [],
+      "expected_top": "SYN-UNIT",
+      "actual_rule_ids": [
+        "SYN-UNIT"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.074
+    },
+    {
+      "case_id": "HOLD-01",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "storey allocation reference",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.053
+    },
+    {
+      "case_id": "HOLD-01",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "storey allocation reference",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD",
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.051
+    },
+    {
+      "case_id": "HOLD-02",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "weight configuration origin",
+      "expanded_terms": [],
+      "expected_top": "SYN-MASS",
+      "actual_rule_ids": [
+        "SYN-MASS"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.049
+    },
+    {
+      "case_id": "HOLD-02",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "weight configuration origin",
+      "expanded_terms": [
+        "mass"
+      ],
+      "expected_top": "SYN-MASS",
+      "actual_rule_ids": [
+        "SYN-MASS"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.048
+    },
+    {
+      "case_id": "HOLD-03",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "earthquake configuration completeness",
+      "expanded_terms": [],
+      "expected_top": "SYN-SEISM",
+      "actual_rule_ids": [
+        "SYN-SEISM"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.056
+    },
+    {
+      "case_id": "HOLD-03",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "earthquake configuration completeness",
+      "expanded_terms": [
+        "seismic"
+      ],
+      "expected_top": "SYN-SEISM",
+      "actual_rule_ids": [
+        "SYN-SEISM"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.061
+    },
+    {
+      "case_id": "HOLD-04",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "foundation reaction discrepancy",
+      "expanded_terms": [],
+      "expected_top": "SYN-BAL",
+      "actual_rule_ids": [
+        "SYN-BAL"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.122
+    },
+    {
+      "case_id": "HOLD-04",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "foundation reaction discrepancy",
+      "expanded_terms": [],
+      "expected_top": "SYN-BAL",
+      "actual_rule_ids": [
+        "SYN-BAL"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.062
+    },
+    {
+      "case_id": "HOLD-05",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "displacement 0.5 kPa",
+      "expanded_terms": [],
+      "expected_top": "SYN-SHORT",
+      "actual_rule_ids": [
+        "SYN-SHORT"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.062
+    },
+    {
+      "case_id": "HOLD-05",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "displacement 0.5 kPa",
+      "expanded_terms": [],
+      "expected_top": "SYN-SHORT",
+      "actual_rule_ids": [
+        "SYN-SHORT"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.059
+    },
+    {
+      "case_id": "HOLD-06",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "displacement 0.5 kPa",
+      "expanded_terms": [],
+      "expected_top": "SYN-TALL",
+      "actual_rule_ids": [
+        "SYN-TALL"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.061
+    },
+    {
+      "case_id": "HOLD-06",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "displacement 0.5 kPa",
+      "expanded_terms": [],
+      "expected_top": "SYN-TALL",
+      "actual_rule_ids": [
+        "SYN-TALL"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.061
+    },
+    {
+      "case_id": "HOLD-07",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "displacement 0.5 kPa",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.012
+    },
+    {
+      "case_id": "HOLD-07",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "displacement 0.5 kPa",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.011
+    },
+    {
+      "case_id": "HOLD-08",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "dead smartphone",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.048
+    },
+    {
+      "case_id": "HOLD-08",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "dead smartphone",
+      "expanded_terms": [
+        "permanent"
+      ],
+      "expected_top": null,
+      "actual_rule_ids": [
+        "SYN-LOAD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": false,
+      "unsupported_match": true,
+      "elapsed_ms": 0.055
+    },
+    {
+      "case_id": "HOLD-09",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "QA-003-EXTRA",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.049
+    },
+    {
+      "case_id": "HOLD-09",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "QA-003-EXTRA",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.046
+    },
+    {
+      "case_id": "HOLD-10",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "QA-003",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD-OLD",
+      "actual_rule_ids": [
+        "SYN-LOAD-OLD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.087
+    },
+    {
+      "case_id": "HOLD-10",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "QA-003",
+      "expanded_terms": [],
+      "expected_top": "SYN-LOAD-OLD",
+      "actual_rule_ids": [
+        "SYN-LOAD-OLD"
+      ],
+      "status": "FOUND",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.055
+    },
+    {
+      "case_id": "HOLD-11",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "QA-003",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.044
+    },
+    {
+      "case_id": "HOLD-11",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "QA-003",
+      "expanded_terms": [],
+      "expected_top": null,
+      "actual_rule_ids": [],
+      "status": "NOT VERIFIED",
+      "coverage": null,
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.041
+    },
+    {
+      "case_id": "HOLD-12",
+      "split": "holdout",
+      "method": "bm25",
+      "query": "SOURCE-CHECK HANDOFF",
+      "expanded_terms": [],
+      "expected_top": "SYN-PROVENANCE",
+      "actual_rule_ids": [
+        "SYN-PROVENANCE",
+        "SYN-UNIT"
+      ],
+      "status": "FOUND",
+      "coverage": {
+        "status": "FOUND",
+        "covered_check_ids": [
+          "SOURCE-CHECK",
+          "HANDOFF"
+        ],
+        "missing_check_ids": [],
+        "rule_ids": [
+          "SYN-PROVENANCE",
+          "SYN-UNIT"
+        ],
+        "reason": "All required checks have declared approved rule coverage; source and execution gates still apply"
+      },
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.084
+    },
+    {
+      "case_id": "HOLD-12",
+      "split": "holdout",
+      "method": "candidate-synonyms",
+      "query": "SOURCE-CHECK HANDOFF",
+      "expanded_terms": [],
+      "expected_top": "SYN-PROVENANCE",
+      "actual_rule_ids": [
+        "SYN-PROVENANCE",
+        "SYN-UNIT"
+      ],
+      "status": "FOUND",
+      "coverage": {
+        "status": "FOUND",
+        "covered_check_ids": [
+          "SOURCE-CHECK",
+          "HANDOFF"
+        ],
+        "missing_check_ids": [],
+        "rule_ids": [
+          "SYN-PROVENANCE",
+          "SYN-UNIT"
+        ],
+        "reason": "All required checks have declared approved rule coverage; source and execution gates still apply"
+      },
+      "matched": true,
+      "unsupported_match": false,
+      "elapsed_ms": 0.085
+    }
+  ],
+  "limitations": [
+    "Hand-authored synthetic retrieval fixture; not engineering QA accuracy.",
+    "Development and holdout labels are fixed before this single experiment; this small holdout has now been observed and must not be reused for tuning claims.",
+    "Candidate synonyms are unapproved global vocabulary. Extra lexical hits do not prove applicability.",
+    "No semantic model, embedding service, or paid API used. Production retrieval remains BM25; execution additionally uses exact registered check IDs and coverage gates."
+  ]
+}
