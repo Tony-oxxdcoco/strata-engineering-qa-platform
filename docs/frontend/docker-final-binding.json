@@ -1,0 +1,43 @@
+{
+  "schema": "strata-ui-final-docker-binding/1",
+  "version": "1.4.0",
+  "status": "PASS",
+  "image": {
+    "name": "strata-week5:1.4.0",
+    "id": "sha256:3a4f948d8b74fdf22ab0736c4a67ee8d44f78a506612475ec3bc5afa1086c9d8",
+    "os": "linux",
+    "architecture": "arm64"
+  },
+  "runtime_files": 67,
+  "runtime_hash": "9d17abb074f85d5cd14f782800f72c168c58f1c8b59a7cbb28e5a255e86c5e9c",
+  "different_from_current_source": [],
+  "changed_from_full_chain": [
+    "web/app.js",
+    "web/README.md"
+  ],
+  "full_workflow_reference": "docker-verification.json",
+  "full_workflow_reference_image": "sha256:b5aa8b7d0459331bb97cd83f269f4348aff81f12b5d8bebd5851b0ef252f5975",
+  "checks": {
+    "cached_rebuild": "PASS",
+    "all_runtime_sources": "PASS",
+    "actual_HTTP_assets": {
+      "app.js": "ecde85f4d9768749509c2a275ba6497c1ceb4d8802dc59ae368080a4047ac9d9",
+      "styles.css": "19a995bc3e90e1fe94e22a405f559bb5c0ace67cdbb19fe11494c44cd1442dc5",
+      "design-system.css": "3777be95487e68a5d8b3c9fcefd22210be2a8bba0ead0b637cb6b2dbf42b1047",
+      "ui-foundation.js": "60b298e9914c5b81dc9d77a9bec00b11d470575b0b7f55a4814f7b42b2d2ae4a",
+      "dialog-controller.js": "aa48beea4f2b559f58ce57c390c91b623590cd839f7efdf24aa3a89fc3e99dcf",
+      "ui-page-state.js": "a260520a853ad1a39abb6539319e0c7317361e0a726e752790ea3c5edb6322ff",
+      "ocr-ui.js": "570d2e2038281ac95b11bf8abe050e086a2c15838ae93e337c1759add6365430",
+      "editors.js": "9aeecee857cba64890b76ffcab49c113ab14b5f8d14a413ad50988844c58a19c",
+      "locales/en.js": "c88d6a6f62d8740a2254a0b871f896d32f98e0b6b40e23913af9aeeeaee690d8",
+      "locales/zh-CN.js": "66a1e7cc1711781d006d903c1ddb5bbba0ab2864d15f6bb30ff6c035b0290aba"
+    },
+    "base_health": "PASS",
+    "existing_three_results_and_approval_after_recreate": "PASS"
+  },
+  "scope": "Final local runtime/HTTP binding after busy-state fix and navigation README refresh. Earlier complete Docker core/persistence/recovery test remains a separate receipt; not relabeled as repeated on this image.",
+  "current_retained_results": {
+    "count": 3,
+    "review_state": "APPROVED"
+  }
+}

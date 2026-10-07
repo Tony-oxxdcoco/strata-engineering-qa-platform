@@ -1,0 +1,36 @@
+{
+  "schema": "strata-ui-fresh-install/1",
+  "version": "1.4.0",
+  "platform": "macOS arm64 Python3.12 Node24",
+  "status": "PASS",
+  "candidate_archive_sha256": "9e77d3facff89d95bb1a49df0fe90c7db0ba4b31daca2fa84bc131df936b03bb",
+  "scope": "Fresh extracted runtime equivalent to final 67-file runtime. Publication docs/screenshot receipt packaging checked separately after commit. Actual setup installs declared dependencies; real localhost process, API-created synthetic fixtures, one manual backend check/review/report and HTTP asset checks. Not another full browser or engineering benchmark.",
+  "checks": {
+    "empty_before_setup": true,
+    "new_venv_and_pip_check": "PASS",
+    "start_actual_4200_process": "PASS",
+    "own_bootstrap_project": "PASS",
+    "synthetic_manual_PASS": "PASS",
+    "software_review_and_HTML_report": "PASS",
+    "runtime_files_equal": 67,
+    "HTTP_assets": {
+      "app.js": "PASS",
+      "styles.css": "PASS",
+      "design-system.css": "PASS",
+      "ui-foundation.js": "PASS",
+      "dialog-controller.js": "PASS",
+      "ui-page-state.js": "PASS",
+      "editors.js": "PASS",
+      "ocr-ui.js": "PASS",
+      "locales/en.js": "PASS",
+      "locales/zh-CN.js": "PASS"
+    },
+    "temporary_4200_server_stopped": true
+  },
+  "not_verified": [
+    "Native Windows/Linux installer",
+    "Real customer engineering",
+    "Optional model/OCR paths on this clean native install"
+  ],
+  "shutdown_observation": "Owned server stopped by tool Ctrl+C; Uvicorn lifespan emitted a cancellation traceback. This is not recorded as a clean-shutdown validation."
+}

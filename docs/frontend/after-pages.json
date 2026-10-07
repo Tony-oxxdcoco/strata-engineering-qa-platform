@@ -1,0 +1,162 @@
+[
+  {
+    "view": "workspace",
+    "language": "en",
+    "heading": "Check workspace",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-workspace-en-desktop.png"
+  },
+  {
+    "view": "knowledge",
+    "language": "en",
+    "heading": "Rules & evidence",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-knowledge-en-desktop.png"
+  },
+  {
+    "view": "review",
+    "language": "en",
+    "heading": "Findings & review",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-review-en-desktop.png"
+  },
+  {
+    "view": "versions",
+    "language": "en",
+    "heading": "Source revisions",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-versions-en-desktop.png"
+  },
+  {
+    "view": "audit",
+    "language": "en",
+    "heading": "Audit trail",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-audit-en-desktop.png"
+  },
+  {
+    "view": "team",
+    "language": "en",
+    "heading": "Team & access",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-team-en-desktop.png"
+  },
+  {
+    "view": "validation",
+    "language": "en",
+    "heading": "Inspect the evidence.",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-validation-en-desktop.png"
+  },
+  {
+    "view": "adaptation",
+    "language": "en",
+    "heading": "Data adaptation",
+    "lang": "en",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-adaptation-en-desktop.png"
+  },
+  {
+    "view": "workspace",
+    "language": "zh-CN",
+    "heading": "检查工作台",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-workspace-zh-CN-desktop.png"
+  },
+  {
+    "view": "knowledge",
+    "language": "zh-CN",
+    "heading": "规则与依据",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-knowledge-zh-CN-desktop.png"
+  },
+  {
+    "view": "review",
+    "language": "zh-CN",
+    "heading": "问题与复核",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-review-zh-CN-desktop.png"
+  },
+  {
+    "view": "versions",
+    "language": "zh-CN",
+    "heading": "资料版本",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-versions-zh-CN-desktop.png"
+  },
+  {
+    "view": "audit",
+    "language": "zh-CN",
+    "heading": "审计记录",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-audit-zh-CN-desktop.png"
+  },
+  {
+    "view": "team",
+    "language": "zh-CN",
+    "heading": "团队与权限",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-team-zh-CN-desktop.png"
+  },
+  {
+    "view": "validation",
+    "language": "zh-CN",
+    "heading": "检查验证依据。",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-validation-zh-CN-desktop.png"
+  },
+  {
+    "view": "adaptation",
+    "language": "zh-CN",
+    "heading": "资料适配",
+    "lang": "zh-CN",
+    "width": 1440,
+    "documentWidth": 1440,
+    "missingKeys": [],
+    "screenshot": "output/playwright/ui-v14/after/page-adaptation-zh-CN-desktop.png"
+  }
+]

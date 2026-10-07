@@ -1,0 +1,242 @@
+{
+  "schema": "strata-ui-baseline/1",
+  "source_commit": "d0df3b0",
+  "source_directory": "/private/tmp/strata-ui-v14-baseline-20261007",
+  "version": "1.3.0",
+  "url": "http://127.0.0.1:4197",
+  "data_type": "synthetic",
+  "preparation": {
+    "schema": "strata-week5-preparation/1",
+    "version": "1.3.0",
+    "mode": "primary",
+    "material_type": "synthetic",
+    "project_id": "project_59c0729ab590046a5e106255",
+    "project_name": "SYNTHETIC P144 Week 5 LIVE START",
+    "snapshots": {
+      "pass": "snapshot_3968e7826eacd944c7e7084f",
+      "fail": "snapshot_0c52d58101797668122bf6c2",
+      "missing": "snapshot_4ddd9c5fe46ba2f20f9c6f19"
+    },
+    "files": {
+      "pass": "file_e16818d04039fc534b6610f8",
+      "fail": "file_70181c09a16cc9121562c10f",
+      "missing": "file_9e454bd27eb16259c57b04c5",
+      "repair": "file_ce2e938b2e5c82048f093f72",
+      "reference": "file_cd045d1fae10c2bdd5de53c3"
+    },
+    "adapter_id": "adapter_e51cfa11fa985f23d50a8b6c",
+    "rule_id": "rule_e32621416b45e59ac48b35c1",
+    "rule_status": "draft",
+    "cases": [
+      "case_2f8fafdd6476418f6fd45b87",
+      "case_ea649a048d4a92239569a6fe",
+      "case_0e659454ce3add71a8451052"
+    ],
+    "runs_precomputed": 0,
+    "model_live": false,
+    "scope": "The reference-only CSV preview is incomplete for a combination check. Live start contains no prior engineering results. Review approval is for software test use only."
+  },
+  "evaluation": {
+    "id": "evaluation_556b0de2b99584d8ba4b7d6f",
+    "created_at": "2026-10-07T11:57:52.950425+00:00",
+    "state": "COMPLETED",
+    "progress": {
+      "finished": 3,
+      "total": 3
+    },
+    "summary": {
+      "total": 3,
+      "matched": 3,
+      "false_pass_cases": 0,
+      "expected_nonpass_cases": 2,
+      "invalid_cases": 0,
+      "findings": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 1,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      }
+    },
+    "items": [
+      {
+        "case_id": "W5-PASS",
+        "version": "1",
+        "title": "SYNTHETIC W5-PASS",
+        "authority": "synthetic",
+        "run_id": "run_d31729ff5559b7c21745ba5f",
+        "expected": "PASS",
+        "actual": "PASS",
+        "state": "COMPLETED",
+        "matched": true,
+        "false_pass_case": false,
+        "invalid_reasons": [],
+        "counts": {
+          "missed_issues": 0,
+          "false_alarms": 0,
+          "false_pass": 0,
+          "insufficient_evidence": 0,
+          "numeric_mismatches": 0,
+          "missing_findings": 0,
+          "unexpected_findings": 0
+        },
+        "items": [
+          {
+            "key": "C1",
+            "expected": "PASS",
+            "actual": "PASS",
+            "matched": true,
+            "numbers": [
+              {
+                "absolute_tolerance": 0,
+                "path": "/details/0/expected",
+                "relative_tolerance": 0,
+                "value": 195,
+                "actual": 195,
+                "tolerance": 0,
+                "matched": true
+              },
+              {
+                "absolute_tolerance": 0,
+                "path": "/details/0/actual",
+                "relative_tolerance": 0,
+                "value": 195,
+                "actual": 195,
+                "tolerance": 0,
+                "matched": true
+              },
+              {
+                "absolute_tolerance": 1e-12,
+                "path": "/details/0/tolerance",
+                "relative_tolerance": 0,
+                "value": 1.95,
+                "actual": 1.95,
+                "tolerance": 1e-12,
+                "matched": true
+              }
+            ]
+          }
+        ],
+        "unexpected_items": [],
+        "truth": {
+          "author": "STRATA controlled fixture author",
+          "basis": "Hand-written before running STRATA: 1.2*100+1.5*50=195; closed tolerance max(1,0.01*195)=1.95. 195 is within [193.05,196.95]; 210 exceeds it by 15. Missing independent LIVE cannot be calculated. Test material only, not engineer acceptance.",
+          "independent": true
+        },
+        "oracle_sha256": "973c1e8e640cd2f384182024731612cdf04029e7b5867844bcd821f78619d5c7",
+        "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+      },
+      {
+        "case_id": "W5-FAIL",
+        "version": "1",
+        "title": "SYNTHETIC W5-FAIL",
+        "authority": "synthetic",
+        "run_id": "run_c871fc279db8120ea1dfcd6e",
+        "expected": "FAIL",
+        "actual": "FAIL",
+        "state": "COMPLETED",
+        "matched": true,
+        "false_pass_case": false,
+        "invalid_reasons": [],
+        "counts": {
+          "missed_issues": 0,
+          "false_alarms": 0,
+          "false_pass": 0,
+          "insufficient_evidence": 0,
+          "numeric_mismatches": 0,
+          "missing_findings": 0,
+          "unexpected_findings": 0
+        },
+        "items": [
+          {
+            "key": "C1",
+            "expected": "FAIL",
+            "actual": "FAIL",
+            "matched": true,
+            "numbers": [
+              {
+                "absolute_tolerance": 0,
+                "path": "/details/0/expected",
+                "relative_tolerance": 0,
+                "value": 195,
+                "actual": 195,
+                "tolerance": 0,
+                "matched": true
+              },
+              {
+                "absolute_tolerance": 0,
+                "path": "/details/0/actual",
+                "relative_tolerance": 0,
+                "value": 210,
+                "actual": 210,
+                "tolerance": 0,
+                "matched": true
+              },
+              {
+                "absolute_tolerance": 1e-12,
+                "path": "/details/0/tolerance",
+                "relative_tolerance": 0,
+                "value": 1.95,
+                "actual": 1.95,
+                "tolerance": 1e-12,
+                "matched": true
+              }
+            ]
+          }
+        ],
+        "unexpected_items": [],
+        "truth": {
+          "author": "STRATA controlled fixture author",
+          "basis": "Hand-written before running STRATA: 1.2*100+1.5*50=195; closed tolerance max(1,0.01*195)=1.95. 195 is within [193.05,196.95]; 210 exceeds it by 15. Missing independent LIVE cannot be calculated. Test material only, not engineer acceptance.",
+          "independent": true
+        },
+        "oracle_sha256": "847e4c8370de9077dc0e13ae184bcca3abb8dd427ac74120e53d5d9e1e9e208c",
+        "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+      },
+      {
+        "case_id": "W5-MISSING",
+        "version": "1",
+        "title": "SYNTHETIC W5-MISSING",
+        "authority": "synthetic",
+        "run_id": "run_c91508d1238a7f45f5d70048",
+        "expected": "NOT VERIFIED",
+        "actual": "NOT VERIFIED",
+        "state": "WAITING",
+        "matched": true,
+        "false_pass_case": false,
+        "invalid_reasons": [],
+        "counts": {
+          "missed_issues": 0,
+          "false_alarms": 0,
+          "false_pass": 0,
+          "insufficient_evidence": 1,
+          "numeric_mismatches": 0,
+          "missing_findings": 0,
+          "unexpected_findings": 0
+        },
+        "items": [
+          {
+            "key": "C1",
+            "expected": "NOT VERIFIED",
+            "actual": "NOT VERIFIED",
+            "matched": true,
+            "numbers": []
+          }
+        ],
+        "unexpected_items": [],
+        "truth": {
+          "author": "STRATA controlled fixture author",
+          "basis": "Hand-written before running STRATA: 1.2*100+1.5*50=195; closed tolerance max(1,0.01*195)=1.95. 195 is within [193.05,196.95]; 210 exceeds it by 15. Missing independent LIVE cannot be calculated. Test material only, not engineer acceptance.",
+          "independent": true
+        },
+        "oracle_sha256": "38477800dd9c721ab6c479b6639cdc074816445854c1f307afb238d8d7afd6e4",
+        "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+      }
+    ],
+    "scope": "Declared independent oracles. Synthetic cases are software tests; client technical validation is still required."
+  },
+  "empty_project_id": "project_ace2a88695f2cc65932f63a4",
+  "paid_model_calls": 0
+}

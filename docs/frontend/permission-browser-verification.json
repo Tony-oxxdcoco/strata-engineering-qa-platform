@@ -1,0 +1,48 @@
+{
+  "scope": "SYNTHETIC Docker local permission presentation verification; existing calculations read only",
+  "recorded_at": "2026-10-07T12:54:54.645198+00:00",
+  "version": "1.4.0",
+  "url": "http://127.0.0.1:4196",
+  "browser_session": "ui-v14-permissions",
+  "method": "Real Playwright CLI browser, separate session; owner public API created a synthetic non-admin viewer, then changed only this membership to engineer. No engineering operation or review was submitted.",
+  "served_app_sha256": "ecde85f4d9768749509c2a275ba6497c1ceb4d8802dc59ae368080a4047ac9d9",
+  "checks": {
+    "viewer_readonly_notice_visible": true,
+    "viewer_upload_disabled_with_button_permission_reason": true,
+    "viewer_engineering_run_disabled_with_global_readonly_reason": true,
+    "viewer_new_rule_disabled_with_button_permission_reason": true,
+    "viewer_rule_retirement_disabled_with_reviewer_reason": true,
+    "engineer_role_after_owner_membership_update_and_browser_reload": true,
+    "engineer_upload_entry_enabled": true,
+    "engineer_engineering_check_entry_enabled": true,
+    "engineer_existing_pass_run_review_form_visible": true,
+    "engineer_confirm_review_disabled": true,
+    "engineer_request_evidence_review_submission_disabled": true,
+    "engineer_reviewer_role_reason_visible_en": true,
+    "engineer_reviewer_role_reason_visible_zh_CN": true,
+    "engineer_language_switch_keeps_review_form_and_internal_PASS": true,
+    "source_app_matches_live_served_app": true,
+    "existing_runs_count_unchanged": true,
+    "existing_rules_count_unchanged": true
+  },
+  "observations": {
+    "viewer_run_button_tooltip": "empty; reason was provided by the visible global read-only notice",
+    "viewer_rule_approval_control": "not rendered because the existing rule is already approved",
+    "engineer_review_button_tooltips": "empty; reviewer reason visible within review form",
+    "engineer_review_decision_values": [
+      "approve",
+      "request_evidence"
+    ],
+    "project_runs_before": 3,
+    "project_runs_after": 3,
+    "project_rules_before": 1,
+    "project_rules_after": 1
+  },
+  "unverified": [
+    "Viewer draft-rule approve button: no draft rule existed in this selected project; no rule was created or changed for this test.",
+    "Viewer permission notice in Chinese.",
+    "Actual denied HTTP mutations, task-time revocation and reviewer successful submission are outside this added browser presentation check; do not infer them from DOM-disabled controls."
+  ],
+  "private_data": "Random password and exact account login remain only in excluded mode-600 private helper file; no account login, token, database or file contents in this receipt.",
+  "pass": true
+}

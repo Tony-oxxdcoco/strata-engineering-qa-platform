@@ -1,0 +1,70 @@
+{
+  "schema": "strata-ui-week5-presentation/1",
+  "version": "1.4.0",
+  "status": "PASS",
+  "artifacts": {
+    "docs/week5/WEEK5_DEMO.pptx": "7a22d22c5f851f77d00d5ce9f8c39f3fa18a5e970a3669da53da8d155d7347a4",
+    "docs/week5/WEEK5_DEMO.pdf": "7a79d11d73e74eddcf0cdce1e5748903acfd726d1ce4b84e913d3e8834454744",
+    "docs/week5/screenshots/ui-v14-workspace-pass.png": "7cf4bbd68a2521ab0ff42e51b7272ce58bb49e02d6c1c4afe3e5cfda4d0c1aed"
+  },
+  "slides": 8,
+  "main_slides": 6,
+  "backup_slides": 2,
+  "notes_present": 8,
+  "timing": {
+    "member_seconds": [
+      105,
+      75,
+      130,
+      130,
+      130,
+      135
+    ],
+    "intro_seconds": 60,
+    "design_seconds": 120,
+    "live_seconds": 525,
+    "total_seconds": 705,
+    "reserve_seconds": 15,
+    "notes_and_scripts_same_budget": true,
+    "team_spoken_rehearsal": "NOT PERFORMED"
+  },
+  "package_integrity": {
+    "chart_count": 0,
+    "claim_boundary": "Structural package checks only; no slide text, notes, formulas, chart values, or native PowerPoint execution were inspected.",
+    "finding_count": 0,
+    "findings": [],
+    "notes_parts_skipped": 8,
+    "relationship_part_count": 21,
+    "slide_count": 8,
+    "status": "pass"
+  },
+  "geometry": {
+    "finding_count": 0,
+    "findings": [],
+    "slide_count": 8,
+    "slide_size_in": [
+      13.3333,
+      7.5
+    ],
+    "warning_count": 0,
+    "warnings": []
+  },
+  "rendering": {
+    "renderer": "Local limited PPTX XML renderer with ReportLab and embedded Arial",
+    "text_fit_issues": [],
+    "original_eight_pages_visual_check": "PASS",
+    "final_changed_page_5_visual_check": "PASS",
+    "native_powerpoint_verified": false
+  },
+  "screenshot_provenance": {
+    "origin": "Actual Chromium Docker localhost4196, final 1.4.0 image",
+    "file": "output/playwright/ui-v14/after/docker-4196-workspace-final-viewport.png",
+    "viewport": [
+      1440,
+      960
+    ],
+    "data_type": "synthetic",
+    "pre_recorded": true
+  },
+  "scope": "Only affected slide screenshot, version/footer and runtime binding note updated. All notes kept their timing and client/engineering boundaries; old 1.3 JSON receipts retained as history."
+}

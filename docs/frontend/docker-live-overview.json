@@ -1,0 +1,29 @@
+{
+  "schema": "strata-ui-docker-overview/1",
+  "version": "1.4.0",
+  "url": "http://127.0.0.1:4196",
+  "project_id": "project_0aac4d258d951107dfe5a01e",
+  "data_type": "synthetic",
+  "model_enabled": false,
+  "overview_runs": 3,
+  "case_summary": {
+    "total": 3,
+    "matched": 3,
+    "false_pass_cases": 0,
+    "expected_nonpass_cases": 2,
+    "invalid_cases": 0,
+    "findings": {
+      "missed_issues": 0,
+      "false_alarms": 0,
+      "false_pass": 0,
+      "insufficient_evidence": 1,
+      "numeric_mismatches": 0,
+      "missing_findings": 0,
+      "unexpected_findings": 0
+    }
+  },
+  "pass_run_id": "run_7eff2991bece51545080c0c3",
+  "review_state": "APPROVED",
+  "starting_checkpoint": "prepared",
+  "scope": "Recorded overview uses existing synthetic fixtures, not new engineering accuracy evidence. Setup corrected its completed-batch and dashboard envelope assumptions without rerunning checks."
+}

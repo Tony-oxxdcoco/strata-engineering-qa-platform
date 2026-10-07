@@ -1,0 +1,76 @@
+{
+  "schema": "strata-ui-focused-supplement/1",
+  "verified_at_utc": "2026-10-07T13:03:58.186354+00:00",
+  "version": "1.4.0",
+  "initial_receipt": {
+    "path": "output/ui-upgrade/browser-verification-initial.json",
+    "sha256": "f4e74989cc9a0feda3a9846cce5cb8a80b29bc627255f0189ac9b17af00be11b",
+    "unchanged_prior_evidence": true
+  },
+  "language_application_tab_reopen": {
+    "origin": "http://127.0.0.1:4197",
+    "selected": "zh-CN",
+    "pressed": "true",
+    "passed": true,
+    "scope": "closed application tab and opened a new tab in same browser context; not browser-process restart",
+    "artifacts": [
+      "language-reopen-selected-cli.txt",
+      "language-reopen-verified-cli.txt"
+    ],
+    "browser_process_restart": "NOT RUN"
+  },
+  "mapping_complete_value_viewer": {
+    "raw_value": "SYNTHETIC_REFERENCE_ONLY_original_reference_source_original_reference_source_original_reference_source_original_reference_source_no_engineering_snapshot.csv · csv · 2 · Case",
+    "complete_text": "SYNTHETIC_REFERENCE_ONLY_original_reference_source_original_reference_source_original_reference_source_original_reference_source_no_engineering_snapshot.csv · csv · 2 · Case",
+    "complete_text_unchanged": true,
+    "complete_text_visible": true,
+    "main_dialog_open_while_viewer": true,
+    "original_form_same_node": true,
+    "selected_source_unchanged": true,
+    "selected_file_id": "file_951a11c9fcca5fb6368c1dc5",
+    "create_snapshot_button_retained_and_enabled": true,
+    "preview_retained": true,
+    "passed": true,
+    "additional_snapshots": 0,
+    "additional_runs": 0,
+    "artifacts": [
+      "complete-value-preview-cli.txt",
+      "complete-value-verified-cli.txt",
+      "complete-value-after-close.md"
+    ],
+    "original_source": "examples/week5/reference-base-responses.synthetic.csv",
+    "output_fixture": "output/ui-upgrade/fixtures/SYNTHETIC_REFERENCE_ONLY_original_reference_source_original_reference_source_original_reference_source_original_reference_source_no_engineering_snapshot.csv",
+    "filename_length": 156,
+    "bytes": 98,
+    "source_sha256": "13d87d4305f3927cfe6868132367f7d2745a484278f17abfb71af645710a718d",
+    "fixture_sha256": "13d87d4305f3927cfe6868132367f7d2745a484278f17abfb71af645710a718d",
+    "scope": "One source-only upload, existing saved reference-only adapter; full raw text equality and retained same-node form/selection/preview/Create control. No snapshot saved and no engineering check run. Fixture remains output only and is not a new benchmark."
+  },
+  "retained_completion": {
+    "native_completed_state_retained": true,
+    "review_state": "APPROVED",
+    "saved_run_suffix": "c70bd545",
+    "new_engineering_snapshots": 0,
+    "new_engineering_runs": 0
+  },
+  "initial_filename_validation": {
+    "status": "EXPECTED_REJECTION",
+    "initial_filename_length": 208,
+    "allowed_source_filename_length": 180,
+    "visible_error": "Import failed: Use a simple filename without directories",
+    "retry_filename_length": 156,
+    "retry": "PASS",
+    "source_location": "backend/strata/app.py:add_file",
+    "artifacts": [
+      "complete-value-uploaded-cli.txt",
+      "complete-value-uploaded-corrected-cli.txt"
+    ],
+    "scope": "Initial over-limit fixture was rejected and did not store a source. No backend constraints were changed."
+  },
+  "remaining_not_verified": [
+    "Browser-process closure/restart language persistence (ordinary application tab reopen passed).",
+    "Exact duplicate-request HTTP count and late-response fault injection from earlier incomplete harnesses.",
+    "Full mobile upload/correction/review chain.",
+    "Other original not-verified scopes unless independently verified by separate root evidence."
+  ]
+}

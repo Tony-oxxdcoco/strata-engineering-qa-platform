@@ -1,0 +1,120 @@
+{
+  "schema": "strata-ui-baseline-browser/1",
+  "status": "CAPTURED",
+  "source_commit": "d0df3b0",
+  "source_directory": "/private/tmp/strata-ui-v14-baseline-20261007",
+  "url": "http://127.0.0.1:4197",
+  "session": "ui-v14",
+  "synthetic_only": true,
+  "desktop_viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "mobile_viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "screenshots": [
+    {
+      "path": "output/playwright/ui-v14/before/01-workspace-en-desktop.png",
+      "sha256": "1b2e1476a54367d4c508150f2e38cf3dfbd673f5e02286b9e4a87344d06a7ef2",
+      "bytes": 199528
+    },
+    {
+      "path": "output/playwright/ui-v14/before/02-pass-review-en-desktop.png",
+      "sha256": "b1d49107f0ec45f8da6819d0db6edd6931bd1ef704c359ff8c01846068fe266d",
+      "bytes": 214065
+    },
+    {
+      "path": "output/playwright/ui-v14/before/03-source-evidence-en-desktop.png",
+      "sha256": "647c666bb6f649e2cf2043229d261c8e2a695a16df06115aff1bde5b41a519ac",
+      "bytes": 241472
+    },
+    {
+      "path": "output/playwright/ui-v14/before/04-knowledge-en-desktop.png",
+      "sha256": "a52dfaca5b23785b6533ba00d22f7ef31f2ad7200e0f351e03b3fd610626e5fd",
+      "bytes": 225828
+    },
+    {
+      "path": "output/playwright/ui-v14/before/05-adaptation-en-desktop.png",
+      "sha256": "28ddd3b38a04f7ccadaede0b53079cc9869e26cf25579f3c2672ae39bf75d779",
+      "bytes": 173711
+    },
+    {
+      "path": "output/playwright/ui-v14/before/06-adapter-modal-en-desktop.png",
+      "sha256": "600e5a734749e82d55d318762fd8ff3c754c53fc6a8f66fb281929ecaa2d3e95",
+      "bytes": 169612
+    },
+    {
+      "path": "output/playwright/ui-v14/before/07-adapter-modal-en-mobile.png",
+      "sha256": "03081194ca994ecfa862b7bb14c2e88eda18292ab1a863c3890a0ea23a7d693b",
+      "bytes": 43122
+    },
+    {
+      "path": "output/playwright/ui-v14/before/08-adapter-modal-zh-mobile.png",
+      "sha256": "c5b8927ef8436d4c7377237d0f26524f1a295f324767da2020e67848157b7aca",
+      "bytes": 44029
+    },
+    {
+      "path": "output/playwright/ui-v14/before/09-workspace-zh-mobile.png",
+      "sha256": "1b57b743151198d1016339b5f0281653706a7235a3a464fbcbb2543b80faaecf",
+      "bytes": 203092
+    },
+    {
+      "path": "output/playwright/ui-v14/before/10-workspace-en-mobile.png",
+      "sha256": "fc3659c57e722ef0741a36cd642fae0d0b21a7c9adbb0d7cbfe1e104ad13efc6",
+      "bytes": 202045
+    },
+    {
+      "path": "output/playwright/ui-v14/before/11-upload-modal-en-desktop.png",
+      "sha256": "135273d0c0d9e608cf5a30a3d4f8c05590fcf0f8f15abf003d6547b8a9d36cb7",
+      "bytes": 208878
+    },
+    {
+      "path": "output/playwright/ui-v14/before/12-empty-project-en-desktop.png",
+      "sha256": "49ada8d296b5cbd71feea4df8478e7cbe12b54bf274fc5d95f2ef73b66b2a068",
+      "bytes": 176933
+    },
+    {
+      "path": "output/playwright/ui-v14/before/13-fail-review-en-desktop.png",
+      "sha256": "160766c5c353ed793c55cc2216784cb3d097cc7df87614014bf9eed3a546e8bc",
+      "bytes": 221194
+    },
+    {
+      "path": "output/playwright/ui-v14/before/14-missing-review-en-desktop.png",
+      "sha256": "ab332e6255a893f806f5627a66bbcb8b6e41e88281f55d8430d8207665c32ccd",
+      "bytes": 244531
+    },
+    {
+      "path": "output/playwright/ui-v14/before/15-workspace-pass-en-desktop.png",
+      "sha256": "6b3d9e79fe3b4b38b965a7751041c3452bc3969cab1cd09198bd5b43a967f964",
+      "bytes": 247139
+    },
+    {
+      "path": "output/playwright/ui-v14/before/16-workspace-pass-en-viewport.png",
+      "sha256": "1bf87a0e58069917f32488c4c206f144a47b8e3a515147dc2c9d7cdad57e122a",
+      "bytes": 168953
+    }
+  ],
+  "actual_evaluation": "output/ui-upgrade/baseline-data.json",
+  "observations": [
+    "Current PASS run is UNREVIEWED; historical FAIL and NOT VERIFIED runs correctly show stale dependencies against active PASS snapshot.",
+    "Mobile document/body scroll width 390px; run table extends within local overflow container to403px.",
+    "Mobile sidebar requires drawer toggle; old references were refreshed after DOM rerender.",
+    "Desktop adapter modal is vertically scrollable; unsaved dialog was cancelled.",
+    "Canonical PASS/FAIL/NOT VERIFIED review and Workspace PASS screenshots were captured after explicit scrollTo(0,0), with an additional 1440×960 Workspace viewport."
+  ],
+  "limits": [
+    "Synthetic fixtures and software verification only, no client engineering acceptance.",
+    "Screenshots do not prove every permission or error state.",
+    "Before source is immutable; shared upgrade may change independently."
+  ],
+  "credentials_excluded": true,
+  "recoverable_checkpoint": {
+    "name": "before-ui-upgrade",
+    "path": "output/ui-upgrade/environment/checkpoints/before-ui-upgrade",
+    "database_sha256": "867d1108242764c2b91aa6959d8d191e056135d24a174d3fd1e728e87074a099",
+    "blob_count": 6,
+    "private_not_for_distribution": true
+  }
+}

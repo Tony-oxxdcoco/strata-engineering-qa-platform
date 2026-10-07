@@ -1,0 +1,566 @@
+{
+  "schema": "strata-frontend-browser-verification/1",
+  "version": "1.4.0",
+  "status": "PASS_WITH_EXPLICIT_UNVERIFIED_SCOPE",
+  "date": "2026-10-07",
+  "baseline_commit": "d0df3b0",
+  "browser": "Playwright CLI headed Chromium; isolated ui-v14 session",
+  "synthetic_only": true,
+  "engineer_acceptance": false,
+  "model_live": false,
+  "paid_api_calls": 0,
+  "environment": {
+    "native": "http://127.0.0.1:4197",
+    "docker": "http://127.0.0.1:4196",
+    "original_4180_and_docker4193": "untouched by this UI validation",
+    "native_completed_state_retained": true,
+    "prepared_checkpoint_retained": true,
+    "credentials_runtime_checkpoint": "private and excluded from sharing/packages"
+  },
+  "source_binding": {
+    "paths": [
+      {
+        "path": "web/app.js",
+        "sha256": "ecde85f4d9768749509c2a275ba6497c1ceb4d8802dc59ae368080a4047ac9d9",
+        "bytes": 117911
+      },
+      {
+        "path": "web/styles.css",
+        "sha256": "19a995bc3e90e1fe94e22a405f559bb5c0ace67cdbb19fe11494c44cd1442dc5",
+        "bytes": 24798
+      },
+      {
+        "path": "web/design-system.css",
+        "sha256": "3777be95487e68a5d8b3c9fcefd22210be2a8bba0ead0b637cb6b2dbf42b1047",
+        "bytes": 9137
+      },
+      {
+        "path": "web/ui-foundation.js",
+        "sha256": "60b298e9914c5b81dc9d77a9bec00b11d470575b0b7f55a4814f7b42b2d2ae4a",
+        "bytes": 20893
+      },
+      {
+        "path": "web/dialog-controller.js",
+        "sha256": "aa48beea4f2b559f58ce57c390c91b623590cd839f7efdf24aa3a89fc3e99dcf",
+        "bytes": 6096
+      },
+      {
+        "path": "web/ui-page-state.js",
+        "sha256": "a260520a853ad1a39abb6539319e0c7317361e0a726e752790ea3c5edb6322ff",
+        "bytes": 4612
+      },
+      {
+        "path": "web/locales/en.js",
+        "sha256": "c88d6a6f62d8740a2254a0b871f896d32f98e0b6b40e23913af9aeeeaee690d8",
+        "bytes": 106323
+      },
+      {
+        "path": "web/locales/zh-CN.js",
+        "sha256": "66a1e7cc1711781d006d903c1ddb5bbba0ab2864d15f6bb30ff6c035b0290aba",
+        "bytes": 102587
+      }
+    ],
+    "docker_receipt": "docs/frontend/docker-final-binding.json",
+    "docker_image_id": "sha256:3a4f948d8b74fdf22ab0736c4a67ee8d44f78a506612475ec3bc5afa1086c9d8",
+    "docker_runtime_hash": "9d17abb074f85d5cd14f782800f72c168c58f1c8b59a7cbb28e5a255e86c5e9c"
+  },
+  "full_desktop_user_flow": {
+    "status": "PASS",
+    "project": "SYNTHETIC UI final 4197",
+    "steps": [
+      {
+        "step": "Create project",
+        "status": "PASS",
+        "evidence": "Normal visible Create project form; SYNTHETIC UI final4197."
+      },
+      {
+        "step": "Import reusable adapter",
+        "status": "PASS",
+        "evidence": "Adaptation Import profile; reference-only N to kN adapter."
+      },
+      {
+        "step": "Upload raw CSV",
+        "status": "PASS",
+        "evidence": "Visible file upload; original100000/50000N retained."
+      },
+      {
+        "step": "Inline preview and snapshot",
+        "status": "PASS",
+        "evidence": "Preview maps100/50kN in same dialog; Create snapshot remains available."
+      },
+      {
+        "step": "Import draft rules and approve",
+        "status": "PASS",
+        "evidence": "Visible rule package import, observed draft, then permitted reviewer approval for synthetic software test use."
+      },
+      {
+        "step": "PASS195 check",
+        "status": "PASS",
+        "evidence": "Normal workspace selection and actual deterministic worker;195kN expected and observed."
+      },
+      {
+        "step": "FAIL210 check",
+        "status": "PASS",
+        "evidence": "Actual deterministic FAIL; independent195kN benchmark."
+      },
+      {
+        "step": "Missing LIVE check",
+        "status": "PASS",
+        "evidence": "Actual NOT VERIFIED; explicit /baseCases / LIVE request."
+      },
+      {
+        "step": "Field correction",
+        "status": "PASS",
+        "evidence": "Original210 retained;195 new confirmed value creates revision with source and reason."
+      },
+      {
+        "step": "Linked recheck",
+        "status": "PASS",
+        "evidence": "Follow-up from original FAIL creates corrected PASS."
+      },
+      {
+        "step": "Blocking-finding review gate",
+        "status": "PASS",
+        "evidence": "Actual409 refused premature confirmation until original lineage finding resolved."
+      },
+      {
+        "step": "Resolve finding and review",
+        "status": "PASS",
+        "evidence": "Visible Manage finding, linked resolution, reviewer Confirm review records APPROVED."
+      },
+      {
+        "step": "Export JSON and HTML preview",
+        "status": "PASS",
+        "evidence": "Actual browser download and report popup containing REVIEWED SOFTWARE RECORD and195; no API substitute for UI review."
+      },
+      {
+        "step": "Project isolation",
+        "status": "PASS",
+        "evidence": "Empty project has no foreign adapter/case/run; complete project reopened retains APPROVED."
+      }
+    ],
+    "artifacts": [
+      "final-rule-pass-cli.txt",
+      "final-pass.md",
+      "final-three-checks.json",
+      "final-missing.md",
+      "busy-modal-fixed-cli.txt",
+      "final-correction-resume-cli.txt",
+      "final-resolve-review-export-cli.txt",
+      "final-reviewed.md",
+      "final-reviewed-report.json",
+      "final-reviewed-report.html",
+      "final-html-preview.json",
+      "project-isolation-cli.txt"
+    ],
+    "final_run": {
+      "id": "run_ae70a01d34cc8d13c70bd545",
+      "parent_run_id": "run_31fea1b932e55a374ce5cc6e",
+      "snapshot_id": "snapshot_306087769a17e200c3c1328d",
+      "status": "PASS",
+      "review_state": "APPROVED"
+    },
+    "project_isolation": {
+      "empty_project_has_no_foreign_adapter_case_or_run": true,
+      "completed_project_reopened": true,
+      "final_review_state": "APPROVED"
+    }
+  },
+  "engineering_case_scope": {
+    "source": "examples/week5; independently authored synthetic195/210/missingLIVE fixtures",
+    "baseline_evaluation_matched": 3,
+    "baseline_evaluation_total": 3,
+    "baseline_false_pass_cases": 0,
+    "claim": "These are unchanged controlled software cases, not a new accuracy metric or customer validation. Reference-only CSV supports mapping preview, not full combination calculation."
+  },
+  "layout_and_languages": {
+    "initial_desktop_pages": 16,
+    "desktop_viewport": [
+      1440,
+      960
+    ],
+    "desktop_overflow_cases": [],
+    "desktop_missing_keys": [],
+    "final_mobile_pages": 16,
+    "mobile_viewport": [
+      390,
+      844
+    ],
+    "mobile_overflow_cases": [],
+    "mobile_wrong_navigation": [],
+    "mobile_missing_keys": [],
+    "mobile_dialog_checks": [
+      {
+        "name": "Mobile dialog language preserves unsaved field",
+        "passed": true
+      },
+      {
+        "name": "Mobile dirty Escape guard",
+        "passed": true
+      },
+      {
+        "name": "Mobile Keep editing restores input focus",
+        "passed": true
+      },
+      {
+        "name": "Mobile Discard closes without saving",
+        "passed": true
+      }
+    ],
+    "evidence": [
+      "after-pages.json",
+      "mobile-probe.json"
+    ],
+    "scope": "8views ×2languages; desktop initial layout pass, mobile final source. File upload/correction chain executed on desktop, not repeated on mobile."
+  },
+  "table_and_preference": {
+    "initial_checks": [
+      {
+        "name": "Table filter narrows visible rows",
+        "passed": true,
+        "filter": "S01\nControlled gravity · clean",
+        "visible_rows": 1
+      },
+      {
+        "name": "Ascending sort exposes aria-sort",
+        "passed": true
+      },
+      {
+        "name": "Descending sort exposes aria-sort",
+        "passed": true
+      },
+      {
+        "name": "Real pagination second page",
+        "passed": true,
+        "visible_rows": 8
+      },
+      {
+        "name": "Language preserves table page",
+        "passed": true
+      },
+      {
+        "name": "Refresh preserves table filter",
+        "passed": false
+      },
+      {
+        "name": "Rows-per-page changes real visibility",
+        "passed": true
+      },
+      {
+        "name": "Language keeps page and form",
+        "passed": true
+      },
+      {
+        "name": "Language preference survives refresh",
+        "passed": true
+      }
+    ],
+    "initial_passed": 8,
+    "initial_total": 9,
+    "corrected_refresh_assertion": {
+      "name": "Refresh preserves canonical search input",
+      "before": "S01",
+      "after": "S01",
+      "passed": true,
+      "earlier_harness_issue": "Multiline table cell compared literally with single-line search input; search inputs normalize newlines"
+    },
+    "final_logical_capabilities_verified": 9,
+    "scope": "Real18row validation table; filter, ascending/descending aria-sort, page2, rows-per-page25, language retained page/filter/query, Chinese preference persisted reload. Initial bad assertion remains recorded.",
+    "evidence": [
+      "table-language-probe.json",
+      "table-refresh-canonical-cli.txt"
+    ]
+  },
+  "canonical_comparisons": {
+    "same_project": "SYNTHETIC P144 Week 5 LIVE START",
+    "same_saved_run": "run_d31729ff5559b7c21745ba5f",
+    "pairs": [
+      {
+        "viewport": [
+          1440,
+          960
+        ],
+        "before": {
+          "path": "output/playwright/ui-v14/before/16-workspace-pass-en-viewport.png",
+          "sha256": "1bf87a0e58069917f32488c4c206f144a47b8e3a515147dc2c9d7cdad57e122a",
+          "bytes": 168953
+        },
+        "after": {
+          "path": "output/playwright/ui-v14/after/16-workspace-pass-en-viewport.png",
+          "sha256": "fdb3fb004cb9d05a445063c89241fe44eb183b76539f38ccc4fec2ce32f8ff56",
+          "bytes": 182630
+        }
+      },
+      {
+        "viewport": [
+          1440,
+          960
+        ],
+        "before": {
+          "path": "output/playwright/ui-v14/before/04-knowledge-en-desktop.png",
+          "sha256": "a52dfaca5b23785b6533ba00d22f7ef31f2ad7200e0f351e03b3fd610626e5fd",
+          "bytes": 225828
+        },
+        "after": {
+          "path": "output/playwright/ui-v14/after/04-knowledge-en-desktop.png",
+          "sha256": "37c92646c9e3e520737d1188f368575a955c720603a2c1a498e3b4cba124346f",
+          "bytes": 273162
+        }
+      },
+      {
+        "viewport": [
+          1440,
+          960
+        ],
+        "before": {
+          "path": "output/playwright/ui-v14/before/05-adaptation-en-desktop.png",
+          "sha256": "28ddd3b38a04f7ccadaede0b53079cc9869e26cf25579f3c2672ae39bf75d779",
+          "bytes": 173711
+        },
+        "after": {
+          "path": "output/playwright/ui-v14/after/page-adaptation-en-desktop.png",
+          "sha256": "0b7f74be5278e1029e51918afaa256ad013a42fa292c909eb613836e9d36e566",
+          "bytes": 206326
+        }
+      },
+      {
+        "viewport": [
+          390,
+          844
+        ],
+        "before": {
+          "path": "output/playwright/ui-v14/before/09-workspace-zh-mobile.png",
+          "sha256": "1b57b743151198d1016339b5f0281653706a7235a3a464fbcbb2543b80faaecf",
+          "bytes": 203092
+        },
+        "after": {
+          "path": "output/playwright/ui-v14/after/09-workspace-zh-mobile.png",
+          "sha256": "b85cd92b597888a9e628006dae859c385166a54606e0f4e26ab955d6ae47f994",
+          "bytes": 281358
+        }
+      }
+    ],
+    "before_preserved": true
+  },
+  "docker_final_UI": {
+    "status": "PASS",
+    "health": {
+      "status": "ok",
+      "version": "1.4.0",
+      "workflow": "server-workflow-1.2",
+      "storage": "server",
+      "worker": true,
+      "tasks": {
+        "gravity-full": "All six gravity QA checks: uniqueness, coverage, distribution, totals, reactions and evidence",
+        "gravity-distribution": "Floor-by-floor gravity load assignment against independent area and intensity",
+        "gravity-balance": "Independent vertical support reaction balance",
+        "load-combination": "Recalculate numerical linear static combination responses from independent base responses",
+        "combination-configuration": "Check required load combinations, cases and factors against an approved configuration",
+        "handoff": "Compare ETABS source and SAFE target with an approved transfer manifest",
+        "seismic-configuration": "Check explicitly supplied seismic settings against an approved checklist",
+        "mass-source": "Check mass source settings against an approved checklist",
+        "additional-settings": "Check other explicit model settings against an approved checklist"
+      },
+      "week5_instance": "c0db8e8166cd4c23b91ca30be9d4d2f7"
+    },
+    "viewport": {
+      "origin": "http://127.0.0.1:4196",
+      "selected_saved_run_suffix": "5080c0c3",
+      "reviewed_pass_visible": true,
+      "synthetic_boundary_visible": true,
+      "viewport": {
+        "width": 1440,
+        "height": 960,
+        "documentWidth": 1440
+      },
+      "additional_engineering_runs": 0
+    },
+    "screenshot": {
+      "path": "output/playwright/ui-v14/after/docker-4196-workspace-final-viewport.png",
+      "sha256": "7cf4bbd68a2521ab0ff42e51b7272ce58bb49e02d6c1c4afe3e5cfda4d0c1aed",
+      "bytes": 182732
+    },
+    "report_browser_download": true,
+    "export": {
+      "path": "output/ui-upgrade/docker-final-reviewed-report.json",
+      "sha256": "da8f72e4c525c3c5f52ee8380289d51382b1f68712cb479aa79d3bceb957e1e2",
+      "bytes": 6549
+    },
+    "saved_run": {
+      "id": "run_7eff2991bece51545080c0c3",
+      "status": "PASS",
+      "review_state": "APPROVED"
+    },
+    "additional_engineering_runs": 0,
+    "scope": "Final bound image real render, stored PASS195/APPROVED, visible synthetic boundary, JSON download. Complete Docker build/persistence/restore evidence is root separate receipt."
+  },
+  "failures_and_retests": [
+    {
+      "kind": "actual_app_bug_fixed",
+      "artifact": "final-correction-resume-before-fix-cli.txt",
+      "trigger": "Make current then immediate Inspect input left existing modal Correct a field disabled after busy completed.",
+      "fix": "Root updated withBusy finally to enhance the open modal after state.busy=false.",
+      "retest": "busy-modal-fixed-cli.txt",
+      "passed": true
+    },
+    {
+      "kind": "expected_server_guard",
+      "artifact": "final-correction-resume-cli.txt",
+      "status": 409,
+      "reason": "Unresolved blocking finding in linked run lineage prevents confirmation.",
+      "continuation": "final-resolve-review-export-cli.txt records visible resolution, APPROVED and JSON download."
+    },
+    {
+      "kind": "fault_injection_harness_incomplete",
+      "artifacts": [
+        "dialog-probe-cli.txt",
+        "dialog-probe-corrected-cli.txt",
+        "dialog-probe-fetch-cli.txt"
+      ],
+      "observed": "Route already handled twice, then ambiguous Close/Cancel locator.",
+      "scope": "Partial pending/dirty/focus observations only. No final exact duplicate HTTP count or late-response assertion.",
+      "restoration": "Temporary fetch restored in finally; route removed; normal flow completed."
+    },
+    {
+      "kind": "harness_selector_error",
+      "artifacts": [
+        "flow-run-review-export-cli.txt",
+        "final-csv-inline-preview-cli.txt",
+        "docker-final-viewport-cli.txt"
+      ],
+      "reason": "Obsolete task/preview/text selectors; failed assertions retained.",
+      "continuation": "Fresh snapshots and current selectors used for actual full GUI chain and final Docker structured cards."
+    },
+    {
+      "kind": "harness_expectation_error",
+      "artifact": "table-language-probe.json",
+      "reason": "Multiline table text compared literally against single-line search input after normalization.",
+      "retest": "table-refresh-canonical-cli.txt",
+      "passed": true
+    },
+    {
+      "kind": "screenshot_tool_timeout",
+      "artifact": "busy-modal-reproduction-cli.txt",
+      "reason": "An intermediate screenshot timed out30sec; subsequent script steps did not execute.",
+      "continuation": "Functional chain completed separately; final canonical screenshots succeeded."
+    },
+    {
+      "kind": "old_browser_pointer_anomaly",
+      "artifacts": [
+        "table-structure-latest-cli.txt",
+        "table-structure-success-cli.txt",
+        "sidebar-pointer-diagnostic-cli.txt"
+      ],
+      "reason": "After HTML popup lifecycle, old headed session reported pointer intercept/misdirected clicks despite elementFromPoint matching expected target.",
+      "continuation": "Closed and reopened own ui-v14 browser only; fresh normal navigation and16mobile page clicks passed. Not reproduced in fresh session; no claimed CSS fix."
+    },
+    {
+      "kind": "diagnostic_endpoint_error",
+      "artifacts": [
+        "docker-final-report-cli.txt",
+        "docker-final-health-cli.txt"
+      ],
+      "reason": "Initial diagnostic requests used unsupported /health and /api/health routes and returned404.",
+      "continuation": "Exact source route /api/v1/health returned200, version1.4.0; docker-final-health-source-cli.txt."
+    }
+  ],
+  "not_verified_by_this_browser_task": [
+    "Exact final duplicate-request count and late-response fault-injection assertions; harness failed and stopped.",
+    "Viewer/engineer permissions with account switching; separate independent parent agent evidence.",
+    "Complete upload/correction/review flow on mobile; mobile navigation, layout, dirty/focus and bilingual pages passed.",
+    "Customer rules/data, real CSI integration, paid API/LLM operation, OCR recognition accuracy, structural engineering acceptance.",
+    "Language preference after browser-process closure/restart; actual application-tab close/new-tab reopen and reload persistence passed."
+  ],
+  "delivery_safety": "No original account, database, uploads or secrets changed by this task; synthetic private credentials and runtime are ignored output only. Screenshots and JSON receipts contain synthetic records only.",
+  "supplemental_verification": {
+    "schema": "strata-ui-focused-supplement/1",
+    "verified_at_utc": "2026-10-07T13:03:58.186354+00:00",
+    "version": "1.4.0",
+    "initial_receipt": {
+      "path": "output/ui-upgrade/browser-verification-initial.json",
+      "sha256": "f4e74989cc9a0feda3a9846cce5cb8a80b29bc627255f0189ac9b17af00be11b",
+      "unchanged_prior_evidence": true
+    },
+    "language_application_tab_reopen": {
+      "origin": "http://127.0.0.1:4197",
+      "selected": "zh-CN",
+      "pressed": "true",
+      "passed": true,
+      "scope": "closed application tab and opened a new tab in same browser context; not browser-process restart",
+      "artifacts": [
+        "language-reopen-selected-cli.txt",
+        "language-reopen-verified-cli.txt"
+      ],
+      "browser_process_restart": "NOT RUN"
+    },
+    "mapping_complete_value_viewer": {
+      "raw_value": "SYNTHETIC_REFERENCE_ONLY_original_reference_source_original_reference_source_original_reference_source_original_reference_source_no_engineering_snapshot.csv · csv · 2 · Case",
+      "complete_text": "SYNTHETIC_REFERENCE_ONLY_original_reference_source_original_reference_source_original_reference_source_original_reference_source_no_engineering_snapshot.csv · csv · 2 · Case",
+      "complete_text_unchanged": true,
+      "complete_text_visible": true,
+      "main_dialog_open_while_viewer": true,
+      "original_form_same_node": true,
+      "selected_source_unchanged": true,
+      "selected_file_id": "file_951a11c9fcca5fb6368c1dc5",
+      "create_snapshot_button_retained_and_enabled": true,
+      "preview_retained": true,
+      "passed": true,
+      "additional_snapshots": 0,
+      "additional_runs": 0,
+      "artifacts": [
+        "complete-value-preview-cli.txt",
+        "complete-value-verified-cli.txt",
+        "complete-value-after-close.md"
+      ],
+      "original_source": "examples/week5/reference-base-responses.synthetic.csv",
+      "output_fixture": "output/ui-upgrade/fixtures/SYNTHETIC_REFERENCE_ONLY_original_reference_source_original_reference_source_original_reference_source_original_reference_source_no_engineering_snapshot.csv",
+      "filename_length": 156,
+      "bytes": 98,
+      "source_sha256": "13d87d4305f3927cfe6868132367f7d2745a484278f17abfb71af645710a718d",
+      "fixture_sha256": "13d87d4305f3927cfe6868132367f7d2745a484278f17abfb71af645710a718d",
+      "scope": "One source-only upload, existing saved reference-only adapter; full raw text equality and retained same-node form/selection/preview/Create control. No snapshot saved and no engineering check run. Fixture remains output only and is not a new benchmark."
+    },
+    "retained_completion": {
+      "native_completed_state_retained": true,
+      "review_state": "APPROVED",
+      "saved_run_suffix": "c70bd545",
+      "new_engineering_snapshots": 0,
+      "new_engineering_runs": 0
+    },
+    "initial_filename_validation": {
+      "status": "EXPECTED_REJECTION",
+      "initial_filename_length": 208,
+      "allowed_source_filename_length": 180,
+      "visible_error": "Import failed: Use a simple filename without directories",
+      "retry_filename_length": 156,
+      "retry": "PASS",
+      "source_location": "backend/strata/app.py:add_file",
+      "artifacts": [
+        "complete-value-uploaded-cli.txt",
+        "complete-value-uploaded-corrected-cli.txt"
+      ],
+      "scope": "Initial over-limit fixture was rejected and did not store a source. No backend constraints were changed."
+    },
+    "remaining_not_verified": [
+      "Browser-process closure/restart language persistence (ordinary application tab reopen passed).",
+      "Exact duplicate-request HTTP count and late-response fault injection from earlier incomplete harnesses.",
+      "Full mobile upload/correction/review chain.",
+      "Other original not-verified scopes unless independently verified by separate root evidence."
+    ]
+  },
+  "not_verified_history": {
+    "at_initial_receipt": [
+      "Exact final duplicate-request count and late-response fault-injection assertions; harness failed and stopped.",
+      "Complete-value viewer inside mapping modal preserving form; not separately exercised.",
+      "Language preference after browser closure/reopen; actual reload persistence passed.",
+      "Viewer/engineer permissions with account switching; separate independent parent agent evidence.",
+      "Complete upload/correction/review flow on mobile; mobile navigation, layout, dirty/focus and bilingual pages passed.",
+      "Customer rules/data, real CSI integration, paid API/LLM operation, OCR recognition accuracy, structural engineering acceptance."
+    ],
+    "superseded_only": [
+      "Complete-value viewer inside mapping modal preserving form; now separately exercised in this supplement.",
+      "Ordinary same-browser application tab reopen language preference; now passed; browser-process restart still untested."
+    ],
+    "all_fault_injection_unverified_records_retained": true
+  }
+}

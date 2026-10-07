@@ -1,0 +1,32 @@
+{
+  "status": "PARTIALLY_VERIFIED",
+  "synthetic_only": true,
+  "observed_steps": [
+    "Create project focuses first required input",
+    "Language toggle preserves unsaved project name",
+    "Escape on dirty form shows Keep editing / Discard changes",
+    "Keep editing returns focus to project-name input",
+    "During held real fetch response submit button and project picker were disabled"
+  ],
+  "not_completed": [
+    "Pending-close final assertion",
+    "Exact duplicate HTTP count with final receipt",
+    "Complete late-response routing probe"
+  ],
+  "harness_failures": [
+    {
+      "file": "dialog-probe-cli.txt",
+      "error": "Playwright Route is already handled"
+    },
+    {
+      "file": "dialog-probe-corrected-cli.txt",
+      "error": "Playwright Route is already handled"
+    },
+    {
+      "file": "dialog-probe-fetch-cli.txt",
+      "error": "Ambiguous Close/Cancel test locator"
+    }
+  ],
+  "harness_restoration": "Temporary browser fetch restored in finally; route pattern removed; normal browser flow resumed",
+  "engineering_metric": false
+}

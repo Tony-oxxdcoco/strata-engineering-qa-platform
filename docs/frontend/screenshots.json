@@ -1,0 +1,122 @@
+[
+  {
+    "path": "docs/frontend/screenshots/workspace-before.png",
+    "sha256": "1bf87a0e58069917f32488c4c206f144a47b8e3a515147dc2c9d7cdad57e122a",
+    "source": "output/playwright/ui-v14/before/16-workspace-pass-en-viewport.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "before"
+  },
+  {
+    "path": "docs/frontend/screenshots/workspace-after.png",
+    "sha256": "fdb3fb004cb9d05a445063c89241fe44eb183b76539f38ccc4fec2ce32f8ff56",
+    "source": "output/playwright/ui-v14/after/16-workspace-pass-en-viewport.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "after"
+  },
+  {
+    "path": "docs/frontend/screenshots/rules-before.png",
+    "sha256": "a52dfaca5b23785b6533ba00d22f7ef31f2ad7200e0f351e03b3fd610626e5fd",
+    "source": "output/playwright/ui-v14/before/04-knowledge-en-desktop.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "before"
+  },
+  {
+    "path": "docs/frontend/screenshots/rules-after.png",
+    "sha256": "37c92646c9e3e520737d1188f368575a955c720603a2c1a498e3b4cba124346f",
+    "source": "output/playwright/ui-v14/after/04-knowledge-en-desktop.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "after"
+  },
+  {
+    "path": "docs/frontend/screenshots/adaptation-before.png",
+    "sha256": "28ddd3b38a04f7ccadaede0b53079cc9869e26cf25579f3c2672ae39bf75d779",
+    "source": "output/playwright/ui-v14/before/05-adaptation-en-desktop.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "before"
+  },
+  {
+    "path": "docs/frontend/screenshots/adaptation-after.png",
+    "sha256": "0b7f74be5278e1029e51918afaa256ad013a42fa292c909eb613836e9d36e566",
+    "source": "output/playwright/ui-v14/after/page-adaptation-en-desktop.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "after"
+  },
+  {
+    "path": "docs/frontend/screenshots/mobile-zh-before.png",
+    "sha256": "1b57b743151198d1016339b5f0281653706a7235a3a464fbcbb2543b80faaecf",
+    "source": "output/playwright/ui-v14/before/09-workspace-zh-mobile.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "before"
+  },
+  {
+    "path": "docs/frontend/screenshots/mobile-zh-after.png",
+    "sha256": "b85cd92b597888a9e628006dae859c385166a54606e0f4e26ab955d6ae47f994",
+    "source": "output/playwright/ui-v14/after/09-workspace-zh-mobile.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "after"
+  },
+  {
+    "path": "docs/frontend/screenshots/mapping-preview.png",
+    "sha256": "05b75333d914e41ddee4ba123c091c279e0dbb511d08120534666aea761d5f3f",
+    "source": "output/playwright/ui-v14/after/final-csv-inline-preview-en.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "flow",
+    "data_type": "synthetic"
+  },
+  {
+    "path": "docs/frontend/screenshots/rule-draft.png",
+    "sha256": "893668c3fd309a7d018b6da398515dd150460bd459ad0eda780d822e98c10402",
+    "source": "output/playwright/ui-v14/after/final-rule-imported-draft.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "flow",
+    "data_type": "synthetic"
+  },
+  {
+    "path": "docs/frontend/screenshots/check-pass.png",
+    "sha256": "ba3a83e9d062f321c3a2028d39eb46aa8d4602afd454534c58df4cd0bb04599e",
+    "source": "output/playwright/ui-v14/after/final-pass-workspace-en.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "flow",
+    "data_type": "synthetic"
+  },
+  {
+    "path": "docs/frontend/screenshots/check-fail.png",
+    "sha256": "5026021e807844b69d1f21f01e93a31d6e20b3c3d8878c6715dfa00b568706de",
+    "source": "output/playwright/ui-v14/after/final-fail-workspace-en.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "flow",
+    "data_type": "synthetic"
+  },
+  {
+    "path": "docs/frontend/screenshots/check-unverified.png",
+    "sha256": "65a071ae69c57ee897d9e6d463e110c94d21239449e83c7c8667b662ee33f3fe",
+    "source": "output/playwright/ui-v14/after/final-missing-workspace-en.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "flow",
+    "data_type": "synthetic"
+  },
+  {
+    "path": "docs/frontend/screenshots/review-approved.png",
+    "sha256": "b4b457485d13ad62931773e6e585a7a7bf5b82704ea924c5efcd56c10f59d6c5",
+    "source": "output/playwright/ui-v14/after/flow-final-approved-en-desktop.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "flow",
+    "data_type": "synthetic"
+  },
+  {
+    "path": "docs/frontend/screenshots/unsaved-dialog-zh.png",
+    "sha256": "f4f35f8ca92d802a46f13acacdbfa27a1746eb92efd6260e3a7fed1210760748",
+    "source": "output/playwright/ui-v14/after/dialog-unsaved-zh-desktop.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "flow",
+    "data_type": "synthetic"
+  },
+  {
+    "path": "docs/frontend/screenshots/docker-final-workspace.png",
+    "sha256": "7cf4bbd68a2521ab0ff42e51b7272ce58bb49e02d6c1c4afe3e5cfda4d0c1aed",
+    "source": "output/playwright/ui-v14/after/docker-4196-workspace-final-viewport.png",
+    "kind": "actual Chromium screenshot",
+    "phase": "Docker final 1.4.0",
+    "data_type": "synthetic"
+  }
+]

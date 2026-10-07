@@ -1,0 +1,32 @@
+{
+  "schema": "strata-ui-regression/1",
+  "version": "1.4.0",
+  "node": {
+    "command": "node scripts/test-node.mjs",
+    "passed": 223,
+    "failed": 0
+  },
+  "python": {
+    "command": ".venv/bin/python -m pytest backend/tests/test_api.py tests/test_delivery_package.py -q",
+    "passed": 22,
+    "failed": 0,
+    "warnings": [
+      "Existing Starlette/httpx deprecation warning"
+    ]
+  },
+  "i18n": {
+    "command": "node scripts/check-i18n.mjs",
+    "keys": 1299,
+    "static_labels_checked": 427,
+    "errors": []
+  },
+  "syntax": {
+    "command": "node scripts/check.mjs",
+    "status": "PASS"
+  },
+  "scope": "Frontend/controller/table-state and existing Node regression; targeted API/package Python tests only. Old 368 Python regression is not claimed as rerun. FakeDOM tests do not replace real browser evidence.",
+  "initial_not_run": [
+    "A nonexistent backend/tests/test_delivery.py path was supplied first; no tests ran before correcting the selection."
+  ],
+  "run_at": "2026-10-07T12:21:47.280062+00:00"
+}

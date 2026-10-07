@@ -32,15 +32,36 @@ export function adapterFromForm(form) {
 export function openAdapterBuilder(ctx) {
   ctx.openModal('Create adapter',`<form method="post" id="adapter-builder-form" class="form-stack"><p>${label('Define field meanings and units explicitly. No values or units are inferred.')}</p><div class="form-row">${field('Profile identifier','id')}${field('Version','version','1')}</div>${field('Title','title')}${select('Source type','authority',['synthetic','client'])}${select('File format','format',['csv','xlsx','json'])}<div class="field"><label>${label('Inspect a stored source')}<select name="inspect_file">${ctx.files().map(f=>`<option value="${esc(f.id)}">${esc(f.filename)}</option>`).join('')}</select></label></div>${field('JSON table paths for inspection (one per line)','inspect_paths','','text',false)}${button('Inspect columns and raw samples','inspect-tables')}<div id="table-inspection"></div><h3>${label('Explicit constants')}</h3><p class="field-note">${label('For example, revision or completeness. Only record independently confirmed values.')}</p><div class="constant-rows"></div>${button('Add constant','add-constant')}<div class="editor-tables">${tableRow()}</div>${button('Add table','add-table')}<details class="raw-details"><summary>${label('Generated configuration preview')}</summary><pre id="adapter-config-preview" class="code-block"></pre></details>${button('Preview configuration','preview-config')}</form>`,footer('adapter-builder-form'));
   const form=document.getElementById('adapter-builder-form');
+  const session=ctx.captureDialogSession?.(), projectBase=ctx.projectPath('');
+  const target=form.querySelector('#table-inspection'), inspect=form.querySelector('[data-editor="inspect-tables"]');
+  let inspectionEpoch=0;
+  const current=()=>form.isConnected && target.isConnected && (!ctx.isDialogCurrent || ctx.isDialogCurrent(session));
+  // Editing the inspected source invalidates its pending response immediately.
+  const sourceChanged=e=>{
+    if(!['inspect_file','inspect_paths'].includes(e.target.name))return;
+    inspectionEpoch+=1;target.textContent='';inspect.disabled=false;inspect.removeAttribute('aria-busy');
+  };
+  form.addEventListener('input',sourceChanged);form.addEventListener('change',sourceChanged);
   form.addEventListener('click',async e=>{const b=e.target.closest('[data-editor]');if(!b)return;const kind=b.dataset.editor;
     if(kind==='remove')b.closest('.editor-row,.editor-table').remove();
     if(kind==='add-constant')form.querySelector('.constant-rows').insertAdjacentHTML('beforeend',constantRow());
     if(kind==='add-table')form.querySelector('.editor-tables').insertAdjacentHTML('beforeend',tableRow());
     if(kind==='add-field')b.closest('.editor-table').querySelector('.mapping-rows').insertAdjacentHTML('beforeend',mappingRow());
+    if(kind==='inspect-tables') {
+      if(b.disabled || !current())return;
+      const fileId=valueOf(form,'inspect_file'), sources=split(valueOf(form,'inspect_paths')), epoch=++inspectionEpoch;
+      if(!fileId){ctx.error(new Error('Select a stored project file.'));return;}
+      b.disabled=true;b.setAttribute('aria-busy','true');
+      try {
+        const r=await ctx.request(`${projectBase}/files/${encodeURIComponent(fileId)}/mapping-tables`,{method:'POST',body:{sources}});
+        if(current() && epoch===inspectionEpoch)target.innerHTML=`<pre class="code-block">${esc(JSON.stringify(r,null,2))}</pre>`;
+      }catch(error){if(current() && epoch===inspectionEpoch)ctx.error(error);}
+      finally{if(current() && epoch===inspectionEpoch){b.disabled=false;b.removeAttribute('aria-busy');}}
+      return;
+    }
     try {
-      if(kind==='preview-config')document.getElementById('adapter-config-preview').textContent=JSON.stringify(adapterFromForm(form),null,2);
-      if(kind==='inspect-tables') {const r=await ctx.request(ctx.projectPath(`/files/${encodeURIComponent(valueOf(form,'inspect_file'))}/mapping-tables`),{method:'POST',body:{sources:split(valueOf(form,'inspect_paths'))}});document.getElementById('table-inspection').innerHTML=`<pre class="code-block">${esc(JSON.stringify(r,null,2))}</pre>`;}
-    }catch(error){ctx.error(error);}
+      if(kind==='preview-config')form.querySelector('#adapter-config-preview').textContent=JSON.stringify(adapterFromForm(form),null,2);
+    }catch(error){if(current())ctx.error(error);}
   });
 }
 

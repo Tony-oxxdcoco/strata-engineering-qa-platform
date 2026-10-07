@@ -1,0 +1,176 @@
+{
+  "schema": "strata-docker-verification/1",
+  "version": "1.4.0",
+  "status": "PASS",
+  "material_type": "synthetic",
+  "started_at": "2026-10-07T12:13:37.231531+00:00",
+  "scope": "Actual Docker image/core HTTP workflow/persistence/independent-volume recovery only; no client truth or CSI",
+  "projects": [
+    "strata-week5-check-a4aa427a15",
+    "strata-week5-restore-a4aa427a15"
+  ],
+  "checks": {
+    "compose_config": "PASS",
+    "clean_build": "PASS",
+    "image_core_source_hashes": "PASS",
+    "image_fixture_hashes": "PASS",
+    "base_health": "PASS",
+    "independent_core_cases": {
+      "total": 3,
+      "matched": 3,
+      "false_pass_cases": 0,
+      "expected_nonpass_cases": 2,
+      "invalid_cases": 0,
+      "findings": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 1,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      }
+    },
+    "correction_review_reports": {
+      "original_files": [
+        {
+          "filename": "reference-base-responses.synthetic.csv",
+          "sha256": "13d87d4305f3927cfe6868132367f7d2745a484278f17abfb71af645710a718d",
+          "bytes": 98
+        },
+        {
+          "filename": "combination-repaired.synthetic.json",
+          "sha256": "f13c286ff78dfd70671493d48d7a983e09e86bd6edbea4c14d4eded0f37e6a8d",
+          "bytes": 1529
+        },
+        {
+          "filename": "combination-missing.synthetic.json",
+          "sha256": "cdd9d0802cf8918c7c121e29b829967fd271fe526e46d2f62094880e5221b17a",
+          "bytes": 1371
+        },
+        {
+          "filename": "combination-fail.synthetic.json",
+          "sha256": "b862f1c09c73a45a75ee50a34034f879ac35b7870857ddd30fbab282020b776c",
+          "bytes": 1455
+        },
+        {
+          "filename": "combination-pass.synthetic.json",
+          "sha256": "190c3354fdb3389a37599a23bc1db7ec59d8cafcc2e5d2011fd5ada5f8d28999",
+          "bytes": 1491
+        },
+        {
+          "filename": "linear-combination-rule.synthetic.txt",
+          "sha256": "40b317bed10ca53b4e9aaec4811e61dae0f1bcd47372889f4c10334eeabd7c02",
+          "bytes": 394
+        }
+      ],
+      "reports": [
+        {
+          "format": "json",
+          "language": "en",
+          "bytes": 7169,
+          "sha256": "ece4ee54ea8f015ef9de224e7ed4507dc2b628f25eb8c4ab0dea9a8cccc7393a"
+        },
+        {
+          "format": "html",
+          "language": "en",
+          "bytes": 5826,
+          "sha256": "d83a6e04796f03ea71eb785b5cfa78a0200882a6c0e55d5fb00e19b43a9351ae"
+        },
+        {
+          "format": "html",
+          "language": "zh-CN",
+          "bytes": 5794,
+          "sha256": "146bb65aea173d15c07fc6845a1924645b9471cc2b1d6ff3afdc3e8f355a4fc8"
+        }
+      ],
+      "audit_valid": true
+    },
+    "draft_before_human_review": "PASS",
+    "new_independent_intake": {
+      "status": "PASS",
+      "summary": {
+        "initial_batch": "evaluation_f22ba7ce5041b9c5162705f1",
+        "final_batch": "evaluation_67f106e54892564a0176c6ef",
+        "new_independent_case_variants": 3,
+        "rule_versions_exercised": 3,
+        "initial_matches": 3,
+        "final_matches": 3,
+        "mapping_failures_correctly_located": 3,
+        "lifecycle_verified": true,
+        "paid_model_calls": 0,
+        "customer_engineering_accuracy": "NOT VERIFIED",
+        "native_CSI": "NOT VERIFIED"
+      },
+      "oracle_sha256": "a605c4097980361ecfb85fe8d98a1e27dfb65156fcfbddb7f1235d2dd4696ee4",
+      "fixture_manifest_sha256": "01e506040d17fb8486beb0df549252f8a6ce64cc38a9eb6a3f987abc8fdd80ef",
+      "receipt": "output/ui-upgrade/docker-client-intake-a4aa427a15/verification.json"
+    },
+    "container_recreate_persistence": "PASS",
+    "checkpoint_transfer": {
+      "uid": 10001,
+      "private_files": true,
+      "database_sha256": "824aa584d058d652ce49ab9e80dc95951b9af5eed0d0793c8458eae9532317dc",
+      "blob_count": 17,
+      "destination_hashes_verified": true
+    },
+    "independent_volume_restore": {
+      "result": "PASS",
+      "old_token_status": 401,
+      "sessions_invalidated": 1,
+      "original_files": 6,
+      "approval": "APPROVED",
+      "resolved_linked_issues": 1,
+      "all_issue_history_preserved": true,
+      "not_verified_findings_retained": true,
+      "new_intake_review_preserved": true
+    }
+  },
+  "limitations": [
+    "No real ETABS/SAFE, customer engineering acceptance or Windows launcher verification.",
+    "Model disabled; no Ollama image or weights downloaded."
+  ],
+  "current_phase": "complete: stop owned test services",
+  "engine": {
+    "Client": {
+      "Version": "29.8.2",
+      "ApiVersion": "1.56",
+      "Os": "darwin",
+      "Arch": "arm64",
+      "KernelVersion": null
+    },
+    "Server": {
+      "Version": "29.8.2",
+      "ApiVersion": "1.56",
+      "Os": "linux",
+      "Arch": "arm64",
+      "KernelVersion": "7.0.14-linuxkit"
+    }
+  },
+  "compose_version": "5.5.1",
+  "image": {
+    "name": "strata-week5:1.4.0-check-a4aa427a15",
+    "id": "sha256:8cac319ad610bbef062a2efb6b7217141d1e9b7a6c3795519a0f1c2bb6d27f01",
+    "os": "linux",
+    "architecture": "arm64",
+    "created": "2026-10-07T12:13:49.315671964Z"
+  },
+  "core_source_sha256": "4e979d94f92be6af6146f1e3b39c99b0decb7c3e5d5af31657c2bdc646348673",
+  "fixture_sha256": {
+    "combination-repaired.synthetic.json": "f13c286ff78dfd70671493d48d7a983e09e86bd6edbea4c14d4eded0f37e6a8d",
+    "rule-package.synthetic.json": "81aa2ee06e6fc71decbb25fb50c4202c6c127e863d5a8a6525320e96564a4366",
+    "reference-base-responses.synthetic.csv": "13d87d4305f3927cfe6868132367f7d2745a484278f17abfb71af645710a718d",
+    "combination-missing.synthetic.json": "cdd9d0802cf8918c7c121e29b829967fd271fe526e46d2f62094880e5221b17a",
+    "linear-combination-rule.synthetic.txt": "40b317bed10ca53b4e9aaec4811e61dae0f1bcd47372889f4c10334eeabd7c02",
+    "combination-pass.synthetic.json": "190c3354fdb3389a37599a23bc1db7ec59d8cafcc2e5d2011fd5ada5f8d28999",
+    "reference-adapter.synthetic.json": "d50a27c261dde49b972681b963480f09097b56775a7fe595fefdf54de4e585ba",
+    "independent-expectations.synthetic.json": "4ecc8e2ff7b9e6d4a9e9d5d52c3d8127c85eb8f640a932bc2d3e2b2e7243c1d5",
+    "combination-fail.synthetic.json": "b862f1c09c73a45a75ee50a34034f879ac35b7870857ddd30fbab282020b776c"
+  },
+  "owned_test_services_stopped": true,
+  "finished_at": "2026-10-07T12:14:03.518391+00:00",
+  "retained_test_volumes": [
+    "strata-week5-check-a4aa427a15_week5-state",
+    "strata-week5-restore-a4aa427a15_week5-state"
+  ]
+}

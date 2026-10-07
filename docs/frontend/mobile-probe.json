@@ -1,0 +1,182 @@
+{
+  "pages": [
+    {
+      "view": "workspace",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Check workspace",
+      "activeView": "workspace",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-workspace-en-viewport.png"
+    },
+    {
+      "view": "knowledge",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Rules & evidence",
+      "activeView": "knowledge",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-knowledge-en-viewport.png"
+    },
+    {
+      "view": "review",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Findings & review",
+      "activeView": "review",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-review-en-viewport.png"
+    },
+    {
+      "view": "versions",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Source revisions",
+      "activeView": "versions",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-versions-en-viewport.png"
+    },
+    {
+      "view": "audit",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Audit trail",
+      "activeView": "audit",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-audit-en-viewport.png"
+    },
+    {
+      "view": "team",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Team & access",
+      "activeView": "team",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-team-en-viewport.png"
+    },
+    {
+      "view": "validation",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Validation evidence",
+      "activeView": "validation",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-validation-en-viewport.png"
+    },
+    {
+      "view": "adaptation",
+      "language": "en",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "Data adaptation",
+      "activeView": "adaptation",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-adaptation-en-viewport.png"
+    },
+    {
+      "view": "workspace",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "检查工作台",
+      "activeView": "workspace",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-workspace-zh-CN-viewport.png"
+    },
+    {
+      "view": "knowledge",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "规则与依据",
+      "activeView": "knowledge",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-knowledge-zh-CN-viewport.png"
+    },
+    {
+      "view": "review",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "问题与复核",
+      "activeView": "review",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-review-zh-CN-viewport.png"
+    },
+    {
+      "view": "versions",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "资料版本",
+      "activeView": "versions",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-versions-zh-CN-viewport.png"
+    },
+    {
+      "view": "audit",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "审计记录",
+      "activeView": "audit",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-audit-zh-CN-viewport.png"
+    },
+    {
+      "view": "team",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "团队与权限",
+      "activeView": "team",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-team-zh-CN-viewport.png"
+    },
+    {
+      "view": "validation",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "验证记录",
+      "activeView": "validation",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-validation-zh-CN-viewport.png"
+    },
+    {
+      "view": "adaptation",
+      "language": "zh-CN",
+      "width": 390,
+      "documentWidth": 390,
+      "heading": "资料适配",
+      "activeView": "adaptation",
+      "missingKeys": [],
+      "screenshot": "output/playwright/ui-v14/after/mobile-adaptation-zh-CN-viewport.png"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Mobile dialog language preserves unsaved field",
+      "passed": true
+    },
+    {
+      "name": "Mobile dirty Escape guard",
+      "passed": true
+    },
+    {
+      "name": "Mobile Keep editing restores input focus",
+      "passed": true
+    },
+    {
+      "name": "Mobile Discard closes without saving",
+      "passed": true
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# 客户资料接入指南（STRATA 1.3.0）
+# 客户资料接入指南（STRATA 1.4.0）
 
 接入顺序是：原资料 → 明确映射与单位 → 数据快照 → 适用且已批准的规则 → 已注册的确定性工具 → 证据核验 → 工程师复核。基础流程不用付费 API，本地模型可选。`examples/` 中的工程规则、数据和预期答案都是合成测试材料，不能直接充当客户批准内容。
 
@@ -23,7 +23,7 @@
 
 ## 2. 已支持格式：建立适配配置
 
-在 **Adaptation → Upload source for mapping** 上传原文件，进入 **Create adapter** 检查存储来源、工作表、列名和原始样本。为每个字段填写明确目标路径、类型、必填项、别名和单位，再保存版本。也可以 **Import profile** 导入经过审核的 JSON 配置；导出的配置可在其他项目复用，原文件和应用结果仍按项目隔离。
+在 **Data adaptation → Upload source for mapping** 上传原文件，进入 **Create adapter** 检查存储来源、工作表、列名和原始样本。为每个字段填写明确目标路径、类型、必填项、别名和单位，再保存版本。也可以 **Import profile** 导入经过审核的 JSON 配置；导出的配置可在其他项目复用，原文件和应用结果仍按项目隔离。
 
 点击 **Apply to source → Preview mapping** 检查映射结果；确认后 **Create snapshot**。预览不创建快照，失败保留原文件，响应指明文件、表、行、字段和原因。未知单位、歧义别名或非法数值不会通过默认值掩盖。
 
@@ -41,7 +41,7 @@
 
 成功快照保存配置身份与 hash、原文件 hash、原值／原单位／标准化值和来源位置。原字节独立保留。可解析快照仍可能缺少工程检查需要的数据；字段映射不执行 Excel 公式、Python 或任意表达式。
 
-**Create snapshot** 还支持明确类型的手工字段表单，必须填写映射依据。**Versions → Inspect input → Correct a field** 要求原值、新值、类型、来源位置和理由，并创建后继快照；旧快照不覆盖。不要把手工映射当成缺证据时的自动补值渠道。
+**Create snapshot** 还支持明确类型的手工字段表单，必须填写映射依据。**Sources & revisions → Inspect input → Correct a field** 要求原值、新值、类型、来源位置和理由，并创建后继快照；旧快照不覆盖。不要把手工映射当成缺证据时的自动补值渠道。
 
 ### 新增文件格式
 
@@ -59,7 +59,7 @@ CSV／XLSX／JSON 的实际限制以解析器和配置契约为准，不承诺�
 
 可选 OCR 使用 macOS Vision；需要 macOS、`swift`、`pdftoppm`，并设置 `STRATA_OCR_ENABLED=1`。Windows／Linux 尚未接入 OCR 提供者。原 PDF、渲染页图、识别文本、文本位置、更正和确认记录分别保留。
 
-**Knowledge → Scanned page review** 中选择单页识别，状态为 PENDING_REVIEW。reviewer 必须逐项核对数字、负号、小数点、单位和表格列对应关系，填写更正及理由后确认。确认生成可引用的文本文件；之后仍需明确映射，系统不会把 OCR 表格自动变成工程数据。
+**Rules & evidence → Scanned page review** 中选择单页识别，状态为 PENDING_REVIEW。reviewer 必须逐项核对数字、负号、小数点、单位和表格列对应关系，填写更正及理由后确认。确认生成可引用的文本文件；之后仍需明确映射，系统不会把 OCR 表格自动变成工程数据。
 
 未经确认的扫描页或页图不能直接生成工程快照。本轮一张自制测试页中小数和负号被识别，但 `kN` 识别错误；即使 OCR 置信分数高也不能跳过核对。手工转录同样需要获授权的原来源和核对依据。
 
@@ -69,7 +69,7 @@ CSV／XLSX／JSON 的实际限制以解析器和配置契约为准，不承诺�
 
 规则包格式见 `examples/rule-package.synthetic.json`。客户包使用 `material_type: client`，每条规则使用 `authority: client`，并附获授权的规范／内部 QA 文件。包内 `sources` 携带名称、SHA-256 和 base64 原内容，或引用本项目已有的准确来源 hash。
 
-网页 **Adaptation → Validate / import package** 可选择配置文件，先校验再导入。API：
+网页 **Data adaptation → Validate / import package** 可选择配置文件，先校验再导入。API：
 
 ```text
 POST /api/v1/projects/{project_id}/rule-packages/validate
@@ -77,7 +77,7 @@ POST /api/v1/projects/{project_id}/rule-packages/import
 GET  /api/v1/projects/{project_id}/rule-packages/export?material_type=client
 ```
 
-POST 请求体为 `{"package": <package object>}`。包受规则数、源文件数、字节量和整体请求限制；具体上限见 `backend/strata/adaptation_api.py`。导入先全量预检，再保存；准确引用必须能在来源文本中核对。结构化 `Page N` 定位会核对对应页；自由格式工作表／单元格 locator 仍需 reviewer 核对，不能当作程序已验证坐标。批准者／批准时间不会迁移，导入总是 draft，由 reviewer 在 **Knowledge** 批准。同一规则 ID 的旧批准版本退役。
+POST 请求体为 `{"package": <package object>}`。包受规则数、源文件数、字节量和整体请求限制；具体上限见 `backend/strata/adaptation_api.py`。导入先全量预检，再保存；准确引用必须能在来源文本中核对。结构化 `Page N` 定位会核对对应页；自由格式工作表／单元格 locator 仍需 reviewer 核对，不能当作程序已验证坐标。批准者／批准时间不会迁移，导入总是 draft，由 reviewer 在 **Rules & evidence** 批准。同一规则 ID 的旧批准版本退役。
 
 单条规则也可用 **Add rule** 图形表单配置参数与适用条件。`contracts.executable_rule()` 限制为已实现方法：组合配置的工况／因子／额外项策略／容差，交接的两侧 revision／字段路径／单位／绝对相对容差，以及配置项 `eq`／`in`／`range`。适用条件也只能使用固定比较方式；条件未知不得授权执行，条件为 false 的规则不适用。
 
@@ -99,7 +99,7 @@ POST 请求体为 `{"package": <package object>}`。包受规则数、源文件�
 
 ## 6. 独立案例与批量评测
 
-先生成快照、批准规则，再用 **Adaptation → Register case** 填写图形表单：案例 ID／版本、client 或 synthetic、任务、输入与交接目标、固定规则版本、总体预期、逐项预期、数值容差、独立答案作者和依据。
+先生成快照、批准规则，再用 **Data adaptation → Register case** 填写图形表单：案例 ID／版本、client 或 synthetic、任务、输入与交接目标、固定规则版本、总体预期、逐项预期、数值容差、独立答案作者和依据。
 
 高级格式是 `strata-case/1`，参考 `examples/case-suite.synthetic.json`。客户输入必须明确 `synthetic: false`。`truth.independent: true` 只是作者声明；真正答案需来自客户工程师、独立计算或审核过的依据，不能直接复制系统输出。
 
