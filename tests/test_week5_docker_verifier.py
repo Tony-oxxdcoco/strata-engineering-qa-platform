@@ -88,3 +88,20 @@ def test_compose_only_uses_generated_projects_with_private_runtime_environment(t
     assert environment['STRATA_WEEK5_SETUP_TOKEN']==verification.token
     assert environment['STRATA_WEEK5_PORT']=='4195'
     assert verification.password not in command and verification.token not in command
+
+
+def test_private_log_access_failure_preserves_old_log_and_does_not_report_pass(tmp_path,monkeypatch):
+    verification=verifier.Verification(args(tmp_path))
+    private=tmp_path/'docker-commands.private.json'
+    private.write_text('synthetic previous log')
+    verification.result['status']='PASS'
+    verification.log=[{'synthetic':'new payload must not be written'}]
+    def denied(*a,**kw):raise PermissionError('Synthetic access-control failure')
+    if os.name == 'nt':
+        monkeypatch.setattr(verifier.subprocess,'run',denied)
+    else:
+        monkeypatch.setattr(Path,'chmod',denied)
+    with pytest.raises(PermissionError):verification.finish()
+    assert private.read_text()=='synthetic previous log'
+    assert not list(tmp_path.glob('.docker-log-*'))
+    assert json.loads(verification.args.output.read_text())['status']=='FAILED'

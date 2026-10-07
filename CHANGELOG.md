@@ -2,6 +2,8 @@
 
 ## 1.4.1
 
+Post-release maintenance: corrected Windows regression portability (bounded pytest parameter IDs, explicitly closed recovery-fixture SQLite connections and actual owner-only private-log ACLs). Preserved the three-platform CI matrix and added bounded failure diagnostics. Engineering calculations are unchanged. See [Windows CI repair](docs/CI_WINDOWS_FIX.md); historical release assets and failed checks remain unchanged.
+
 Prepared the project for personal open-source use with English and Chinese README files, MIT license, generic installation/contribution guides and clean source history. Fixed two locale object trailing commas that broke the backend diagnostic translation parser in CI; language keys/values and engineering calculations were unchanged. Original 1.4.0 CI reported 367 Python passes and 1 failure before this fix; actual current release validation is recorded separately.
 
 ## 1.4.0

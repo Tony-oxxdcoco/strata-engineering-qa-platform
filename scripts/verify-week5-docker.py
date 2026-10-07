@@ -42,16 +42,19 @@ $sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User
 $acl=New-Object System.Security.AccessControl.FileSecurity
 $acl.SetOwner($sid)
 $acl.SetAccessRuleProtection($true,$false)
-$rule=New-Object System.Security.AccessControl.FileSystemAccessRule($sid,'FullControl','Allow')
+$rule=[System.Security.AccessControl.FileSystemAccessRule]::new($sid,[System.Security.AccessControl.FileSystemRights]::FullControl,[System.Security.AccessControl.AccessControlType]::Allow)
 $acl.AddAccessRule($rule)
 Set-Acl -LiteralPath $p -AclObject $acl
 $actual=Get-Acl -LiteralPath $p
 $rules=@($actual.GetAccessRules($true,$true,[System.Security.Principal.SecurityIdentifier]))
 if(-not $actual.AreAccessRulesProtected -or $rules.Count -ne 1 -or $rules[0].IdentityReference.Value -ne $sid.Value -or $rules[0].AccessControlType -ne 'Allow' -or $rules[0].FileSystemRights -ne 'FullControl'){throw 'Owner-only log ACL verification failed'}
 """
-            subprocess.run(['powershell.exe','-NoProfile','-NonInteractive',
-                            '-Command',script],env=env,check=True,
-                           capture_output=True,text=True,timeout=20)
+            try:
+                subprocess.run(['powershell.exe','-NoProfile','-NonInteractive',
+                                '-Command',script],env=env,check=True,
+                               capture_output=True,text=True,timeout=20)
+            except subprocess.CalledProcessError as error:
+                raise VerificationError('Windows private log ACL failed: '+error.stderr[:1500]) from error
         else:
             temporary.chmod(0o600)
         temporary.write_text(payload, encoding='utf-8')
@@ -402,9 +405,15 @@ print(json.dumps({'copied_files':len(seen),'uid':os.getuid()}))"""
         self.result['finished_at']=datetime.now(timezone.utc).isoformat()
         self.result['retained_test_volumes']=[self.projects[i]+'_week5-state' for i in self.touched]
         self.args.output.parent.mkdir(parents=True,exist_ok=True)
-        self.args.output.write_text(json.dumps(self.result,ensure_ascii=False,indent=2)+'\n')
         log=self.args.output.with_name('docker-commands.private.json')
-        write_private_log(log,json.dumps(self.log,ensure_ascii=False,indent=2)+'\n')
+        try:
+            write_private_log(log,json.dumps(self.log,ensure_ascii=False,indent=2)+'\n')
+        except Exception as error:
+            self.result['status']='FAILED'
+            self.result['private_log_error']=type(error).__name__
+            self.args.output.write_text(json.dumps(self.result,ensure_ascii=False,indent=2)+'\n')
+            raise
+        self.args.output.write_text(json.dumps(self.result,ensure_ascii=False,indent=2)+'\n')
 
 
 def main():
