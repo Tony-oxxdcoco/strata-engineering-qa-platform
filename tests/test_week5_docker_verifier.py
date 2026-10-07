@@ -47,13 +47,15 @@ def test_missing_engine_receipt_and_private_log_contain_no_credentials(tmp_path,
     assert not json.loads(public)['retained_test_volumes']
     if os.name == 'nt':
         # Inspect the actual DACL independently; POSIX st_mode is not a Windows ACL.
-        script = """$a=Get-Acl -LiteralPath $env:STRATA_PRIVATE_LOG_PATH
+        script = """$a=[System.IO.FileInfo]::new($env:STRATA_PRIVATE_LOG_PATH).GetAccessControl()
 $s=[System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 $r=@($a.GetAccessRules($true,$true,[System.Security.Principal.SecurityIdentifier]))
 @{protected=$a.AreAccessRulesProtected;owner=$a.GetOwner([System.Security.Principal.SecurityIdentifier]).Value;current=$s;rules=@($r | ForEach-Object {@{sid=$_.IdentityReference.Value;rights=$_.FileSystemRights.ToString();type=$_.AccessControlType.ToString()}})} | ConvertTo-Json -Depth 4
 """
+        environment=dict(os.environ,STRATA_PRIVATE_LOG_PATH=str(private))
+        environment.pop('PSModulePath',None)
         inspected=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
-            env=dict(os.environ,STRATA_PRIVATE_LOG_PATH=str(private)),check=True,capture_output=True,text=True,timeout=20)
+            env=environment,check=True,capture_output=True,text=True,timeout=20)
         acl=json.loads(inspected.stdout)
         assert acl['protected'] and acl['owner']==acl['current']
         assert acl['rules']==[{'sid':acl['current'],'rights':'FullControl','type':'Allow'}]

@@ -36,6 +36,8 @@ def write_private_log(path, payload):
         if os.name == 'nt':
             # Pass the path as data, never interpolate it into shell source.
             env = dict(os.environ, STRATA_PRIVATE_LOG_PATH=str(temporary))
+            # GitHub's pwsh parent can carry a module path for another PS version.
+            env.pop('PSModulePath', None)
             script = """$ErrorActionPreference='Stop'
 $p=$env:STRATA_PRIVATE_LOG_PATH
 $sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User
@@ -44,8 +46,8 @@ $acl.SetOwner($sid)
 $acl.SetAccessRuleProtection($true,$false)
 $rule=[System.Security.AccessControl.FileSystemAccessRule]::new($sid,[System.Security.AccessControl.FileSystemRights]::FullControl,[System.Security.AccessControl.AccessControlType]::Allow)
 $acl.AddAccessRule($rule)
-Set-Acl -LiteralPath $p -AclObject $acl
-$actual=Get-Acl -LiteralPath $p
+[System.IO.File]::SetAccessControl($p,$acl)
+$actual=[System.IO.File]::GetAccessControl($p)
 $rules=@($actual.GetAccessRules($true,$true,[System.Security.Principal.SecurityIdentifier]))
 if(-not $actual.AreAccessRulesProtected -or $rules.Count -ne 1 -or $rules[0].IdentityReference.Value -ne $sid.Value -or $rules[0].AccessControlType -ne 'Allow' -or $rules[0].FileSystemRights -ne 'FullControl'){throw 'Owner-only log ACL verification failed'}
 """

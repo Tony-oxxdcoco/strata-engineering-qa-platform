@@ -32,6 +32,6 @@ npm run validate
 .venv/bin/python .github/scripts/backend-checks.py
 ```
 
-Windows PowerShell：最后一条用 `.venv\Scripts\python.exe .github/scripts/backend-checks.py`。Windows 日志权限核验使用系统内置 Windows PowerShell，不引入新的 Python 包；无法设置权限时明确失败。
+Windows PowerShell：最后一条用 `.venv\Scripts\python.exe .github/scripts/backend-checks.py`。Windows 日志权限核验使用系统内置 Windows PowerShell 和 .NET ACL API，不依赖 `Set-Acl` 模块自动加载；子进程不继承其他 PowerShell 版本的 `PSModulePath`。不引入新的 Python 包；无法设置权限时明确失败。
 
 实际修复分支验证及最终 main 的运行链接另附本次维护交付收据；旧 1.4.1 Docker、浏览器及安装成绩继续保留原版本口径，本次不宣称重新执行。
