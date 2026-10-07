@@ -1298,5 +1298,5 @@ export default Object.freeze({
   "OCR is disabled or unavailable. Existing pages can still be reviewed.": "OCR未启用或不可用，已有页面仍可人工校对。",
   "Loading scanned pages failed. Close this dialog and try again.": "扫描页加载失败，请关闭弹窗后重试。",
   "UI v14.rule.conditions": "适用条件",
-  "UI v14.savedSelectionChanged": "检查已保存到历史记录。你当前的任务选择发生了变化。",
+  "UI v14.savedSelectionChanged": "检查已保存到历史记录。你当前的任务选择发生了变化。"
 });

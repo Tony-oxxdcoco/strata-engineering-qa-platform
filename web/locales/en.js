@@ -1298,5 +1298,5 @@ export default Object.freeze({
   "OCR is disabled or unavailable. Existing pages can still be reviewed.": "OCR is disabled or unavailable. Existing pages can still be reviewed.",
   "Loading scanned pages failed. Close this dialog and try again.": "Loading scanned pages failed. Close this dialog and try again.",
   "UI v14.rule.conditions": "Applicability conditions",
-  "UI v14.savedSelectionChanged": "The run was saved in history. Your current task selection changed.",
+  "UI v14.savedSelectionChanged": "The run was saved in history. Your current task selection changed."
 });
