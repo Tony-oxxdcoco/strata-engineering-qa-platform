@@ -1,4 +1,5 @@
 """Risk-focused tests for isolated Week 5 operations, not engineering answers."""
+from contextlib import closing
 import hashlib
 import importlib.util
 import json
@@ -30,7 +31,7 @@ def database(directory):
     blobs = directory / 'runtime' / 'blobs'
     blobs.mkdir()
     (blobs / sha).write_bytes(content)
-    with sqlite3.connect(directory / 'runtime' / 'strata.db') as c:
+    with closing(sqlite3.connect(directory / 'runtime' / 'strata.db')) as c, c:
         c.execute('CREATE TABLE resources(kind TEXT,data TEXT)')
         c.execute('INSERT INTO resources VALUES (?,?)', ('file', json.dumps({'sha256': sha})))
         c.execute('CREATE TABLE sessions(token_hash TEXT)')
@@ -144,10 +145,10 @@ def test_checkpoint_reset_and_restore_preserve_originals_and_revoke_sessions(dem
     restored = manager.restore(demo, 'prepared')
     assert restored['sessions_invalidated'] == 1
     assert (demo / 'runtime' / 'blobs' / sha).read_bytes() == content
-    with sqlite3.connect(demo / 'runtime' / 'strata.db') as c:
+    with closing(sqlite3.connect(demo / 'runtime' / 'strata.db')) as c, c:
         assert c.execute('SELECT value FROM sample').fetchone()[0] == 'before-checkpoint'
         assert c.execute('SELECT COUNT(*) FROM sessions').fetchone()[0] == 0
-    with sqlite3.connect(Path(reset['archived']) / 'strata.db') as c:
+    with closing(sqlite3.connect(Path(reset['archived']) / 'strata.db')) as c, c:
         assert c.execute('SELECT COUNT(*) FROM sessions').fetchone()[0] == 1
     assert len(list((demo / 'archive').iterdir())) == 2
 

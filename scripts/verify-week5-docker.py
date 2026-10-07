@@ -27,6 +27,39 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = json.loads((ROOT / 'package.json').read_text())['version']
 
 
+def write_private_log(path, payload):
+    """Set owner-only access before writing; chmod alone is not a Windows ACL."""
+    fd, name = tempfile.mkstemp(prefix='.docker-log-', dir=path.parent)
+    os.close(fd)
+    temporary = Path(name)
+    try:
+        if os.name == 'nt':
+            # Pass the path as data, never interpolate it into shell source.
+            env = dict(os.environ, STRATA_PRIVATE_LOG_PATH=str(temporary))
+            script = """$ErrorActionPreference='Stop'
+$p=$env:STRATA_PRIVATE_LOG_PATH
+$sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User
+$acl=New-Object System.Security.AccessControl.FileSecurity
+$acl.SetOwner($sid)
+$acl.SetAccessRuleProtection($true,$false)
+$rule=New-Object System.Security.AccessControl.FileSystemAccessRule($sid,'FullControl','Allow')
+$acl.AddAccessRule($rule)
+Set-Acl -LiteralPath $p -AclObject $acl
+$actual=Get-Acl -LiteralPath $p
+$rules=@($actual.GetAccessRules($true,$true,[System.Security.Principal.SecurityIdentifier]))
+if(-not $actual.AreAccessRulesProtected -or $rules.Count -ne 1 -or $rules[0].IdentityReference.Value -ne $sid.Value -or $rules[0].AccessControlType -ne 'Allow' -or $rules[0].FileSystemRights -ne 'FullControl'){throw 'Owner-only log ACL verification failed'}
+"""
+            subprocess.run(['powershell.exe','-NoProfile','-NonInteractive',
+                            '-Command',script],env=env,check=True,
+                           capture_output=True,text=True,timeout=20)
+        else:
+            temporary.chmod(0o600)
+        temporary.write_text(payload, encoding='utf-8')
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 class VerificationError(ValueError):
     pass
 
@@ -371,7 +404,7 @@ print(json.dumps({'copied_files':len(seen),'uid':os.getuid()}))"""
         self.args.output.parent.mkdir(parents=True,exist_ok=True)
         self.args.output.write_text(json.dumps(self.result,ensure_ascii=False,indent=2)+'\n')
         log=self.args.output.with_name('docker-commands.private.json')
-        log.write_text(json.dumps(self.log,ensure_ascii=False,indent=2)+'\n');log.chmod(0o600)
+        write_private_log(log,json.dumps(self.log,ensure_ascii=False,indent=2)+'\n')
 
 
 def main():

@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-import time
 
 out = Path('output/ci')
 out.mkdir(parents=True, exist_ok=True)
@@ -12,8 +11,8 @@ faulthandler.dump_traceback_later(60, repeat=True)
 class Progress:
  def pytest_runtest_logreport(self, report):
   with pathlib.Path("output/ci/progress.jsonl").open("a", encoding="utf-8") as f:
-   f.write(json.dumps({"test":report.nodeid,"phase":report.when,"outcome":report.outcome,"seconds":report.duration})+"\\n")
-raise SystemExit(pytest.main(["backend/tests", "tests", "-vv", "--tb=short", "--durations=20", "--junitxml=output/ci/backend.xml"], plugins=[Progress()]))
+   f.write(json.dumps({"test":report.nodeid[:1000],"phase":report.when,"outcome":report.outcome,"seconds":report.duration})+"\\n")
+raise SystemExit(pytest.main(["backend/tests", "tests", "-q", "--tb=short", "--durations=20", "--junitxml=output/ci/backend.xml"], plugins=[Progress()]))
 '''
 with (out/'backend.log').open('w',encoding='utf-8') as log:
     process = subprocess.Popen([sys.executable, '-u', '-c', worker], stdout=log, stderr=subprocess.STDOUT)
