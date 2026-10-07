@@ -1,7 +1,7 @@
 import {spawnSync} from 'node:child_process';
 import path from 'node:path';
 import {root,venvPython,findPython,prerequisiteError} from './python-env.mjs';
-if(Number(process.versions.node.split('.')[0])<20){prerequisiteError();process.exit(1);}
+if(Number(process.versions.node.split('.')[0])<20 || (Number(process.versions.node.split('.')[0])===20 && Number(process.versions.node.split('.')[1])<11)){prerequisiteError();process.exit(1);}
 const python=findPython({includeVenv:false});
 if(!python){prerequisiteError();process.exit(1);}
 const run=(command,args)=>{const p=spawnSync(command,args,{cwd:root,stdio:'inherit',env:{...process.env,PYTHONUTF8:'1'}});if(p.error){console.error(p.error.message);process.exit(1);}if(p.status!==0)process.exit(p.status||1);};

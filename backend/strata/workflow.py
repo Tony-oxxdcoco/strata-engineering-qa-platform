@@ -15,17 +15,13 @@ from .storage import Membership, Resource, canonical, digest, now, public
 from . import model
 from .usage import reserve_call
 from .locking import lock_worker, unlock_worker
+from .evidence import requests as material_requests
 
 ROOT = Path(__file__).resolve().parents[2]
-WORKFLOW_VERSION = "server-workflow-1.0"
-TOOL_FINGERPRINT = digest({str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in [ROOT / "dist/engine.js", ROOT / "dist/combinations.js", ROOT / "backend/strata/data_tools.py", ROOT / "backend/strata/knowledge.py", Path(__file__), ROOT / "scripts/tool-bridge.mjs"]})
-REQUIRED = {
-    "gravity-full": [f"QA-00{i}" for i in range(1, 7)],
-    "gravity-distribution": ["QA-003"], "gravity-balance": ["QA-005"],
-    "load-combination": ["COMB-001"], "combination-configuration": ["COMB-CONFIG"],
-    "handoff": ["HANDOFF"], "seismic-configuration": ["SEISMIC"],
-    "mass-source": ["MASS-SOURCE"], "additional-settings": ["SETTINGS"],
-}
+WORKFLOW_VERSION = "server-workflow-1.1"
+TOOL_FINGERPRINT = digest({str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in [ROOT / "dist/engine.js", ROOT / "dist/combinations.js", ROOT / "backend/strata/data_tools.py", ROOT / "backend/strata/knowledge.py", ROOT / "backend/strata/contracts.py", ROOT / "backend/strata/adapters.py", ROOT / "backend/strata/evidence.py", Path(__file__), ROOT / "scripts/tool-bridge.mjs"]})
+from .contracts import REQUIRED, executable_rule, applicable, matches
+
 
 
 def node_tool(tool, **arguments):
@@ -120,7 +116,7 @@ class Runner:
 
     def block(self, run_id, reason, missing=None, infrastructure=False):
         result = {"id": "WORKFLOW-GATE", "status": "NOT VERIFIED", "summary": reason, "details": []}
-        self.save(run_id, {**outcome([result]), "state": "ERROR" if infrastructure else "WAITING", "missing": missing or [reason], "explanation": reason, "finished_at": now()}, {"tool": "verify_evidence", "status": "blocked", "reason": reason})
+        self.save(run_id, {**outcome([result]), "state": "ERROR" if infrastructure else "WAITING", "missing": missing or [reason], "material_requests": material_requests([result], missing=missing or [reason]), "explanation": reason, "finished_at": now()}, {"tool": "verify_evidence", "status": "blocked", "reason": reason})
 
     def source_valid(self, session, project_id, source_hash):
         sources = self.store.list(session, project_id, "file")
@@ -180,14 +176,21 @@ class Runner:
                 rules = [dict(r.data["rule"], resource_id=r.id) for r in self.store.list(session, project_id, "rule")]
                 if input_data.get("synthetic") is not True:
                     rules = [r for r in rules if r["authority"] == "client"]
+                rules = [executable_rule({k:v for k,v in r.items() if k != "resource_id"}) | {"resource_id":r["resource_id"]} for r in rules if r["status"] == "approved" and selected in r["task_ids"]]
+                unknown_conditions = sorted({c["path"] for r in rules for c in r.get("conditions", []) if matches(c, input_data) is None})
+                rules = [r for r in rules if applicable(r, input_data)]
                 # Search is user-facing; execution retrieves its exact required IDs.
                 retrieval = retrieve(" ".join(REQUIRED[selected]), selected, rules, project_id, limit=50)
                 coverage = check_coverage(retrieval, REQUIRED[selected])
                 if retrieval["status"] != "FOUND" or coverage["status"] != "FOUND":
-                    self.block(run_id, retrieval.get("reason") if retrieval["status"] != "FOUND" else coverage.get("reason"), ["approved rules: " + ", ".join(REQUIRED[selected])])
+                    self.block(run_id, retrieval.get("reason") if retrieval["status"] != "FOUND" else coverage.get("reason"), ["approved rules: " + ", ".join(REQUIRED[selected]), *unknown_conditions])
                     return
                 for rule in retrieval["rules"]:
                     self.source_valid(session, project_id, rule["source_sha256"])
+                pinned = data.get("pinned_rule_versions")
+                if pinned is not None and sorted((r["id"],r["version"]) for r in retrieval["rules"]) != sorted((r["id"],r["version"]) for r in pinned):
+                    self.block(run_id, "Applicable rule versions differ from the case's pinned versions", ["approved rules: pinned case versions"])
+                    return
                 rule_hash = digest(retrieval["rules"])
                 # Existing fixed-tolerance numerical tools are approved only for
                 # the seeded synthetic profile. Client profiles use explicit
@@ -263,7 +266,7 @@ class Runner:
                 if not cached:
                     self.store.add(session, "cache", project_id, {"key": key, "output": checked, "output_hash": digest(checked)})
             explanation = "\n".join([f"{selected}: {checked['status']}.", *[f"{r['id']}: {r['status']}. {r.get('summary', '')}" for r in checked["results"]], "Findings are limited to the selected checks and supplied evidence. Rule approval records a software review, not structural certification."])
-            self.save(run_id, {**checked, "state": "WAITING" if checked["status"] == "NOT VERIFIED" else "COMPLETED", "missing": [r.get("summary", r["id"]) for r in checked["results"] if r["status"] == "NOT VERIFIED"], "explanation": explanation, "finished_at": now(), "output_hash": digest(checked)}, {"tool": "verify_evidence", "status": "ok", "source_count": len(retrieval["citations"])})
+            self.save(run_id, {**checked, "state": "WAITING" if checked["status"] == "NOT VERIFIED" else "COMPLETED", "missing": [r.get("summary", r["id"]) for r in checked["results"] if r["status"] == "NOT VERIFIED"], "material_requests": material_requests(checked["results"], input_data, target, task=selected), "explanation": explanation, "finished_at": now(), "output_hash": digest(checked)}, {"tool": "verify_evidence", "status": "ok", "source_count": len(retrieval["citations"])})
             self.save(run_id, {}, {"tool": "compose_response", "status": "ok", "method": "verified-tool-template"})
             with self.store.session.begin() as session:
                 for finding in checked["results"]:

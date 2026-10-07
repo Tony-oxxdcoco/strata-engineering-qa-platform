@@ -89,7 +89,7 @@ def create_app(data_dir=None, testing=False, worker=True):
 
     @app.exception_handler(ValueError)
     async def invalid(request, error):
-        return JSONResponse({"detail": str(error)[:600]}, 422)
+        return JSONResponse({"detail": {"message": str(error), "errors": error.errors}} if hasattr(error, "errors") else {"detail": str(error)[:600]}, 422)
 
     @app.exception_handler(IntegrityError)
     async def conflict(request, error):
@@ -319,7 +319,8 @@ def create_app(data_dir=None, testing=False, worker=True):
                 for key in ["snapshot_id", "compare_to"]:
                     if row.data.get(key):
                         saved = resource(session, project.id, "snapshot", row.data[key])
-                        if digest(saved.data["input"]) != saved.data["input_hash"]:
+                        expected_hash = row.data.get("input_hash" if key == "snapshot_id" else "target_hash")
+                        if digest(saved.data["input"]) != saved.data["input_hash"] or expected_hash and digest(saved.data["input"]) != expected_hash:
                             raise ValueError("Snapshot integrity failed")
                         source = resource(session, project.id, "file", saved.data["file_id"])
                         sha = source.data["sha256"]
@@ -367,6 +368,8 @@ def create_app(data_dir=None, testing=False, worker=True):
             snapshot = session.get(Resource, row.data.get("snapshot_id"))
             if snapshot and snapshot.data["input"].get("synthetic") is not True:
                 current_rules = [r for r in current_rules if r["authority"] == "client"]
+            from .contracts import applicable
+            current_rules = [r for r in current_rules if applicable(r, snapshot.data["input"] if snapshot else {})]
             retrieved = retrieve(" ".join(REQUIRED[task]), task, current_rules, project.id, limit=50)
             if retrieved["status"] != "FOUND" or digest(retrieved["rules"]) != row.data["rule_hash"]:
                 reasons.append("Applicable approved rule context has changed")
@@ -379,15 +382,21 @@ def create_app(data_dir=None, testing=False, worker=True):
     def dashboard(project_id: str, account=Depends(user)):
         with store.session() as session:
             project, role = access(session, project_id, account)
-            return {"project": {**public(project), "role": role}, "files": [public(r) for r in store.list(session, project_id, "file")], "snapshots": [public(r) for r in store.list(session, project_id, "snapshot")], "rules": [public(r) for r in store.list(session, project_id, "rule")], "runs": [run_view(session, project, r) for r in store.list(session, project_id, "run")], "issues": [public(r) for r in store.list(session, project_id, "issue")], "members": [{"user_id": m.user_id, "role": m.role, "username": session.get(User, m.user_id).username} for m in session.scalars(select(Membership).where(Membership.project_id == project_id))], "audit": store.audit_chain(session, project_id)}
+            return {"project": {**public(project), "role": role}, "files": [public(r) for r in store.list(session, project_id, "file")], "snapshots": [public(r) for r in store.list(session, project_id, "snapshot")], "rules": [public(r) for r in store.list(session, project_id, "rule")], "runs": [run_view(session, project, r) for r in store.list(session, project_id, "run")], "issues": [public(r) for r in store.list(session, project_id, "issue")], "members": [{"user_id": m.user_id, "role": m.role, "username": session.get(User, m.user_id).username} for m in session.scalars(select(Membership).where(Membership.project_id == project_id))], "adapters": [public(r) for r in store.list(session, project_id, "adapter")], "cases": [public(r) for r in store.list(session, project_id, "case")], "evaluations": [{"id": r.id, "created_at": r.created_at} for r in store.list(session, project_id, "evaluation")], "audit": store.audit_chain(session, project_id)}
 
-    def add_file(session, project_id, filename, content, account_id):
+    def add_file(session, project_id, filename, content, account_id, source_only=False):
         from .data_tools import ingest
         if not isinstance(filename, str) or not filename or len(filename) > 180 or Path(filename).name != filename or "\\" in filename:
             raise ValueError("Use a simple filename without directories")
         if not 0 < len(content) <= 10_000_000:
             raise ValueError("Files must contain 1 byte–10 MB")
-        ingestion = ingest(filename, content)
+        if source_only:
+            if Path(filename).suffix.lower() not in {".csv", ".json"}:
+                raise ValueError("Source-only upload is available for CSV/JSON mapping inputs")
+            text = content.decode("utf-8-sig")
+            ingestion = {"status": "NEEDS_MAPPING", "format": "raw-mapping-source", "pages": [], "warnings": ["Original bytes retained; select an explicit adapter. No fields or units inferred."]}
+        else:
+            ingestion = ingest(filename, content)
         sha = store.put_blob(content)
         row = store.add(session, "file", project_id, {"filename": filename, "sha256": sha, "size_bytes": len(content), "ingestion": ingestion, "uploaded_by": account_id})
         store.audit(session, project_id, account_id, "file.uploaded", row.id, {"sha256": sha, "filename": filename})
@@ -395,14 +404,16 @@ def create_app(data_dir=None, testing=False, worker=True):
 
     @app.post("/api/v1/projects/{project_id}/files")
     def upload(project_id: str, body: dict = Body(...), account=Depends(user)):
-        require_fields(body, ["filename", "content_base64"], ["filename", "content_base64"])
+        require_fields(body, ["filename", "content_base64", "source_only"], ["filename", "content_base64"])
+        if "source_only" in body and type(body["source_only"]) is not bool:
+            raise ValueError("source_only must be boolean")
         try:
             content = base64.b64decode(body["content_base64"], validate=True)
         except (ValueError, TypeError) as error:
             raise ValueError("Invalid base64 file content") from error
         with store.session.begin() as session:
             access(session, project_id, account, {"engineer", "reviewer"})
-            row = add_file(session, project_id, body["filename"], content, account["id"])
+            row = add_file(session, project_id, body["filename"], content, account["id"], source_only=body.get("source_only", False))
             return {"file": public(row)}
 
     @app.get("/api/v1/projects/{project_id}/files/{file_id}/content")
@@ -449,7 +460,7 @@ def create_app(data_dir=None, testing=False, worker=True):
                 raise ValueError("Input integrity verification failed")
             corrected = apply_corrections(original.data["input"], body["corrections"])
             row = add_snapshot(session, project, source, {"title": body.get("title") or original.data["title"] + " · corrected", "input": corrected, "parent_id": original.id, "mapping_note": "Explicit field corrections; inspect the correction record and original source."}, account["id"])
-            store.change(session, row, {**row.data, "corrections": [{**change, "confirmed_by": account["id"], "confirmed_at": now()} for change in body["corrections"]]})
+            store.change(session, row, {**row.data, "adapter_id": original.data.get("adapter_id"), "adapter_hash": original.data.get("adapter_hash"), "provenance": original.data.get("provenance", []), "corrections": [{**change, "confirmed_by": account["id"], "confirmed_at": now()} for change in body["corrections"]]})
             store.audit(session, project_id, account["id"], "snapshot.corrected", row.id, {"parent_id": original.id, "paths": [c["path"] for c in body["corrections"]]})
             return {"snapshot": public(row)}
 
@@ -462,10 +473,10 @@ def create_app(data_dir=None, testing=False, worker=True):
             store.audit(session, project_id, account["id"], "snapshot.activated", row.id)
             return {"snapshot": public(row)}
 
-    def source_contains(source, text):
+    def source_contains(source, text, raw=None):
         ingestion = source.data["ingestion"]
         haystacks = [page.get("text", "") for page in ingestion.get("pages", [])]
-        raw = store.get_blob(source.data["sha256"])
+        raw = store.get_blob(source.data["sha256"]) if raw is None else raw
         if source.data["filename"].lower().endswith((".txt", ".md", ".json", ".csv")):
             decoded = raw.decode("utf-8-sig")
             haystacks.append(decoded)
@@ -488,7 +499,8 @@ def create_app(data_dir=None, testing=False, worker=True):
         incoming = body["rule"]
         if not isinstance(incoming, dict):
             raise ValueError("rule must be an object")
-        rule = validate_rule({**incoming, "project_id": project_id, "status": "draft", "approved_by": None, "approved_at": None})
+        from .contracts import executable_rule
+        rule = executable_rule({**incoming, "project_id": project_id, "status": "draft", "approved_by": None, "approved_at": None})
         with store.session.begin() as session:
             access(session, project_id, account, {"engineer", "reviewer"})
             sources = [r for r in store.list(session, project_id, "file") if r.data["sha256"] == rule["source_sha256"]]
@@ -518,6 +530,8 @@ def create_app(data_dir=None, testing=False, worker=True):
                 for other in store.list(session, project_id, "rule"):
                     if other.id != row.id and other.data["rule"]["id"] == rule["id"] and other.data["rule"]["status"] == "approved":
                         store.change(session, other, {**other.data, "rule": {**other.data["rule"], "status": "retired"}})
+                from .contracts import executable_rule
+                executable_rule(rule)
                 rule.update(status="approved", approved_by=account["id"], approved_at=now())
             else:
                 rule["status"] = "retired"
@@ -721,7 +735,7 @@ def create_app(data_dir=None, testing=False, worker=True):
                 if row.data.get(key):
                     snapshot = resource(session, project_id, "snapshot", row.data[key])
                     source = resource(session, project_id, "file", snapshot.data["file_id"])
-                    provenance.append({"side": side, "snapshot_id": snapshot.id, "title": snapshot.data["title"], "input_hash": snapshot.data["input_hash"], "synthetic": snapshot.data["input"].get("synthetic", False), "parent_id": snapshot.data.get("parent_id"), "mapping_note": snapshot.data.get("mapping_note"), "corrections": snapshot.data.get("corrections", []), "filename": source.data["filename"], "source_sha256": source.data["sha256"]})
+                    provenance.append({"side": side, "snapshot_id": snapshot.id, "title": snapshot.data["title"], "input_hash": snapshot.data["input_hash"], "synthetic": snapshot.data["input"].get("synthetic", False), "parent_id": snapshot.data.get("parent_id"), "mapping_note": snapshot.data.get("mapping_note"), "adapter_id": snapshot.data.get("adapter_id"), "adapter_hash": snapshot.data.get("adapter_hash"), "mapping_provenance": snapshot.data.get("provenance", []), "corrections": snapshot.data.get("corrections", []), "filename": source.data["filename"], "source_sha256": source.data["sha256"]})
             chain = lineage(session, project_id, row)
             findings = [public(i) for i in store.list(session, project_id, "issue") if i.data["source_run_id"] in chain]
             if format == "json":
@@ -740,7 +754,7 @@ def create_app(data_dir=None, testing=False, worker=True):
     @app.get("/api/v1/validation")
     def validation(account=Depends(user)):
         records = {}
-        names = {"system": "system-evaluation-2026-10-03.json", "retrieval": "knowledge-evaluation-2026-10-03.json", "model_baseline": "model-evaluation-v1-development.json", "model_development": "model-evaluation-v3-development.json", "model_holdout": "model-evaluation-v3-holdout.json"}
+        names = {"system": "system-evaluation-2026-10-07-v11.json" if (ROOT / "docs/system-evaluation-2026-10-07-v11.json").is_file() else "system-evaluation-2026-10-03.json", "retrieval": "knowledge-evaluation-2026-10-03.json", "model_baseline": "model-evaluation-v1-development.json", "model_development": "model-evaluation-v3-development.json", "model_holdout": "model-evaluation-v3-holdout.json"}
         for key, name in names.items():
             path = ROOT / "docs" / name
             if path.is_file():
@@ -805,6 +819,9 @@ def create_app(data_dir=None, testing=False, worker=True):
             store.change(session, project, {**project.data, "seeded": True, "active_snapshot_id": snapshots[0].id})
             store.audit(session, project_id, account["id"], "synthetic.seeded", project_id, {"snapshots": len(snapshots), "rules": 12})
             return {"snapshots": [public(s) for s in snapshots], "rules": 12}
+
+    from .adaptation_api import register_adaptation
+    register_adaptation(app, store, runner, user, access, resource, require_fields, add_file, add_snapshot, source_contains, new_run, run_view)
 
     web = ROOT / "web"
     if web.exists():

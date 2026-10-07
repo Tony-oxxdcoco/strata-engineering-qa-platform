@@ -1,0 +1,41 @@
+{
+  "schema": "strata-adapter/1",
+  "id": "TEST-MASS",
+  "version": "1",
+  "title": "SYNTHETIC mass adapter",
+  "authority": "synthetic",
+  "format": "csv",
+  "base": {
+    "synthetic": true,
+    "configuration_complete": true,
+    "project": {
+      "revision": "M1"
+    }
+  },
+  "tables": [
+    {
+      "source": "csv",
+      "target": "/mass",
+      "mode": "single",
+      "ignored_columns": [],
+      "fields": [
+        {
+          "aliases": [
+            "SelfWeight"
+          ],
+          "target": "/include_self_weight",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "aliases": [
+            "Source"
+          ],
+          "target": "/source",
+          "type": "string",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

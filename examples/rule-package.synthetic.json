@@ -1,0 +1,93 @@
+{
+  "schema": "strata-rule-package/1",
+  "title": "Synthetic adaptation demonstration",
+  "material_type": "synthetic",
+  "rules": [
+    {
+      "id": "HANDOFF",
+      "version": "TEST-1",
+      "title": "SYNTHETIC HANDOFF",
+      "project_id": "portable-test-package",
+      "text": "SYNTHETIC TEST MATERIAL. For E1 to S1 only, compare transfer.vertical in explicitly supplied transfer.unit values. Convert to kN. Absolute tolerance 0.001 kN; relative tolerance zero. This is not a structural standard or client-approved rule.",
+      "locator": "Synthetic test source / paragraph 1",
+      "task_ids": [
+        "handoff"
+      ],
+      "check_ids": [
+        "HANDOFF"
+      ],
+      "authority": "synthetic",
+      "status": "draft",
+      "approved_by": null,
+      "approved_at": null,
+      "source_sha256": "b76603417f9895f658a77faa8b52d853bed2f3e04c385b7ebbbc7b8236c4a9ff",
+      "parameters": {
+        "source_revision": "E1",
+        "target_revision": "S1",
+        "required_source_paths": [
+          "/transfer/vertical"
+        ],
+        "required_target_paths": [
+          "/transfer/vertical"
+        ],
+        "mappings": [
+          {
+            "id": "vertical-transfer",
+            "source_path": "/transfer/vertical",
+            "target_path": "/transfer/vertical",
+            "source_unit_path": "/transfer/unit",
+            "target_unit_path": "/transfer/unit",
+            "comparison_unit": "kN",
+            "absolute_tolerance": 0.001,
+            "relative_tolerance": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "MASS-SOURCE",
+      "version": "TEST-1",
+      "title": "SYNTHETIC MASS-SOURCE",
+      "project_id": "portable-test-package",
+      "text": "SYNTHETIC TEST MATERIAL. Require mass.include_self_weight true and mass.source approved-schedule. Missing evidence is NOT VERIFIED. These exact chosen values are test expectations, not a client engineering checklist.",
+      "locator": "Synthetic test source / paragraph 1",
+      "task_ids": [
+        "mass-source"
+      ],
+      "check_ids": [
+        "MASS-SOURCE"
+      ],
+      "authority": "synthetic",
+      "status": "draft",
+      "approved_by": null,
+      "approved_at": null,
+      "source_sha256": "7cab710a05e9fba6f28f4972957252ced14009270860222ff12a9eb4d2c9bf23",
+      "parameters": {
+        "settings": [
+          {
+            "path": "/mass/include_self_weight",
+            "operator": "eq",
+            "value": true
+          },
+          {
+            "path": "/mass/source",
+            "operator": "eq",
+            "value": "approved-schedule"
+          }
+        ]
+      }
+    }
+  ],
+  "sources": [
+    {
+      "filename": "handoff-test.txt",
+      "sha256": "b76603417f9895f658a77faa8b52d853bed2f3e04c385b7ebbbc7b8236c4a9ff",
+      "content_base64": "U1lOVEhFVElDIFRFU1QgTUFURVJJQUwuIEZvciBFMSB0byBTMSBvbmx5LCBjb21wYXJlIHRyYW5zZmVyLnZlcnRpY2FsIGluIGV4cGxpY2l0bHkgc3VwcGxpZWQgdHJhbnNmZXIudW5pdCB2YWx1ZXMuIENvbnZlcnQgdG8ga04uIEFic29sdXRlIHRvbGVyYW5jZSAwLjAwMSBrTjsgcmVsYXRpdmUgdG9sZXJhbmNlIHplcm8uIFRoaXMgaXMgbm90IGEgc3RydWN0dXJhbCBzdGFuZGFyZCBvciBjbGllbnQtYXBwcm92ZWQgcnVsZS4="
+    },
+    {
+      "filename": "mass-source-test.txt",
+      "sha256": "7cab710a05e9fba6f28f4972957252ced14009270860222ff12a9eb4d2c9bf23",
+      "content_base64": "U1lOVEhFVElDIFRFU1QgTUFURVJJQUwuIFJlcXVpcmUgbWFzcy5pbmNsdWRlX3NlbGZfd2VpZ2h0IHRydWUgYW5kIG1hc3Muc291cmNlIGFwcHJvdmVkLXNjaGVkdWxlLiBNaXNzaW5nIGV2aWRlbmNlIGlzIE5PVCBWRVJJRklFRC4gVGhlc2UgZXhhY3QgY2hvc2VuIHZhbHVlcyBhcmUgdGVzdCBleHBlY3RhdGlvbnMsIG5vdCBhIGNsaWVudCBlbmdpbmVlcmluZyBjaGVja2xpc3Qu"
+    }
+  ]
+}

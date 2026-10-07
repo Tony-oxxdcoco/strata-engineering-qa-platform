@@ -1,0 +1,221 @@
+{
+  "schema": "strata-demo-suite/1",
+  "scope": "Hand-authored synthetic software tests. Expected answers are specified before execution; no client engineering accuracy claim.",
+  "inputs": [
+    {
+      "key": "transfer-source",
+      "file": "transfer-source.csv",
+      "adapter": "adapter-transfer.json"
+    },
+    {
+      "key": "transfer-target",
+      "file": "transfer-target.json"
+    },
+    {
+      "key": "transfer-error",
+      "file": "transfer-error.json"
+    },
+    {
+      "key": "mass-pass",
+      "file": "mass-pass.csv",
+      "adapter": "adapter-mass.json"
+    },
+    {
+      "key": "mass-error",
+      "file": "mass-error.csv",
+      "adapter": "adapter-mass.json"
+    },
+    {
+      "key": "mass-missing",
+      "file": "mass-missing.csv",
+      "adapter": "adapter-mass.json"
+    }
+  ],
+  "rule_package": "rule-package.synthetic.json",
+  "truth": {
+    "author": "STRATA synthetic fixture author",
+    "basis": "Independently written literal table values and test checklist: 100000 N = 100 kN; deliberate target 120000 N = 120 kN. Explicit mass flags as stated in the test source. Not derived from checker outputs.",
+    "independent": true
+  },
+  "cases": [
+    {
+      "case_id": "transfer-correct",
+      "task_id": "handoff",
+      "input": "transfer-source",
+      "target": "transfer-target",
+      "rule_versions": [
+        {
+          "id": "HANDOFF",
+          "version": "TEST-1"
+        }
+      ],
+      "expected": {
+        "status": "PASS",
+        "complete": true,
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "PASS"
+          },
+          {
+            "key": "HANDOFF/vertical-transfer",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": 100,
+                "absolute_tolerance": 0.001,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": 100,
+                "absolute_tolerance": 0.001,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0,
+                "absolute_tolerance": 0.001,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "transfer-deliberate-error",
+      "task_id": "handoff",
+      "input": "transfer-source",
+      "target": "transfer-error",
+      "rule_versions": [
+        {
+          "id": "HANDOFF",
+          "version": "TEST-1"
+        }
+      ],
+      "expected": {
+        "status": "FAIL",
+        "complete": true,
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "FAIL"
+          },
+          {
+            "key": "HANDOFF/vertical-transfer",
+            "status": "FAIL",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": 100,
+                "absolute_tolerance": 0.001,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": 120,
+                "absolute_tolerance": 0.001,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 20,
+                "absolute_tolerance": 0.001,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "mass-pass",
+      "task_id": "mass-source",
+      "input": "mass-pass",
+      "rule_versions": [
+        {
+          "id": "MASS-SOURCE",
+          "version": "TEST-1"
+        }
+      ],
+      "expected": {
+        "status": "PASS",
+        "complete": true,
+        "findings": [
+          {
+            "key": "MASS-SOURCE",
+            "status": "PASS"
+          },
+          {
+            "key": "MASS-SOURCE/setting-1",
+            "status": "PASS"
+          },
+          {
+            "key": "MASS-SOURCE/setting-2",
+            "status": "PASS"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "mass-error",
+      "task_id": "mass-source",
+      "input": "mass-error",
+      "rule_versions": [
+        {
+          "id": "MASS-SOURCE",
+          "version": "TEST-1"
+        }
+      ],
+      "expected": {
+        "status": "FAIL",
+        "complete": true,
+        "findings": [
+          {
+            "key": "MASS-SOURCE",
+            "status": "FAIL"
+          },
+          {
+            "key": "MASS-SOURCE/setting-1",
+            "status": "FAIL"
+          },
+          {
+            "key": "MASS-SOURCE/setting-2",
+            "status": "FAIL"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "mass-missing",
+      "task_id": "mass-source",
+      "input": "mass-missing",
+      "rule_versions": [
+        {
+          "id": "MASS-SOURCE",
+          "version": "TEST-1"
+        }
+      ],
+      "expected": {
+        "status": "NOT VERIFIED",
+        "complete": true,
+        "findings": [
+          {
+            "key": "MASS-SOURCE",
+            "status": "NOT VERIFIED"
+          },
+          {
+            "key": "MASS-SOURCE/setting-1",
+            "status": "PASS"
+          },
+          {
+            "key": "MASS-SOURCE/setting-2",
+            "status": "NOT VERIFIED"
+          }
+        ]
+      }
+    }
+  ]
+}

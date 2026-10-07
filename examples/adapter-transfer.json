@@ -1,0 +1,40 @@
+{
+  "schema": "strata-adapter/1",
+  "id": "TEST-TRANSFER",
+  "version": "1",
+  "title": "SYNTHETIC transfer adapter",
+  "authority": "synthetic",
+  "format": "csv",
+  "base": {
+    "synthetic": true,
+    "project": {
+      "revision": "E1"
+    }
+  },
+  "tables": [
+    {
+      "source": "csv",
+      "target": "/transfer",
+      "mode": "single",
+      "ignored_columns": [],
+      "fields": [
+        {
+          "aliases": [
+            "Force",
+            "Vertical"
+          ],
+          "target": "/vertical",
+          "type": "number",
+          "required": true,
+          "unit": {
+            "aliases": [
+              "Unit"
+            ],
+            "target": "kN",
+            "output": "/unit"
+          }
+        }
+      ]
+    }
+  ]
+}

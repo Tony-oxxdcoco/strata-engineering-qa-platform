@@ -1,0 +1,10 @@
+{
+  "synthetic": true,
+  "project": {
+    "revision": "S1"
+  },
+  "transfer": {
+    "vertical": 120000,
+    "unit": "N"
+  }
+}
