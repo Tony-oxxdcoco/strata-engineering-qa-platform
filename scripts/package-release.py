@@ -9,7 +9,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORIES = {'backend', 'web', 'dist', 'scripts', 'tests', 'docs', '.github', 'examples'}
-FILES = {'pytest.ini', 'package.json', 'README.md', 'TEAM_START_HERE.md', 'PROJECT_JOURNAL.md', 'CUSTOMER_REQUIREMENTS.md', 'VALIDATION.md', 'ITERATION_PLAN.md', 'TASK_QUEUE.md', 'Dockerfile', 'compose.yaml', '.env.example', '.dockerignore', '.gitignore', '.gitattributes', 'Setup STRATA.cmd', 'Start STRATA.cmd', 'Setup STRATA.command', 'Start STRATA.command', 'CLIENT_ADAPTATION.md', 'NEXT_SESSION.md'}
+FILES = {'pytest.ini', 'package.json', 'README.md', 'TEAM_START_HERE.md', 'PROJECT_JOURNAL.md', 'CUSTOMER_REQUIREMENTS.md', 'VALIDATION.md', 'ITERATION_PLAN.md', 'TASK_QUEUE.md', 'Dockerfile', 'compose.yaml', 'compose.week5.yaml', '.env.example', '.dockerignore', '.gitignore', '.gitattributes', 'Setup STRATA.cmd', 'Start STRATA.cmd', 'Setup STRATA.command', 'Start STRATA.command', 'CLIENT_ADAPTATION.md', 'NEXT_SESSION.md'}
 RELEASE = 'STRATA-' + json.loads((ROOT / 'package.json').read_text())['version']
 EXCLUDED = {'__pycache__', '.pytest_cache', '.DS_Store', '.venv', '.runtime', 'output', '.git', 'node_modules'}
 
@@ -46,18 +46,26 @@ def validate_env_example(path):
             raise ValueError('Environment example must contain only blank credential fields')
 
 
+def private_release_path(rel):
+    """Defence against accidentally staged local secrets/logs inside docs."""
+    return any(part.lower() in {'private', 'secrets'}
+               or part.lower().startswith(('private-', 'private.'))
+               or '.private.' in part.lower() or part.lower().endswith('.private')
+               for part in rel.parts)
+
+
 def build(destination):
     selected = []
     for rel in sorted(source_paths()):
         if rel.is_absolute() or '..' in rel.parts or not rel.parts:
             raise ValueError('Release source path must remain inside its source directory')
         path = ROOT / rel
-        if (not path.is_file() or path.is_symlink() or set(rel.parts) & EXCLUDED
+        if (not path.is_file() or path.is_symlink() or private_release_path(rel) or set(rel.parts) & EXCLUDED
                 or (path.name.startswith('.env') and str(rel) != '.env.example')
                 or path.suffix.lower() in {'.pyc', '.log', '.db', '.sqlite', '.sqlite3', '.pem', '.key', '.p12', '.pfx'}):
             continue
-        if not path.resolve().is_relative_to(ROOT.resolve()):
-            raise ValueError('Release source traverses a symbolic-link directory')
+        if path.resolve() != ROOT.resolve() / rel:
+            raise ValueError('Release source traverses or redirects through a symbolic-link directory')
         if rel.parts[0] not in DIRECTORIES and str(rel) not in FILES:
             continue
         if str(rel) == '.env.example':

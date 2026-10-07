@@ -35,6 +35,9 @@ MAX_BODY = 14_000_000
 def create_app(data_dir=None, testing=False, worker=True):
     store = Store(data_dir or os.environ.get("STRATA_DATA_DIR", ROOT / ".runtime"), os.environ.get("STRATA_DATABASE_URL"))
     runner = Runner(store)
+    week5_instance = os.environ.get("STRATA_WEEK5_INSTANCE", "")
+    if week5_instance and not re.fullmatch(r"[0-9a-f]{32}", week5_instance):
+        raise ValueError("STRATA_WEEK5_INSTANCE must be a managed 32-character hexadecimal instance identifier")
     bootstrap_lock = threading.Lock()
     login_attempts = {}
     public_origin = os.environ.get("STRATA_PUBLIC_ORIGIN", "").rstrip("/")
@@ -159,7 +162,10 @@ def create_app(data_dir=None, testing=False, worker=True):
     def health():
         with store.session() as session:
             session.execute(select(Resource.id).limit(1))
-        return {"status": "ok", "version": __version__, "workflow": WORKFLOW_VERSION, "storage": "server", "worker": bool(runner.thread and runner.thread.is_alive()), "tasks": model.TASKS}
+        result = {"status": "ok", "version": __version__, "workflow": WORKFLOW_VERSION, "storage": "server", "worker": bool(runner.thread and runner.thread.is_alive()), "tasks": model.TASKS}
+        if week5_instance:
+            result["week5_instance"] = week5_instance
+        return result
 
     @app.get("/api/v1/auth/setup")
     def setup():

@@ -1,0 +1,1628 @@
+{
+  "schema": "strata-docker-client-intake/1",
+  "status": "PASS",
+  "mode": "actual Docker Linux service / authenticated HTTP / background worker",
+  "application_version": "1.3.0",
+  "material_type": "synthetic",
+  "scope": "Independent synthetic intake only; no customer accuracy, native CSI or browser claim.",
+  "mapped_inputs": [
+    {
+      "file": "source.two-sheet.synthetic.xlsx",
+      "file_id": "file_f27729957c02096dc57dd0b5",
+      "file_sha256": "95da5df88c929e4f451bd89301c275dd8f9dfafdb8f217cd118c292da15a391a",
+      "snapshot_id": "snapshot_183efffecdefe347ae65c0f3",
+      "input_hash": "f5d0d51f109ba6d35bf0d146458a474ff647629725da69fefcc66f7c197cbd8a",
+      "adapter": "adapter-source.json",
+      "preview_equal_applied": true,
+      "input": {
+        "loads": {
+          "horizontal": {
+            "force": 225.0,
+            "node": "N7",
+            "unit": "kN"
+          },
+          "vertical": {
+            "force": -1850.0,
+            "node": "N7",
+            "unit": "kN"
+          }
+        },
+        "material_type": "synthetic",
+        "project": {
+          "name": "SYNTHETIC supplier NORTH N7",
+          "revision": "INTAKE-SRC-R17"
+        },
+        "synthetic": true
+      },
+      "provenance": [
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "D2",
+            "column": "AxialRaw_N",
+            "file": "source.two-sheet.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Vertical"
+          },
+          "original_unit": "N",
+          "original_value": -1850000,
+          "target": "/loads/vertical/force",
+          "unit": "kN",
+          "value": -1850.0
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "C2",
+            "column": "Port_ID",
+            "file": "source.two-sheet.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Vertical"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/loads/vertical/node",
+          "unit": null,
+          "value": "N7"
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "D2",
+            "column": "AtNode",
+            "file": "source.two-sheet.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Transverse"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/loads/horizontal/node",
+          "unit": null,
+          "value": "N7"
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "A2",
+            "column": "CrossRaw_N",
+            "file": "source.two-sheet.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Transverse"
+          },
+          "original_unit": "N",
+          "original_value": "225000",
+          "target": "/loads/horizontal/force",
+          "unit": "kN",
+          "value": 225.0
+        }
+      ]
+    },
+    {
+      "file": "target-pass.synthetic.csv",
+      "file_id": "file_d752c5b63421c324e3b6b21a",
+      "file_sha256": "f9f310ebc3d1413d73fb9124f3a9baf59e6f966ff89b2c0fb2ec5a1c8d15f599",
+      "snapshot_id": "snapshot_b2577db8f95020fc10a8451b",
+      "input_hash": "7b4a735a3a35735a881707f1ddab7f2a8316ae7ea12fab4500cc54e6fd26ed7e",
+      "adapter": "adapter-target.json",
+      "preview_equal_applied": true,
+      "input": {
+        "material_type": "synthetic",
+        "project": {
+          "name": "SYNTHETIC supplier ROOF N7",
+          "revision": "INTAKE-TGT-R6"
+        },
+        "received": {
+          "horizontal": {
+            "force": 225.0,
+            "unit": "kN"
+          },
+          "node": "N7",
+          "vertical": {
+            "force": -1849.8,
+            "unit": "kN"
+          }
+        },
+        "synthetic": true
+      },
+      "provenance": [
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "VerticalTotal",
+            "file": "target-pass.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": "kN",
+          "original_value": "-1849.8",
+          "target": "/received/vertical/force",
+          "unit": "kN",
+          "value": -1849.8
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "HorizontalTotal",
+            "file": "target-pass.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": "kN",
+          "original_value": "225",
+          "target": "/received/horizontal/force",
+          "unit": "kN",
+          "value": 225.0
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "record_id",
+            "file": "target-pass.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/received/node",
+          "unit": null,
+          "value": "N7"
+        }
+      ]
+    },
+    {
+      "file": "target-fail.synthetic.csv",
+      "file_id": "file_832845459b9e63c79cf22b3d",
+      "file_sha256": "70374790e51e5654b0701bc31bacb8d2c046ae47481e92e4288fb0f539f65ed3",
+      "snapshot_id": "snapshot_95daabc4edb98cd459ee063a",
+      "input_hash": "7d102e687200eb423fc5460afa80401b738a9f06965df68098ee7cc558f47c89",
+      "adapter": "adapter-target.json",
+      "preview_equal_applied": true,
+      "input": {
+        "material_type": "synthetic",
+        "project": {
+          "name": "SYNTHETIC supplier ROOF N7",
+          "revision": "INTAKE-TGT-R6"
+        },
+        "received": {
+          "horizontal": {
+            "force": 225.6,
+            "unit": "kN"
+          },
+          "node": "N7",
+          "vertical": {
+            "force": -1849.8,
+            "unit": "kN"
+          }
+        },
+        "synthetic": true
+      },
+      "provenance": [
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "V_Result",
+            "file": "target-fail.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": "kN",
+          "original_value": "-1849.8",
+          "target": "/received/vertical/force",
+          "unit": "kN",
+          "value": -1849.8
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "H_Result",
+            "file": "target-fail.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": "kN",
+          "original_value": "225.6",
+          "target": "/received/horizontal/force",
+          "unit": "kN",
+          "value": 225.6
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "record_id",
+            "file": "target-fail.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/received/node",
+          "unit": null,
+          "value": "N7"
+        }
+      ]
+    },
+    {
+      "file": "target-missing.synthetic.csv",
+      "file_id": "file_7dba7f46999fdb5a318d1462",
+      "file_sha256": "cda46282fefa376b4889d36b4beeda09a5411d52c6278845c05a47265af4cc11",
+      "snapshot_id": "snapshot_02028667108e397f4c88bc03",
+      "input_hash": "0b60d4e9383d22497f9853e76bb81e25f94560d7cb8b83797fad64cc6dba1141",
+      "adapter": "adapter-target-partial.json",
+      "preview_equal_applied": true,
+      "input": {
+        "material_type": "synthetic",
+        "project": {
+          "name": "SYNTHETIC supplier ROOF N7",
+          "revision": "INTAKE-TGT-R6"
+        },
+        "received": {
+          "node": "N7",
+          "vertical": {
+            "force": -1849.8,
+            "unit": "kN"
+          }
+        },
+        "synthetic": true
+      },
+      "provenance": [
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "997ef728e98c5870b84514ffbd3e3488966a6d86e6bd414ccf39453b70372f22",
+            "version": "2-partial"
+          },
+          "location": {
+            "cell": null,
+            "column": "VerticalTotal",
+            "file": "target-missing.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": "kN",
+          "original_value": "-1849.8",
+          "target": "/received/vertical/force",
+          "unit": "kN",
+          "value": -1849.8
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "997ef728e98c5870b84514ffbd3e3488966a6d86e6bd414ccf39453b70372f22",
+            "version": "2-partial"
+          },
+          "location": {
+            "cell": null,
+            "column": "record_id",
+            "file": "target-missing.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/received/node",
+          "unit": null,
+          "value": "N7"
+        }
+      ]
+    },
+    {
+      "file": "source.reissued.synthetic.xlsx",
+      "file_id": "file_9cbfe372deff97fab6a8418e",
+      "file_sha256": "f617c1011bf55fd75c629785efcc80b6b1715c10adf075bcc8c5dfb5088a5938",
+      "snapshot_id": "snapshot_1e4371bd3cc9c21d1d8c4d65",
+      "input_hash": "f5d0d51f109ba6d35bf0d146458a474ff647629725da69fefcc66f7c197cbd8a",
+      "adapter": "adapter-source.json",
+      "preview_equal_applied": true,
+      "input": {
+        "loads": {
+          "horizontal": {
+            "force": 225.0,
+            "node": "N7",
+            "unit": "kN"
+          },
+          "vertical": {
+            "force": -1850.0,
+            "node": "N7",
+            "unit": "kN"
+          }
+        },
+        "material_type": "synthetic",
+        "project": {
+          "name": "SYNTHETIC supplier NORTH N7",
+          "revision": "INTAKE-SRC-R17"
+        },
+        "synthetic": true
+      },
+      "provenance": [
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "D2",
+            "column": "AxialRaw_N",
+            "file": "source.reissued.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Vertical"
+          },
+          "original_unit": "N",
+          "original_value": -1850000,
+          "target": "/loads/vertical/force",
+          "unit": "kN",
+          "value": -1850.0
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "C2",
+            "column": "Port_ID",
+            "file": "source.reissued.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Vertical"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/loads/vertical/node",
+          "unit": null,
+          "value": "N7"
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "D2",
+            "column": "AtNode",
+            "file": "source.reissued.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Transverse"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/loads/horizontal/node",
+          "unit": null,
+          "value": "N7"
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-XLSX-NORTH",
+            "sha256": "1a8b20ed26e9333b2c874a36890ea63804c6fec4ab652371322ddb95a8307a77",
+            "version": "1"
+          },
+          "location": {
+            "cell": "A2",
+            "column": "CrossRaw_N",
+            "file": "source.reissued.synthetic.xlsx",
+            "row": 2,
+            "table": "P17_Transverse"
+          },
+          "original_unit": "N",
+          "original_value": "225000",
+          "target": "/loads/horizontal/force",
+          "unit": "kN",
+          "value": 225.0
+        }
+      ]
+    },
+    {
+      "file": "target-reissued.synthetic.csv",
+      "file_id": "file_156db5fb5a915d641d4f0fdc",
+      "file_sha256": "eedf5664b48cb5d3d9591daf33399b01b6d56f2f0eebce8258028df54526b36b",
+      "snapshot_id": "snapshot_4ebc6ee8da073a3c5d3ca701",
+      "input_hash": "7b4a735a3a35735a881707f1ddab7f2a8316ae7ea12fab4500cc54e6fd26ed7e",
+      "adapter": "adapter-target.json",
+      "preview_equal_applied": true,
+      "input": {
+        "material_type": "synthetic",
+        "project": {
+          "name": "SYNTHETIC supplier ROOF N7",
+          "revision": "INTAKE-TGT-R6"
+        },
+        "received": {
+          "horizontal": {
+            "force": 225.0,
+            "unit": "kN"
+          },
+          "node": "N7",
+          "vertical": {
+            "force": -1849.8,
+            "unit": "kN"
+          }
+        },
+        "synthetic": true
+      },
+      "provenance": [
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "VerticalTotal",
+            "file": "target-reissued.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": "kN",
+          "original_value": "-1849.8",
+          "target": "/received/vertical/force",
+          "unit": "kN",
+          "value": -1849.8
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "HorizontalTotal",
+            "file": "target-reissued.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": "kN",
+          "original_value": "225",
+          "target": "/received/horizontal/force",
+          "unit": "kN",
+          "value": 225.0
+        },
+        {
+          "adapter": {
+            "id": "INTAKE-CSV-ROOF",
+            "sha256": "e32a1efd9cfa710ff107ba7b8fd29018eac54b3d922d00834f50b0e10ea0aab9",
+            "version": "1"
+          },
+          "location": {
+            "cell": null,
+            "column": "record_id",
+            "file": "target-reissued.synthetic.csv",
+            "row": 2,
+            "table": "csv"
+          },
+          "original_unit": null,
+          "original_value": "N7",
+          "target": "/received/node",
+          "unit": null,
+          "value": "N7"
+        }
+      ]
+    }
+  ],
+  "mapping_errors": [
+    {
+      "expected": {
+        "file": "target-missing.synthetic.csv",
+        "adapter": "adapter-target.json",
+        "field": "/horizontal/force",
+        "reason_contains": "Required field missing"
+      },
+      "actual": {
+        "detail": {
+          "kind": "IMPORT_MAPPING_ERROR",
+          "message": "Explicit mapping failed; inspect file, table and field locations.",
+          "errors": [
+            {
+              "file": "target-missing.synthetic.csv",
+              "table": "csv",
+              "row": 2,
+              "field": "/horizontal/force",
+              "reason": "Required field missing"
+            }
+          ]
+        }
+      },
+      "no_snapshot_created": true
+    },
+    {
+      "expected": {
+        "file": "target-MN-unsupported.synthetic.csv",
+        "adapter": "adapter-target.json",
+        "field": "VerticalTotal",
+        "reason_contains": "Unknown unit; no conversion inferred"
+      },
+      "actual": {
+        "detail": {
+          "kind": "IMPORT_MAPPING_ERROR",
+          "message": "Explicit mapping failed; inspect file, table and field locations.",
+          "errors": [
+            {
+              "file": "target-MN-unsupported.synthetic.csv",
+              "table": "csv",
+              "row": 2,
+              "field": "VerticalTotal",
+              "reason": "Unknown unit; no conversion inferred"
+            },
+            {
+              "file": "target-MN-unsupported.synthetic.csv",
+              "table": "csv",
+              "row": 2,
+              "field": "HorizontalTotal",
+              "reason": "Unknown unit; no conversion inferred"
+            }
+          ]
+        }
+      },
+      "no_snapshot_created": true
+    },
+    {
+      "expected": {
+        "file": "target-undeclared-column.synthetic.csv",
+        "adapter": "adapter-target.json",
+        "field": "UnreviewedExtra",
+        "reason_contains": "Unknown column"
+      },
+      "actual": {
+        "detail": {
+          "kind": "IMPORT_MAPPING_ERROR",
+          "message": "Explicit mapping failed; inspect file, table and field locations.",
+          "errors": [
+            {
+              "file": "target-undeclared-column.synthetic.csv",
+              "table": "csv",
+              "row": null,
+              "field": "UnreviewedExtra",
+              "reason": "Unknown column: map explicitly or list in ignored_columns"
+            }
+          ]
+        }
+      },
+      "no_snapshot_created": true
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_bb21d767308d2776d5ed9a70",
+      "rule_id": "HANDOFF",
+      "version": "INTAKE-R1",
+      "imported_status": "draft"
+    },
+    {
+      "id": "rule_05f6f5e2fca1144111725251",
+      "rule_id": "HANDOFF",
+      "version": "INTAKE-R2",
+      "imported_status": "draft"
+    },
+    {
+      "id": "rule_7378963967e16178b9126ec2",
+      "rule_id": "HANDOFF",
+      "version": "INTAKE-R3",
+      "imported_status": "draft"
+    }
+  ],
+  "batches": [
+    {
+      "rule_version": "INTAKE-R1",
+      "evaluation_id": "evaluation_6b5aa6147a311b5fb43e0253",
+      "measured_before_retirement": true,
+      "result": {
+        "id": "evaluation_6b5aa6147a311b5fb43e0253",
+        "created_at": "2026-10-07T11:10:13.185859+00:00",
+        "state": "COMPLETED",
+        "progress": {
+          "finished": 3,
+          "total": 3
+        },
+        "summary": {
+          "total": 3,
+          "matched": 3,
+          "false_pass_cases": 0,
+          "expected_nonpass_cases": 2,
+          "invalid_cases": 0,
+          "findings": {
+            "missed_issues": 0,
+            "false_alarms": 0,
+            "false_pass": 0,
+            "insufficient_evidence": 2,
+            "numeric_mismatches": 0,
+            "missing_findings": 0,
+            "unexpected_findings": 0
+          }
+        },
+        "items": [
+          {
+            "case_id": "NEW-INTAKE-PASS",
+            "version": "INTAKE-R1",
+            "title": "SYNTHETIC independently authored intake pass",
+            "authority": "synthetic",
+            "run_id": "run_8875d69c94e7dcc2cdcde587",
+            "expected": "PASS",
+            "actual": "PASS",
+            "state": "COMPLETED",
+            "matched": true,
+            "false_pass_case": false,
+            "invalid_reasons": [],
+            "counts": {
+              "missed_issues": 0,
+              "false_alarms": 0,
+              "false_pass": 0,
+              "insufficient_evidence": 0,
+              "numeric_mismatches": 0,
+              "missing_findings": 0,
+              "unexpected_findings": 0
+            },
+            "items": [
+              {
+                "key": "HANDOFF",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": []
+              },
+              {
+                "key": "HANDOFF/VERTICAL-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": -1850,
+                    "actual": -1850.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": -1849.8,
+                    "actual": -1849.8,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.2,
+                    "actual": 0.20000000000004547,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.25,
+                    "actual": 0.25,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              },
+              {
+                "key": "HANDOFF/TRANSVERSE-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": 225,
+                    "actual": 225.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": 225,
+                    "actual": 225.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0,
+                    "actual": 0.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.25,
+                    "actual": 0.25,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              }
+            ],
+            "unexpected_items": [],
+            "truth": {
+              "author": "Independent synthetic fixture author",
+              "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+              "independent": true
+            },
+            "oracle_sha256": "ecafe60409b1429c47a7604cb02d5f8de17f40f77c2607d68a6a00dfd1434915",
+            "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+          },
+          {
+            "case_id": "NEW-INTAKE-FAIL",
+            "version": "INTAKE-R1",
+            "title": "SYNTHETIC independently authored intake fail",
+            "authority": "synthetic",
+            "run_id": "run_87a0673033ead5df0725be31",
+            "expected": "FAIL",
+            "actual": "FAIL",
+            "state": "COMPLETED",
+            "matched": true,
+            "false_pass_case": false,
+            "invalid_reasons": [],
+            "counts": {
+              "missed_issues": 0,
+              "false_alarms": 0,
+              "false_pass": 0,
+              "insufficient_evidence": 0,
+              "numeric_mismatches": 0,
+              "missing_findings": 0,
+              "unexpected_findings": 0
+            },
+            "items": [
+              {
+                "key": "HANDOFF",
+                "expected": "FAIL",
+                "actual": "FAIL",
+                "matched": true,
+                "numbers": []
+              },
+              {
+                "key": "HANDOFF/VERTICAL-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": -1850,
+                    "actual": -1850.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": -1849.8,
+                    "actual": -1849.8,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.2,
+                    "actual": 0.20000000000004547,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.25,
+                    "actual": 0.25,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              },
+              {
+                "key": "HANDOFF/TRANSVERSE-N7",
+                "expected": "FAIL",
+                "actual": "FAIL",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": 225,
+                    "actual": 225.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": 225.6,
+                    "actual": 225.6,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.5999999999999943,
+                    "actual": 0.5999999999999943,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.25,
+                    "actual": 0.25,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              }
+            ],
+            "unexpected_items": [],
+            "truth": {
+              "author": "Independent synthetic fixture author",
+              "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+              "independent": true
+            },
+            "oracle_sha256": "ccaf1708913ed4d5abba8f7381abc9dc0d1f8d4e34bb46ea14e5aa6119a1be69",
+            "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+          },
+          {
+            "case_id": "NEW-INTAKE-NOT_VERIFIED",
+            "version": "INTAKE-R1",
+            "title": "SYNTHETIC independently authored intake not_verified",
+            "authority": "synthetic",
+            "run_id": "run_218d67e00c61404b68a0101d",
+            "expected": "NOT VERIFIED",
+            "actual": "NOT VERIFIED",
+            "state": "WAITING",
+            "matched": true,
+            "false_pass_case": false,
+            "invalid_reasons": [],
+            "counts": {
+              "missed_issues": 0,
+              "false_alarms": 0,
+              "false_pass": 0,
+              "insufficient_evidence": 2,
+              "numeric_mismatches": 0,
+              "missing_findings": 0,
+              "unexpected_findings": 0
+            },
+            "items": [
+              {
+                "key": "HANDOFF",
+                "expected": "NOT VERIFIED",
+                "actual": "NOT VERIFIED",
+                "matched": true,
+                "numbers": []
+              },
+              {
+                "key": "HANDOFF/VERTICAL-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": -1850,
+                    "actual": -1850.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": -1849.8,
+                    "actual": -1849.8,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.2,
+                    "actual": 0.20000000000004547,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.25,
+                    "actual": 0.25,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              },
+              {
+                "key": "HANDOFF/TRANSVERSE-N7",
+                "expected": "NOT VERIFIED",
+                "actual": "NOT VERIFIED",
+                "matched": true,
+                "numbers": []
+              }
+            ],
+            "unexpected_items": [],
+            "truth": {
+              "author": "Independent synthetic fixture author",
+              "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+              "independent": true
+            },
+            "oracle_sha256": "ecea82d29f86dbf23b74d8a7297d4f290449ba75268711a28dd3abec9afd192b",
+            "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+          }
+        ],
+        "scope": "Declared independent oracles. Synthetic cases are software tests; client technical validation is still required."
+      }
+    },
+    {
+      "rule_version": "INTAKE-R3",
+      "evaluation_id": "evaluation_60a472ad7e15fdbd408be510",
+      "measured_before_retirement": true,
+      "result": {
+        "id": "evaluation_60a472ad7e15fdbd408be510",
+        "created_at": "2026-10-07T11:10:14.133560+00:00",
+        "state": "COMPLETED",
+        "progress": {
+          "finished": 3,
+          "total": 3
+        },
+        "summary": {
+          "total": 3,
+          "matched": 3,
+          "false_pass_cases": 0,
+          "expected_nonpass_cases": 2,
+          "invalid_cases": 0,
+          "findings": {
+            "missed_issues": 0,
+            "false_alarms": 0,
+            "false_pass": 0,
+            "insufficient_evidence": 2,
+            "numeric_mismatches": 0,
+            "missing_findings": 0,
+            "unexpected_findings": 0
+          }
+        },
+        "items": [
+          {
+            "case_id": "NEW-INTAKE-PASS",
+            "version": "INTAKE-R3",
+            "title": "SYNTHETIC independently authored intake pass",
+            "authority": "synthetic",
+            "run_id": "run_f9f8e7bf91294e5bdd31e4b5",
+            "expected": "PASS",
+            "actual": "PASS",
+            "state": "COMPLETED",
+            "matched": true,
+            "false_pass_case": false,
+            "invalid_reasons": [],
+            "counts": {
+              "missed_issues": 0,
+              "false_alarms": 0,
+              "false_pass": 0,
+              "insufficient_evidence": 0,
+              "numeric_mismatches": 0,
+              "missing_findings": 0,
+              "unexpected_findings": 0
+            },
+            "items": [
+              {
+                "key": "HANDOFF",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": []
+              },
+              {
+                "key": "HANDOFF/VERTICAL-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": -1850,
+                    "actual": -1850.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": -1849.8,
+                    "actual": -1849.8,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.2,
+                    "actual": 0.20000000000004547,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.37,
+                    "actual": 0.37,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              },
+              {
+                "key": "HANDOFF/TRANSVERSE-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": 225,
+                    "actual": 225.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": 225,
+                    "actual": 225.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0,
+                    "actual": 0.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.1,
+                    "actual": 0.1,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              }
+            ],
+            "unexpected_items": [],
+            "truth": {
+              "author": "Independent synthetic fixture author",
+              "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+              "independent": true
+            },
+            "oracle_sha256": "46b9c25d498a2c882823c264aeb8a1609346a0f324feba1def104bc2f0eaa074",
+            "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+          },
+          {
+            "case_id": "NEW-INTAKE-FAIL",
+            "version": "INTAKE-R3",
+            "title": "SYNTHETIC independently authored intake fail",
+            "authority": "synthetic",
+            "run_id": "run_4474d546687c1e82ac9cee6d",
+            "expected": "FAIL",
+            "actual": "FAIL",
+            "state": "COMPLETED",
+            "matched": true,
+            "false_pass_case": false,
+            "invalid_reasons": [],
+            "counts": {
+              "missed_issues": 0,
+              "false_alarms": 0,
+              "false_pass": 0,
+              "insufficient_evidence": 0,
+              "numeric_mismatches": 0,
+              "missing_findings": 0,
+              "unexpected_findings": 0
+            },
+            "items": [
+              {
+                "key": "HANDOFF",
+                "expected": "FAIL",
+                "actual": "FAIL",
+                "matched": true,
+                "numbers": []
+              },
+              {
+                "key": "HANDOFF/VERTICAL-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": -1850,
+                    "actual": -1850.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": -1849.8,
+                    "actual": -1849.8,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.2,
+                    "actual": 0.20000000000004547,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.37,
+                    "actual": 0.37,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              },
+              {
+                "key": "HANDOFF/TRANSVERSE-N7",
+                "expected": "FAIL",
+                "actual": "FAIL",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": 225,
+                    "actual": 225.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": 225.6,
+                    "actual": 225.6,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.5999999999999943,
+                    "actual": 0.5999999999999943,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.1,
+                    "actual": 0.1,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              }
+            ],
+            "unexpected_items": [],
+            "truth": {
+              "author": "Independent synthetic fixture author",
+              "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+              "independent": true
+            },
+            "oracle_sha256": "629c1157a77a4af0ec61d32c3f9299699679b81a592900c04c3c4670fc82bfca",
+            "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+          },
+          {
+            "case_id": "NEW-INTAKE-NOT_VERIFIED",
+            "version": "INTAKE-R3",
+            "title": "SYNTHETIC independently authored intake not_verified",
+            "authority": "synthetic",
+            "run_id": "run_74c506698f0d3948059e3355",
+            "expected": "NOT VERIFIED",
+            "actual": "NOT VERIFIED",
+            "state": "WAITING",
+            "matched": true,
+            "false_pass_case": false,
+            "invalid_reasons": [],
+            "counts": {
+              "missed_issues": 0,
+              "false_alarms": 0,
+              "false_pass": 0,
+              "insufficient_evidence": 2,
+              "numeric_mismatches": 0,
+              "missing_findings": 0,
+              "unexpected_findings": 0
+            },
+            "items": [
+              {
+                "key": "HANDOFF",
+                "expected": "NOT VERIFIED",
+                "actual": "NOT VERIFIED",
+                "matched": true,
+                "numbers": []
+              },
+              {
+                "key": "HANDOFF/VERTICAL-N7",
+                "expected": "PASS",
+                "actual": "PASS",
+                "matched": true,
+                "numbers": [
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/expected",
+                    "relative_tolerance": 0,
+                    "value": -1850,
+                    "actual": -1850.0,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/actual",
+                    "relative_tolerance": 0,
+                    "value": -1849.8,
+                    "actual": -1849.8,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/delta",
+                    "relative_tolerance": 0,
+                    "value": 0.2,
+                    "actual": 0.20000000000004547,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  },
+                  {
+                    "absolute_tolerance": 1e-08,
+                    "path": "/tolerance",
+                    "relative_tolerance": 0,
+                    "value": 0.37,
+                    "actual": 0.37,
+                    "tolerance": 1e-08,
+                    "matched": true
+                  }
+                ]
+              },
+              {
+                "key": "HANDOFF/TRANSVERSE-N7",
+                "expected": "NOT VERIFIED",
+                "actual": "NOT VERIFIED",
+                "matched": true,
+                "numbers": []
+              }
+            ],
+            "unexpected_items": [],
+            "truth": {
+              "author": "Independent synthetic fixture author",
+              "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+              "independent": true
+            },
+            "oracle_sha256": "e172a3b8e83292d1a4c60fef0e09c3954880b09ee2b4e3e9d4efc22f2cdc1828",
+            "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+          }
+        ],
+        "scope": "Declared independent oracles. Synthetic cases are software tests; client technical validation is still required."
+      }
+    }
+  ],
+  "oracle_sha256": "a605c4097980361ecfb85fe8d98a1e27dfb65156fcfbddb7f1235d2dd4696ee4",
+  "fixture_manifest_sha256": "01e506040d17fb8486beb0df549252f8a6ce64cc38a9eb6a3f987abc8fdd80ef",
+  "project_id": "project_0ad390a10dd0b54cfb46b28e",
+  "draft_rule_gate": {
+    "run_id": "run_a4d6d53785095d07456324b2",
+    "status": "NOT VERIFIED",
+    "state": "WAITING"
+  },
+  "missing_material_requests": [
+    {
+      "finding": "HANDOFF/TRANSVERSE-N7",
+      "id": "material-6c7d1a264338",
+      "kind": "input_field",
+      "state": "OPEN",
+      "what": "/received/horizontal/force",
+      "where": {
+        "action": "Create a corrected snapshot or re-import the original export",
+        "field": "/received/horizontal/force",
+        "side": "target",
+        "view": "Versions"
+      },
+      "why": "Missing mapped path /received/horizontal/force."
+    },
+    {
+      "finding": "HANDOFF/TRANSVERSE-N7",
+      "id": "material-170a71d58cd6",
+      "kind": "input_field",
+      "state": "OPEN",
+      "what": "/received/horizontal/unit",
+      "where": {
+        "action": "Create a corrected snapshot or re-import the original export",
+        "field": "/received/horizontal/unit",
+        "side": "target",
+        "view": "Versions"
+      },
+      "why": "Missing mapped path /received/horizontal/force."
+    }
+  ],
+  "material_request_side_path_verified": true,
+  "input_change": {
+    "old_run_id": "run_8875d69c94e7dcc2cdcde587",
+    "old_review_state": "STALE",
+    "old_review_count": 1,
+    "stale_reasons": [
+      "A newer input revision is active"
+    ],
+    "successor_id": "run_3b2a00f9c0db4f0b9b13a1e8",
+    "source_and_target_hashes_changed": true
+  },
+  "rule_change": {
+    "old_run_id": "run_3b2a00f9c0db4f0b9b13a1e8",
+    "old_review_state": "STALE",
+    "stale_reasons": [
+      "An applied rule is no longer approved",
+      "Applicable approved rule context has changed"
+    ],
+    "strict_comparison": {
+      "case_id": "NEW-INTAKE-PASS",
+      "version": "INTAKE-R2",
+      "title": "SYNTHETIC same values under tighter rule",
+      "authority": "synthetic",
+      "run_id": "run_f94bbd2d82bdad68adb52fa5",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "state": "COMPLETED",
+      "matched": true,
+      "false_pass_case": false,
+      "invalid_reasons": [],
+      "counts": {
+        "missed_issues": 0,
+        "false_alarms": 0,
+        "false_pass": 0,
+        "insufficient_evidence": 0,
+        "numeric_mismatches": 0,
+        "missing_findings": 0,
+        "unexpected_findings": 0
+      },
+      "items": [
+        {
+          "key": "HANDOFF",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "numbers": []
+        },
+        {
+          "key": "HANDOFF/VERTICAL-N7",
+          "expected": "FAIL",
+          "actual": "FAIL",
+          "matched": true,
+          "numbers": [
+            {
+              "path": "/expected",
+              "value": -1850,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": -1850.0,
+              "tolerance": 1e-08,
+              "matched": true
+            },
+            {
+              "path": "/actual",
+              "value": -1849.8,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": -1849.8,
+              "tolerance": 1e-08,
+              "matched": true
+            },
+            {
+              "path": "/delta",
+              "value": 0.2,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": 0.20000000000004547,
+              "tolerance": 1e-08,
+              "matched": true
+            },
+            {
+              "path": "/tolerance",
+              "value": 0.1,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": 0.1,
+              "tolerance": 1e-08,
+              "matched": true
+            }
+          ]
+        },
+        {
+          "key": "HANDOFF/TRANSVERSE-N7",
+          "expected": "PASS",
+          "actual": "PASS",
+          "matched": true,
+          "numbers": [
+            {
+              "path": "/expected",
+              "value": 225,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": 225.0,
+              "tolerance": 1e-08,
+              "matched": true
+            },
+            {
+              "path": "/actual",
+              "value": 225,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": 225.0,
+              "tolerance": 1e-08,
+              "matched": true
+            },
+            {
+              "path": "/delta",
+              "value": 0,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": 0.0,
+              "tolerance": 1e-08,
+              "matched": true
+            },
+            {
+              "path": "/tolerance",
+              "value": 0.1,
+              "absolute_tolerance": 1e-08,
+              "relative_tolerance": 0,
+              "actual": 0.1,
+              "tolerance": 1e-08,
+              "matched": true
+            }
+          ]
+        }
+      ],
+      "unexpected_items": [],
+      "truth": {
+        "author": "Independent synthetic fixture author",
+        "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+        "independent": true
+      },
+      "oracle_sha256": "75404f72d41764beb6988c684aa39b2f364e921ddba6773b89b6fb5a9d579c46",
+      "scope": "Pinned case inputs. A match evaluates this declared oracle, not structural safety."
+    }
+  },
+  "final_review": {
+    "run_id": "run_e361412f2e3e6a7679efbe82",
+    "status": "PASS",
+    "review_state": "APPROVED",
+    "parent_run_id": "run_f94bbd2d82bdad68adb52fa5"
+  },
+  "retired_batch": {
+    "evaluation_id": "evaluation_6b5aa6147a311b5fb43e0253",
+    "invalid_cases": 3,
+    "invalid_reasons": [
+      [
+        "An applied rule is no longer approved",
+        "Applicable approved rule context has changed"
+      ],
+      [
+        "An applied rule is no longer approved",
+        "Applicable approved rule context has changed"
+      ],
+      [
+        "An applied rule is no longer approved",
+        "Applicable approved rule context has changed"
+      ]
+    ]
+  },
+  "source_bytes_verified": 8,
+  "summary": {
+    "initial_batch": "evaluation_6b5aa6147a311b5fb43e0253",
+    "final_batch": "evaluation_60a472ad7e15fdbd408be510",
+    "new_independent_case_variants": 3,
+    "rule_versions_exercised": 3,
+    "initial_matches": 3,
+    "final_matches": 3,
+    "mapping_failures_correctly_located": 3,
+    "lifecycle_verified": true,
+    "paid_model_calls": 0,
+    "customer_engineering_accuracy": "NOT VERIFIED",
+    "native_CSI": "NOT VERIFIED"
+  }
+}

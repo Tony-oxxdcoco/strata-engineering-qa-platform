@@ -1,0 +1,41 @@
+{
+  "schema": "strata-rule-package/1",
+  "title": "SYNTHETIC Week 5 basic combination",
+  "material_type": "synthetic",
+  "rules": [
+    {
+      "id": "COMB-001",
+      "project_id": "portable-synthetic-week5",
+      "version": "W5-TEST-1",
+      "title": "SYNTHETIC basic linear combination",
+      "text": "SYNTHETIC TEST MATERIAL. This exercise checks one scalar linear static response at a fixed location and revision in kN. Recompute C1 = 1.2 * SDL + 1.5 * LIVE from independently supplied base responses. Use closed tolerance max(1 kN, 1% of abs(expected)). A missing independent response or its source is NOT VERIFIED. These test factors are not a client-approved rule or an engineering standard.",
+      "locator": "Page 1",
+      "task_ids": [
+        "load-combination"
+      ],
+      "check_ids": [
+        "COMB-001"
+      ],
+      "status": "draft",
+      "authority": "synthetic",
+      "source_sha256": "40b317bed10ca53b4e9aaec4811e61dae0f1bcd47372889f4c10334eeabd7c02",
+      "approved_by": null,
+      "approved_at": null,
+      "parameters": {},
+      "conditions": [
+        {
+          "path": "/analysisType",
+          "operator": "eq",
+          "value": "linear-static"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "filename": "linear-combination-rule.synthetic.txt",
+      "sha256": "40b317bed10ca53b4e9aaec4811e61dae0f1bcd47372889f4c10334eeabd7c02",
+      "content_base64": "U1lOVEhFVElDIFRFU1QgTUFURVJJQUwuIFRoaXMgZXhlcmNpc2UgY2hlY2tzIG9uZSBzY2FsYXIgbGluZWFyIHN0YXRpYyByZXNwb25zZSBhdCBhIGZpeGVkIGxvY2F0aW9uIGFuZCByZXZpc2lvbiBpbiBrTi4gUmVjb21wdXRlIEMxID0gMS4yICogU0RMICsgMS41ICogTElWRSBmcm9tIGluZGVwZW5kZW50bHkgc3VwcGxpZWQgYmFzZSByZXNwb25zZXMuIFVzZSBjbG9zZWQgdG9sZXJhbmNlIG1heCgxIGtOLCAxJSBvZiBhYnMoZXhwZWN0ZWQpKS4gQSBtaXNzaW5nIGluZGVwZW5kZW50IHJlc3BvbnNlIG9yIGl0cyBzb3VyY2UgaXMgTk9UIFZFUklGSUVELiBUaGVzZSB0ZXN0IGZhY3RvcnMgYXJlIG5vdCBhIGNsaWVudC1hcHByb3ZlZCBydWxlIG9yIGFuIGVuZ2luZWVyaW5nIHN0YW5kYXJkLg=="
+    }
+  ]
+}

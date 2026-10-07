@@ -1,0 +1,592 @@
+{
+  "schema": "strata-browser-intake-verification/1",
+  "runtime_version": "1.3.0-rc.1",
+  "ui_source": "web/app.js includes project-context reset and conditional full-run lifecycle sync, captured before final Docker build",
+  "url": "http://127.0.0.1:4190",
+  "project_id": "project_37f35146fcbb4bd5d653b06c",
+  "project_name": "SYNTHETIC V13 browser intake - new supplier aliases",
+  "fixtures": "examples/client-intake-v13",
+  "material_type": "synthetic",
+  "real_customer_inputs": false,
+  "llm_live": false,
+  "gui_workflow": "new project; upload XLSX and CSV; file-picker profile imports; mapping preview/apply; rule package validate/import draft; reviewer approval; manual Engineering handoff task; select independent source/target; run and export",
+  "mapped_snapshots": {
+    "source": "snapshot_5a6a0cfa4f39def1374bcf39",
+    "pass_target": "snapshot_765dd1189cd9cd701a01dbeb",
+    "fail_target": "snapshot_bc668ddabf06df01ee5ca2d2",
+    "missing_target": "snapshot_541dcfdc7a3079e8c6f2a65d"
+  },
+  "draft_gate": {
+    "run_id": "run_11adfb2934bc436a20e7fc00",
+    "state": "WAITING",
+    "status": "NOT VERIFIED",
+    "needed": "approved HANDOFF rule"
+  },
+  "strict_mapping_failure": {
+    "file": "target-missing.synthetic.csv",
+    "table": "csv",
+    "row": 2,
+    "field": "/horizontal/force",
+    "reason": "Required field is missing",
+    "preview_rejected": true,
+    "apply_rejected": true,
+    "snapshot_count_before_and_after": 3,
+    "error_switch_to_zh_preserved_file": true
+  },
+  "partial_missing_evidence": {
+    "run_id": "run_a72ffb47543cdcb4d24f679e",
+    "status": "NOT VERIFIED",
+    "material_requests_exact": [
+      {
+        "side": "target",
+        "field": "/received/horizontal/force"
+      },
+      {
+        "side": "target",
+        "field": "/received/horizontal/unit"
+      }
+    ],
+    "no_source_side_requests": true
+  },
+  "rule_lifecycle": {
+    "r1_approved_run": "run_ba8b00a17521f6090081c926",
+    "r1_after_r2": "STALE",
+    "r2_strict_run": "run_83c91118941b11a784401e72",
+    "r3_final_run": "run_305e31993142f2916e72bcc4",
+    "r3_parent": "run_83c91118941b11a784401e72",
+    "r3_review": "APPROVED",
+    "r3_current_at_export": true,
+    "r3_resolution": [
+      {
+        "assignee": null,
+        "finding_id": "HANDOFF",
+        "notes": [
+          {
+            "action": "resolve",
+            "actor": "user_dcedc4c7e0ce6ee6c8045ffe",
+            "at": "2026-10-07T11:25:37.732563+00:00",
+            "note": "Synthetic R3 software rule explicitly changes relative tolerance to .0002. Same independently supplied vertical delta .2 is within .37 kN; horizontal delta 0 within .1 kN. R2 original FAIL retained.",
+            "username": "week5-presenter"
+          }
+        ],
+        "resolution_run_id": "run_305e31993142f2916e72bcc4",
+        "resolved_at": "2026-10-07T11:25:37.732555+00:00",
+        "resolved_by": "user_dcedc4c7e0ce6ee6c8045ffe",
+        "source_run_id": "run_83c91118941b11a784401e72",
+        "state": "RESOLVED",
+        "technical_status": "FAIL",
+        "title": "HANDOFF",
+        "id": "issue_1ac94f5de9ed59833d0b7e8e46c6ba0878c31f3f2843123d6448773db6034cfe",
+        "created_at": "2026-10-07T11:20:44.231667+00:00",
+        "revision": 2
+      }
+    ]
+  },
+  "p0_ui_repairs": [
+    {
+      "code": "web/app.js changeProjectContext",
+      "trigger": "create new project from old selected Review result",
+      "verified": "new project and normal old/new/old switching remove old selected run/draft note/project progress while preserving language",
+      "screenshot": "00-project-context-isolated.png"
+    },
+    {
+      "code": "web/app.js loadDashboard conditional selected full-run refresh",
+      "trigger": "approve/retire rule while a previous result is selected",
+      "before": "10-rule-change-stales-approved-r1.png main result still APPROVED while saved rows STALE",
+      "verified": "R2->R3 approval immediately marks selected run STALE; native Week5 previously APPROVED->retire immediately marks STALE, disables confirmation, no manual refresh",
+      "screenshots": [
+        "13-rule-change-sync-immediate.png",
+        "16-approved-review-invalidates-immediately.png"
+      ]
+    }
+  ],
+  "actual_report_exports": [
+    {
+      "file": "output/client-intake-v13/exports/r1-approved-before-rule-change-ui.json",
+      "sha256": "562cd782fe01a3612717bcd76112a842aa399ed9810ce386e36d2816271c13bd",
+      "run_id": "run_ba8b00a17521f6090081c926",
+      "status": "PASS",
+      "state": "COMPLETED",
+      "review_state": "APPROVED",
+      "stale_at_export": false,
+      "parent_run_id": null,
+      "cache_hit": true,
+      "rules": [
+        "rule_f6d93398ff7ea16ffb7f727f"
+      ],
+      "details": [
+        {
+          "id": "VERTICAL-N7",
+          "status": "PASS",
+          "expected": -1850.0,
+          "actual": -1849.8,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/vertical/force",
+              "/loads/vertical/unit"
+            ],
+            "target": [
+              "/received/vertical/force",
+              "/received/vertical/unit"
+            ]
+          }
+        },
+        {
+          "id": "TRANSVERSE-N7",
+          "status": "PASS",
+          "expected": 225.0,
+          "actual": 225.0,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/horizontal/force",
+              "/loads/horizontal/unit"
+            ],
+            "target": [
+              "/received/horizontal/force",
+              "/received/horizontal/unit"
+            ]
+          }
+        }
+      ],
+      "share_copy": "docs/client-intake-v13/exports/r1-approved-before-rule-change-ui.json"
+    },
+    {
+      "file": "output/client-intake-v13/exports/r1-fail-ui.json",
+      "sha256": "16a6b216c086664629171cf07bcb1b134b73718a3e3d9b9a0b3203051738c57f",
+      "run_id": "run_13ad5f89ddf3668b02ef3a95",
+      "status": "FAIL",
+      "state": "COMPLETED",
+      "review_state": "UNREVIEWED",
+      "stale_at_export": false,
+      "parent_run_id": null,
+      "cache_hit": false,
+      "rules": [
+        "rule_f6d93398ff7ea16ffb7f727f"
+      ],
+      "details": [
+        {
+          "id": "VERTICAL-N7",
+          "status": "PASS",
+          "expected": -1850.0,
+          "actual": -1849.8,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/vertical/force",
+              "/loads/vertical/unit"
+            ],
+            "target": [
+              "/received/vertical/force",
+              "/received/vertical/unit"
+            ]
+          }
+        },
+        {
+          "id": "TRANSVERSE-N7",
+          "status": "FAIL",
+          "expected": 225.0,
+          "actual": 225.6,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/horizontal/force",
+              "/loads/horizontal/unit"
+            ],
+            "target": [
+              "/received/horizontal/force",
+              "/received/horizontal/unit"
+            ]
+          }
+        }
+      ],
+      "share_copy": "docs/client-intake-v13/exports/r1-fail-ui.json"
+    },
+    {
+      "file": "output/client-intake-v13/exports/r1-not-verified-ui.json",
+      "sha256": "c2167c302a9c42bc5743b554996cd24c34355cb85802be597e3c11a430d6cac1",
+      "run_id": "run_a72ffb47543cdcb4d24f679e",
+      "status": "NOT VERIFIED",
+      "state": "WAITING",
+      "review_state": "UNREVIEWED",
+      "stale_at_export": false,
+      "parent_run_id": null,
+      "cache_hit": false,
+      "rules": [
+        "rule_f6d93398ff7ea16ffb7f727f"
+      ],
+      "details": [
+        {
+          "id": "VERTICAL-N7",
+          "status": "PASS",
+          "expected": -1850.0,
+          "actual": -1849.8,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/vertical/force",
+              "/loads/vertical/unit"
+            ],
+            "target": [
+              "/received/vertical/force",
+              "/received/vertical/unit"
+            ]
+          }
+        },
+        {
+          "id": "TRANSVERSE-N7",
+          "status": "NOT VERIFIED",
+          "expected": null,
+          "actual": null,
+          "tolerance": null,
+          "reason": "Missing mapped path /received/horizontal/force.",
+          "dependency_sides": {
+            "source": [
+              "/loads/horizontal/force",
+              "/loads/horizontal/unit"
+            ],
+            "target": [
+              "/received/horizontal/force",
+              "/received/horizontal/unit"
+            ]
+          }
+        }
+      ],
+      "share_copy": "docs/client-intake-v13/exports/r1-not-verified-ui.json"
+    },
+    {
+      "file": "output/client-intake-v13/exports/r1-pass-ui.json",
+      "sha256": "d746423b1bc03926c85eae94853d26881f24e7a444493368ccbb08ecdf125cff",
+      "run_id": "run_e3a04cf2821b64d6e7a11e8e",
+      "status": "PASS",
+      "state": "COMPLETED",
+      "review_state": "UNREVIEWED",
+      "stale_at_export": false,
+      "parent_run_id": null,
+      "cache_hit": false,
+      "rules": [
+        "rule_f6d93398ff7ea16ffb7f727f"
+      ],
+      "details": [
+        {
+          "id": "VERTICAL-N7",
+          "status": "PASS",
+          "expected": -1850.0,
+          "actual": -1849.8,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/vertical/force",
+              "/loads/vertical/unit"
+            ],
+            "target": [
+              "/received/vertical/force",
+              "/received/vertical/unit"
+            ]
+          }
+        },
+        {
+          "id": "TRANSVERSE-N7",
+          "status": "PASS",
+          "expected": 225.0,
+          "actual": 225.0,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/horizontal/force",
+              "/loads/horizontal/unit"
+            ],
+            "target": [
+              "/received/horizontal/force",
+              "/received/horizontal/unit"
+            ]
+          }
+        }
+      ],
+      "share_copy": "docs/client-intake-v13/exports/r1-pass-ui.json"
+    },
+    {
+      "file": "output/client-intake-v13/exports/r1-stale-after-rule-change-ui.json",
+      "sha256": "6daa5502104a7c052d85f8ba3684cb1334a384e5f88d9db0ed0fe518715b276e",
+      "run_id": "run_ba8b00a17521f6090081c926",
+      "status": "PASS",
+      "state": "COMPLETED",
+      "review_state": "STALE",
+      "stale_at_export": true,
+      "parent_run_id": null,
+      "cache_hit": true,
+      "rules": [
+        "rule_f6d93398ff7ea16ffb7f727f"
+      ],
+      "details": [
+        {
+          "id": "VERTICAL-N7",
+          "status": "PASS",
+          "expected": -1850.0,
+          "actual": -1849.8,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/vertical/force",
+              "/loads/vertical/unit"
+            ],
+            "target": [
+              "/received/vertical/force",
+              "/received/vertical/unit"
+            ]
+          }
+        },
+        {
+          "id": "TRANSVERSE-N7",
+          "status": "PASS",
+          "expected": 225.0,
+          "actual": 225.0,
+          "tolerance": 0.25,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/horizontal/force",
+              "/loads/horizontal/unit"
+            ],
+            "target": [
+              "/received/horizontal/force",
+              "/received/horizontal/unit"
+            ]
+          }
+        }
+      ],
+      "share_copy": "docs/client-intake-v13/exports/r1-stale-after-rule-change-ui.json"
+    },
+    {
+      "file": "output/client-intake-v13/exports/r2-strict-fail-ui.json",
+      "sha256": "1a83dbfc5ed64c10da4910d7ac290e5ae6a33f39b5cf568bd07acc2dc578b697",
+      "run_id": "run_83c91118941b11a784401e72",
+      "status": "FAIL",
+      "state": "COMPLETED",
+      "review_state": "UNREVIEWED",
+      "stale_at_export": false,
+      "parent_run_id": "run_ba8b00a17521f6090081c926",
+      "cache_hit": false,
+      "rules": [
+        "rule_7f7ca3df0c3d3cfe6969415f"
+      ],
+      "details": [
+        {
+          "id": "VERTICAL-N7",
+          "status": "FAIL",
+          "expected": -1850.0,
+          "actual": -1849.8,
+          "tolerance": 0.1,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/vertical/force",
+              "/loads/vertical/unit"
+            ],
+            "target": [
+              "/received/vertical/force",
+              "/received/vertical/unit"
+            ]
+          }
+        },
+        {
+          "id": "TRANSVERSE-N7",
+          "status": "PASS",
+          "expected": 225.0,
+          "actual": 225.0,
+          "tolerance": 0.1,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/horizontal/force",
+              "/loads/horizontal/unit"
+            ],
+            "target": [
+              "/received/horizontal/force",
+              "/received/horizontal/unit"
+            ]
+          }
+        }
+      ],
+      "share_copy": "docs/client-intake-v13/exports/r2-strict-fail-ui.json"
+    },
+    {
+      "file": "output/client-intake-v13/exports/r3-reviewed-pass-ui.json",
+      "sha256": "8d114bc2850211c98204b22806e0c662578bad322dc9de5963ab2c640997084d",
+      "run_id": "run_305e31993142f2916e72bcc4",
+      "status": "PASS",
+      "state": "COMPLETED",
+      "review_state": "APPROVED",
+      "stale_at_export": false,
+      "parent_run_id": "run_83c91118941b11a784401e72",
+      "cache_hit": false,
+      "rules": [
+        "rule_97d9f8bc6b23ba7513c461c3"
+      ],
+      "details": [
+        {
+          "id": "VERTICAL-N7",
+          "status": "PASS",
+          "expected": -1850.0,
+          "actual": -1849.8,
+          "tolerance": 0.37,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/vertical/force",
+              "/loads/vertical/unit"
+            ],
+            "target": [
+              "/received/vertical/force",
+              "/received/vertical/unit"
+            ]
+          }
+        },
+        {
+          "id": "TRANSVERSE-N7",
+          "status": "PASS",
+          "expected": 225.0,
+          "actual": 225.0,
+          "tolerance": 0.1,
+          "reason": "Compared against explicit manifest tolerance.",
+          "dependency_sides": {
+            "source": [
+              "/loads/horizontal/force",
+              "/loads/horizontal/unit"
+            ],
+            "target": [
+              "/received/horizontal/force",
+              "/received/horizontal/unit"
+            ]
+          }
+        }
+      ],
+      "share_copy": "docs/client-intake-v13/exports/r3-reviewed-pass-ui.json"
+    }
+  ],
+  "gui_unrun": [
+    "Register case and batch comparison GUI were not rerun for this new fixture; separate API acceptance is output/client-intake-v13/verification.json.",
+    "Real customer materials, real engineering rule approval and CSI integration",
+    "Six-person spoken demo rehearsal"
+  ],
+  "browser_console": "Two HTTP422 network errors occurred as expected for strict missing-field preview/apply; not JS failures.",
+  "automation_notes": [
+    "One transient helper tried Upload files while new project retained Review navigation; switched to Workspace.",
+    "One observational assertion expected concatenated Review state:STALE without DOM whitespace; actual snapshot already had STALE and disabled Confirm. Corrected assertion passed; no application failure."
+  ],
+  "operation_log": "output/client-intake-v13/browser-operations.jsonl",
+  "assets": [
+    {
+      "file": "output/client-intake-v13/screenshots/00-project-context-isolated.png",
+      "share_copy": "docs/client-intake-v13/screenshots/00-project-context-isolated.png",
+      "sha256": "e38bc0ab0849bbd5b74904328e20c91ac0dce2d79e94af8adc998dce8c7c163f",
+      "bytes": 93962
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/01-two-sheet-original-mapping.png",
+      "share_copy": "docs/client-intake-v13/screenshots/01-two-sheet-original-mapping.png",
+      "sha256": "e2c242028b1adcd578edd0380bf0b48615f9315ddf064a0b5cd34bbf2ec67f6e",
+      "bytes": 183250
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/02-target-alias-mapping.png",
+      "share_copy": "docs/client-intake-v13/screenshots/02-target-alias-mapping.png",
+      "sha256": "da2c295da4dcb185732d20f9599209f201f6d0d7feb2ccf7bba8b350152ff34e",
+      "bytes": 164536
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/03-imported-draft-r1.png",
+      "share_copy": "docs/client-intake-v13/screenshots/03-imported-draft-r1.png",
+      "sha256": "280b5527d776de97d09faad9692557b0494ad030b7d0953306e26f96bef77dba",
+      "bytes": 150626
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/04-draft-rule-blocks.png",
+      "share_copy": "docs/client-intake-v13/screenshots/04-draft-rule-blocks.png",
+      "sha256": "85ad17d4494bc585595305f5ef960649d41eec34cca5b9718ec28dc461cbf71f",
+      "bytes": 77881
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/05-r1-pass-independent-paths.png",
+      "share_copy": "docs/client-intake-v13/screenshots/05-r1-pass-independent-paths.png",
+      "sha256": "bd0541ce535572c875e06e44271c5f82ed3404202cb7d6a73ddb3b8082ff6878",
+      "bytes": 91964
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/06-r1-fail-transverse.png",
+      "share_copy": "docs/client-intake-v13/screenshots/06-r1-fail-transverse.png",
+      "sha256": "c8ae40fc6baf7049b9f77be5c205fa85eb1c0c70c10f67c012553e87a794f587",
+      "bytes": 89904
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/07-strict-missing-field-rejected.png",
+      "share_copy": "docs/client-intake-v13/screenshots/07-strict-missing-field-rejected.png",
+      "sha256": "b26c97ffeee2cbec3b6c88b0b2b96f2d8d266933e1e6e1cd99eec8bf3ca86dd7",
+      "bytes": 213888
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/08-mapping-error-zh-preserved.png",
+      "share_copy": "docs/client-intake-v13/screenshots/08-mapping-error-zh-preserved.png",
+      "sha256": "353b98dfd33d93c87018ee8bf0329012e115f2098be26b6d9ee488fd30bb9855",
+      "bytes": 185050
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/09-partial-target-not-verified.png",
+      "share_copy": "docs/client-intake-v13/screenshots/09-partial-target-not-verified.png",
+      "sha256": "11da1db8417c4ea321db1fa4286bced29db668e4665c0fcf592fb117ec44d12e",
+      "bytes": 119130
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/10-rule-change-stales-approved-r1.png",
+      "share_copy": "docs/client-intake-v13/screenshots/10-rule-change-stales-approved-r1.png",
+      "sha256": "c89da7f9f776d70d0ca4dd1c10399a586d311fea668d7193542b3326d30a3c05",
+      "bytes": 120896
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/11-r1-stale-after-refresh.png",
+      "share_copy": "docs/client-intake-v13/screenshots/11-r1-stale-after-refresh.png",
+      "sha256": "59dd5db971890bb8cc6cd93a31d4c76093fb6d5aa693878b1416b9846acd4d7f",
+      "bytes": 113832
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/12-r2-strict-vertical-fail.png",
+      "share_copy": "docs/client-intake-v13/screenshots/12-r2-strict-vertical-fail.png",
+      "sha256": "87f58da367738fab37fb38c334779457db02344a4abcac57a53178f8eba06c3d",
+      "bytes": 111386
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/13-rule-change-sync-immediate.png",
+      "share_copy": "docs/client-intake-v13/screenshots/13-rule-change-sync-immediate.png",
+      "sha256": "476ceea0cd365343d125813fa6c56650a00a2fa75179d57f9012b6369204fd97",
+      "bytes": 117401
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/14-r3-relative-tolerance-pass.png",
+      "share_copy": "docs/client-intake-v13/screenshots/14-r3-relative-tolerance-pass.png",
+      "sha256": "73e4ba7896170741d58b40df0f1d749094673c0914c739544ae82d56ab6daf17",
+      "bytes": 108689
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/15-r3-reviewed-current-report.png",
+      "share_copy": "docs/client-intake-v13/screenshots/15-r3-reviewed-current-report.png",
+      "sha256": "46b3a31ec0868f825e4067daef5f8f42d1095f69db3dcc20aaeddb0dfcd5b20c",
+      "bytes": 97457
+    },
+    {
+      "file": "output/client-intake-v13/screenshots/16-approved-review-invalidates-immediately.png",
+      "share_copy": "docs/client-intake-v13/screenshots/16-approved-review-invalidates-immediately.png",
+      "sha256": "3b74fe835c7c9bf7d207cef52bb496ee1a01d46fc483290b0d3fb7b1f8f33d99",
+      "bytes": 129041
+    }
+  ],
+  "verified_at_utc": "2026-10-07T11:27:50.297277+00:00"
+}

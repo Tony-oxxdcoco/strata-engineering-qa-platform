@@ -1,5 +1,6 @@
 // Application-owned interface text; engineering source text is never translated.
 export default Object.freeze({
+  "Missing independent base case {id}; unknown or nested combinations cannot be evaluated.": "Missing independent base case {id}; unknown or nested combinations cannot be evaluated.",
   " to the evidence.": " to the evidence.",
   "A clear line": "A clear line",
   "A complete, explicitly approved versioned manifest is required.": "A complete, explicitly approved versioned manifest is required.",
@@ -1248,5 +1249,6 @@ export default Object.freeze({
   "部分楼层的分配无法确认。": "Some floor assignments cannot be verified.",
   "需补充 {id}": "Required evidence: {id}",
   "需要有证据的完整任务书，才能确定检查范围。": "A complete, evidenced independent brief is required to establish the scope.",
-  "额外 {id}": "Extra {id}"
+  "额外 {id}": "Extra {id}",
+  "STRATA_WEEK5_INSTANCE must be a managed 32-character hexadecimal instance identifier": "STRATA_WEEK5_INSTANCE must be a managed 32-character hexadecimal instance identifier"
 });

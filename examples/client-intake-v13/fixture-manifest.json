@@ -1,0 +1,25 @@
+{
+  "material_type": "synthetic",
+  "schema": "strata-client-intake-fixtures/1",
+  "scope": "Not supplied by a customer; no real CSI connection. Numeric oracle was authored before STRATA execution.",
+  "files": {
+    "adapter-source.json": "8b577ee441f61539104fdec33dabc584af757e16992150d78930e8f7ffb9be97",
+    "adapter-target-partial.json": "874d89dc41c927f0c9e169006322708898b5bc581f46c60fdfbc2da5a2d5de84",
+    "adapter-target.json": "1c9835f505f432362ceaa8c2f0c6d103ef14ec6868b431650f4730a95fee60c0",
+    "oracle.json": "a605c4097980361ecfb85fe8d98a1e27dfb65156fcfbddb7f1235d2dd4696ee4",
+    "rule-INTAKE-R1.synthetic.txt": "b9aee1b84b7fc6d92d31a21e0f34f6593faec611839160c060b22a80180c9ba1",
+    "rule-INTAKE-R2.synthetic.txt": "57b368c26133a2a72c706695553c52ddee890c7f403c17046e342283b5725323",
+    "rule-INTAKE-R3.synthetic.txt": "0d93c38045e6a88d132286afa113b33cb5b05f7ea80424bc6d9e2e0d9da952fa",
+    "rule-package-INTAKE-R1.json": "134dacc8c5aba131b1bffee3be1cde5ad0ec3508e717fadaaba258d6dd268d45",
+    "rule-package-INTAKE-R2.json": "6b9dc0a6a183260c681621b65d17db5d7248d1b6eba6a19de9e4eb35f828087d",
+    "rule-package-INTAKE-R3.json": "b5cd3f5dfb733ce2f5b5fc132d8ce8bbf5d2ab025228c2e26eeb6f82cc07ed00",
+    "source.reissued.synthetic.xlsx": "f617c1011bf55fd75c629785efcc80b6b1715c10adf075bcc8c5dfb5088a5938",
+    "source.two-sheet.synthetic.xlsx": "95da5df88c929e4f451bd89301c275dd8f9dfafdb8f217cd118c292da15a391a",
+    "target-MN-unsupported.synthetic.csv": "80c4dbe4752cd91dd2eb5c0c74b79ead57c9162429748ed21bef83b473019a1d",
+    "target-fail.synthetic.csv": "70374790e51e5654b0701bc31bacb8d2c046ae47481e92e4288fb0f539f65ed3",
+    "target-missing.synthetic.csv": "cda46282fefa376b4889d36b4beeda09a5411d52c6278845c05a47265af4cc11",
+    "target-pass.synthetic.csv": "f9f310ebc3d1413d73fb9124f3a9baf59e6f966ff89b2c0fb2ec5a1c8d15f599",
+    "target-reissued.synthetic.csv": "eedf5664b48cb5d3d9591daf33399b01b6d56f2f0eebce8258028df54526b36b",
+    "target-undeclared-column.synthetic.csv": "23f87f7de5db41d5f11cd6f4d0a94ebfedb7dc84ebdbd8eb770d580d4ca67aa3"
+  }
+}

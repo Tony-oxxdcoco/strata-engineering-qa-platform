@@ -1,2 +1,7 @@
 *.cmd text eol=crlf
 *.command text eol=lf
+*.pdf binary
+*.pptx binary
+*.xlsx binary
+# Raw synthetic exports are hash-bound; preserve their CSV CRLF bytes.
+examples/client-intake-v13/*.csv -text whitespace=cr-at-eol

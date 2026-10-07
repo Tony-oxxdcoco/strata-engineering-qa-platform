@@ -77,3 +77,19 @@ def test_actual_review_states_are_translated_without_changing_protocol_records(s
     english=render_report(*args,'2026-10-07T01:00:00Z')
     assert '<dt>Review state</dt><dd>'+state+'</dd>' in english
     assert args==before
+
+
+@pytest.mark.parametrize('state,stale,label,zh_label', [
+    ('UNREVIEWED',False,'DRAFT - NOT REVIEWED','草稿 - 尚未复核'),
+    ('EVIDENCE_REQUESTED',False,'DRAFT - NOT REVIEWED','草稿 - 尚未复核'),
+    ('APPROVED',False,'REVIEWED SOFTWARE RECORD','已复核的软件检查记录'),
+    ('APPROVED',True,'DRAFT - CURRENT REVIEW REQUIRED','草稿 - 需要重新复核当前资料'),
+])
+def test_report_document_state_requires_a_current_review(state,stale,label,zh_label):
+    args=records();args[1].update(review_state=state,stale=stale)
+    before=copy.deepcopy(args)
+    en=render_report(*args,'2026-10-07T01:00:00Z')
+    zh=render_report(*args,'2026-10-07T01:00:00Z',language='zh-CN')
+    assert '<strong>'+label+'</strong>' in en
+    assert '<strong>'+zh_label+'</strong>' in zh
+    assert args==before

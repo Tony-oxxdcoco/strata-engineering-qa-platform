@@ -1,0 +1,86 @@
+{
+  "schema": "strata-adapter/1",
+  "id": "INTAKE-XLSX-NORTH",
+  "version": "1",
+  "title": "SYNTHETIC two-sheet N7 source adapter",
+  "authority": "synthetic",
+  "format": "xlsx",
+  "base": {
+    "synthetic": true,
+    "material_type": "synthetic",
+    "project": {
+      "name": "SYNTHETIC supplier NORTH N7",
+      "revision": "INTAKE-SRC-R17"
+    }
+  },
+  "tables": [
+    {
+      "source": "P17_Vertical",
+      "target": "/loads/vertical",
+      "mode": "single",
+      "ignored_columns": [
+        "ExportNote"
+      ],
+      "fields": [
+        {
+          "aliases": [
+            "AxialRaw_N",
+            "GravityBaseN"
+          ],
+          "target": "/force",
+          "type": "number",
+          "required": true,
+          "unit": {
+            "aliases": [
+              "Measure"
+            ],
+            "target": "kN",
+            "output": "/unit"
+          }
+        },
+        {
+          "aliases": [
+            "Port_ID"
+          ],
+          "target": "/node",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "source": "P17_Transverse",
+      "target": "/loads/horizontal",
+      "mode": "single",
+      "ignored_columns": [
+        "Meta"
+      ],
+      "fields": [
+        {
+          "aliases": [
+            "AtNode"
+          ],
+          "target": "/node",
+          "type": "string",
+          "required": true
+        },
+        {
+          "aliases": [
+            "CrossRaw_N",
+            "LateralBaseN"
+          ],
+          "target": "/force",
+          "type": "number",
+          "required": true,
+          "unit": {
+            "aliases": [
+              "CrossUnit"
+            ],
+            "target": "kN",
+            "output": "/unit"
+          }
+        }
+      ]
+    }
+  ]
+}

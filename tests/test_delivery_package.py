@@ -85,3 +85,35 @@ def test_manifest_cannot_escape_source_root(tmp_path, monkeypatch):
     monkeypatch.setattr(release, "ROOT", root)
     with pytest.raises(ValueError, match="inside"):
         release.build(tmp_path / "bad.zip")
+
+
+def test_accidentally_staged_private_receipts_still_cannot_ship(source, tmp_path):
+    private_names = ["docs/docker-commands.private.json", "docs/private-log.json",
+                     "docs/private.json", "docs/private/note.md", "docs/secrets/token.txt"]
+    for name in private_names:
+        path = source / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("synthetic private credential fixture")
+    git(source, "add", *private_names)
+    destination = tmp_path / "private-filter.zip"
+    release.build(destination)
+    with zipfile.ZipFile(destination) as archive:
+        names = set(archive.namelist())
+        assert all("STRATA-test/" + name not in names for name in private_names)
+        assert "STRATA-test/docs/public.md" in names
+
+
+def test_staged_parent_symlink_cannot_redirect_into_private_output(source, tmp_path):
+    public = source / "docs/reviewed-directory"
+    public.mkdir()
+    (public / "receipt.json").write_text("public receipt")
+    git(source, "add", "docs/reviewed-directory/receipt.json")
+    (public / "receipt.json").unlink()
+    public.rmdir()
+    private = source / "output/private"
+    private.mkdir(parents=True)
+    (private / "receipt.json").write_text("synthetic private backup")
+    public.symlink_to(private, target_is_directory=True)
+    with pytest.raises(ValueError, match="symbolic-link directory"):
+        release.build(tmp_path / "redirected.zip")
+    assert not (tmp_path / "redirected.zip").exists()

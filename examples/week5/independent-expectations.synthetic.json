@@ -1,0 +1,123 @@
+{
+  "schema": "strata-week5-oracle/1",
+  "material_type": "synthetic",
+  "truth": {
+    "independent": true,
+    "author": "STRATA controlled fixture author",
+    "basis": "Hand-written before running STRATA: 1.2*100+1.5*50=195; closed tolerance max(1,0.01*195)=1.95. 195 is within [193.05,196.95]; 210 exceeds it by 15. Missing independent LIVE cannot be calculated. Test material only, not engineer acceptance."
+  },
+  "rule_versions": [
+    {
+      "id": "COMB-001",
+      "version": "W5-TEST-1"
+    }
+  ],
+  "cases": [
+    {
+      "key": "pass",
+      "case_id": "W5-PASS",
+      "file": "combination-pass.synthetic.json",
+      "task_id": "load-combination",
+      "expected": {
+        "status": "PASS",
+        "complete": true,
+        "findings": [
+          {
+            "key": "C1",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/details/0/expected",
+                "value": 195,
+                "absolute_tolerance": 0,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/details/0/actual",
+                "value": 195,
+                "absolute_tolerance": 0,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/details/0/tolerance",
+                "value": 1.95,
+                "absolute_tolerance": 1e-12,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "fail",
+      "case_id": "W5-FAIL",
+      "file": "combination-fail.synthetic.json",
+      "task_id": "load-combination",
+      "expected": {
+        "status": "FAIL",
+        "complete": true,
+        "findings": [
+          {
+            "key": "C1",
+            "status": "FAIL",
+            "numbers": [
+              {
+                "path": "/details/0/expected",
+                "value": 195,
+                "absolute_tolerance": 0,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/details/0/actual",
+                "value": 210,
+                "absolute_tolerance": 0,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/details/0/tolerance",
+                "value": 1.95,
+                "absolute_tolerance": 1e-12,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "missing",
+      "case_id": "W5-MISSING",
+      "file": "combination-missing.synthetic.json",
+      "task_id": "load-combination",
+      "expected": {
+        "status": "NOT VERIFIED",
+        "complete": true,
+        "findings": [
+          {
+            "key": "C1",
+            "status": "NOT VERIFIED"
+          }
+        ]
+      }
+    }
+  ],
+  "repaired": {
+    "status": "PASS",
+    "expected": 195,
+    "reported": 195,
+    "tolerance": 1.95
+  },
+  "reference_mapping": {
+    "original_N": [
+      100000,
+      50000
+    ],
+    "normalised_kN": [
+      100,
+      50
+    ],
+    "complete_check_input": false
+  },
+  "scope": "Controlled scalar arithmetic only. No structural design certification, AS 1170 factors, native CSI or client-approved content."
+}

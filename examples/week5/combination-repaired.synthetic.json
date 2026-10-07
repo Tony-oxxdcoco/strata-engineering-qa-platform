@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "combination-1.0",
+  "synthetic": true,
+  "project": {
+    "name": "SYNTHETIC Week 5 controlled scalar response",
+    "revision": "W5-R02"
+  },
+  "analysisType": "linear-static",
+  "unit": "kN",
+  "baseCases": [
+    {
+      "id": "SDL",
+      "value": 100,
+      "evidenceRef": "reference-responses"
+    },
+    {
+      "id": "LIVE",
+      "value": 50,
+      "evidenceRef": "reference-responses"
+    }
+  ],
+  "combinations": [
+    {
+      "id": "C1",
+      "terms": [
+        {
+          "caseId": "SDL",
+          "factor": 1.2
+        },
+        {
+          "caseId": "LIVE",
+          "factor": 1.5
+        }
+      ],
+      "reportedValue": 195,
+      "evidenceRef": "reported-combinations"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "reference-responses",
+      "title": "Independent synthetic base-response sheet",
+      "locator": "New controlled independent reference, rows SDL and LIVE",
+      "content": "SYNTHETIC independently supplied reference for W5-R02: SDL = 100 kN and LIVE = 50 kN at the same location and scalar component. Added LIVE input must be read from this prepared source, never inferred by the model."
+    },
+    {
+      "id": "reported-combinations",
+      "title": "Separately supplied synthetic combination export",
+      "locator": "Corrected separately supplied synthetic export, row C1",
+      "content": "SYNTHETIC corrected separately supplied export W5-R02: C1 reported response = 195 kN. The independent manual calculation is 1.2 * 100 + 1.5 * 50 = 195 kN."
+    }
+  ]
+}

@@ -122,6 +122,7 @@ export function runCombinationChecks(input) {
   const results = data.combinations.map((combination, index) => {
     const reasons = [...globalReasons];
     const products = [];
+    const materialNeeds = [];
     const refs = [combination.evidenceRef, ...combination.terms.map(term => bases.get(term.caseId)?.evidenceRef)].filter(ref => typeof ref === 'string' && ref.length > 0);
     if (!combination.terms.length) reasons.push('No base-case terms were supplied; an empty sum is not a verified response.');
     if (!evidenceOK(combination.evidenceRef)) reasons.push('Reported combination response is missing a source record with title, locator and content.');
@@ -129,6 +130,7 @@ export function runCombinationChecks(input) {
       const base = bases.get(term.caseId);
       if (!base) {
         reasons.push(`Missing independent base case ${term.caseId}; unknown or nested combinations cannot be evaluated.`);
+        materialNeeds.push({kind:'input_field', field:'/baseCases', object_id:term.caseId, reason:`Missing independent base case ${term.caseId}; unknown or nested combinations cannot be evaluated.`});
         continue;
       }
       if (!evidenceOK(base.evidenceRef)) reasons.push(`Base case ${base.id} is missing a source record with title, locator and content.`);
@@ -164,7 +166,7 @@ export function runCombinationChecks(input) {
       status,
       summary: reason || (status === 'PASS' ? 'Separately supplied reported response matches linear superposition within the fixed demo tolerance.' : 'Reported response differs from linear superposition beyond the fixed demo tolerance.'),
       details: [{
-        label: combination.id, expected, actual: combination.reportedValue, unit: data.unit, formula,
+        label: combination.id, status, materialNeeds, expected, actual: combination.reportedValue, unit: data.unit, formula,
         tolerance, reason: reason || (status === 'PASS' ? 'Within max(1 kN, 1% × |expected|).' : 'Outside max(1 kN, 1% × |expected|).'),
         location: `combinations[${index}].reportedValue ↔ ${combination.terms.map(term => bases.get(term.caseId)?.location || `missing base case ${term.caseId}`).join(', ')}`,
         evidenceRefs: [...new Set(refs)],

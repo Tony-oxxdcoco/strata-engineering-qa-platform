@@ -262,3 +262,12 @@ test('source text cannot prematurely close the report input snapshot code fence'
   assert.ok(report.includes('&lt;script&gt;'));
   assert.ok(report.endsWith('````\n'));
 });
+
+test('missing base case emits a structured material request without guessed values', () => {
+  const input = clean(); input.baseCases = input.baseCases.filter(base => base.id !== 'LIVE');
+  const row = first(input); const detail = row.details[0];
+  assert.equal(row.status, 'NOT VERIFIED'); assert.equal(detail.expected, null);
+  assert.equal(detail.status, 'NOT VERIFIED');
+  assert.deepEqual(detail.materialNeeds.map(need=>[need.kind,need.field,need.object_id]), [['input_field','/baseCases','LIVE']]);
+  assert.equal(first(clean()).details[0].materialNeeds.length, 0);
+});

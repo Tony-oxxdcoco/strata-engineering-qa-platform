@@ -1,0 +1,484 @@
+{
+  "schema": "strata-client-intake-oracle/1",
+  "material_type": "synthetic",
+  "frozen_before_system_execution": true,
+  "scope": "Entirely new synthetic supplier-style exports; not client engineering truth, engineering approval or native CSI interoperability.",
+  "truth": {
+    "author": "Independent synthetic fixture author",
+    "basis": "Hand-authored before running STRATA: -1850000 N = -1850 kN; 225000 N = 225 kN. Target vertical -1849.8 kN differs by +0.2 kN; horizontal 225.6 differs by +0.6 kN. Version1 max(.25,abs(source)*.00001); version2 .10; version3 max(.10,abs(source)*.0002). Missing horizontal is unknown, never zero. No checker output was used to generate this oracle.",
+    "independent": true
+  },
+  "rule_versions": {
+    "INTAKE-R1": {
+      "pass": {
+        "status": "PASS",
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "PASS"
+          },
+          {
+            "key": "HANDOFF/VERTICAL-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": -1850,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": -1849.8,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.2,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.25,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          },
+          {
+            "key": "HANDOFF/TRANSVERSE-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.25,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ],
+        "complete": true
+      },
+      "fail": {
+        "status": "FAIL",
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "FAIL"
+          },
+          {
+            "key": "HANDOFF/VERTICAL-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": -1850,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": -1849.8,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.2,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.25,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          },
+          {
+            "key": "HANDOFF/TRANSVERSE-N7",
+            "status": "FAIL",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": 225.6,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.5999999999999943,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.25,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ],
+        "complete": true
+      },
+      "not_verified": {
+        "status": "NOT VERIFIED",
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "NOT VERIFIED"
+          },
+          {
+            "key": "HANDOFF/VERTICAL-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": -1850,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": -1849.8,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.2,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.25,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          },
+          {
+            "key": "HANDOFF/TRANSVERSE-N7",
+            "status": "NOT VERIFIED"
+          }
+        ],
+        "complete": true
+      }
+    },
+    "INTAKE-R2": {
+      "pass": {
+        "status": "FAIL",
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "FAIL"
+          },
+          {
+            "key": "HANDOFF/VERTICAL-N7",
+            "status": "FAIL",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": -1850,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": -1849.8,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.2,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.1,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          },
+          {
+            "key": "HANDOFF/TRANSVERSE-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.1,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ],
+        "complete": true
+      }
+    },
+    "INTAKE-R3": {
+      "pass": {
+        "status": "PASS",
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "PASS"
+          },
+          {
+            "key": "HANDOFF/VERTICAL-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": -1850,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": -1849.8,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.2,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.37,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          },
+          {
+            "key": "HANDOFF/TRANSVERSE-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.1,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ],
+        "complete": true
+      },
+      "fail": {
+        "status": "FAIL",
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "FAIL"
+          },
+          {
+            "key": "HANDOFF/VERTICAL-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": -1850,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": -1849.8,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.2,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.37,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          },
+          {
+            "key": "HANDOFF/TRANSVERSE-N7",
+            "status": "FAIL",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": 225,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": 225.6,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.5999999999999943,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.1,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          }
+        ],
+        "complete": true
+      },
+      "not_verified": {
+        "status": "NOT VERIFIED",
+        "findings": [
+          {
+            "key": "HANDOFF",
+            "status": "NOT VERIFIED"
+          },
+          {
+            "key": "HANDOFF/VERTICAL-N7",
+            "status": "PASS",
+            "numbers": [
+              {
+                "path": "/expected",
+                "value": -1850,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/actual",
+                "value": -1849.8,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/delta",
+                "value": 0.2,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              },
+              {
+                "path": "/tolerance",
+                "value": 0.37,
+                "absolute_tolerance": 1e-08,
+                "relative_tolerance": 0
+              }
+            ]
+          },
+          {
+            "key": "HANDOFF/TRANSVERSE-N7",
+            "status": "NOT VERIFIED"
+          }
+        ],
+        "complete": true
+      }
+    }
+  },
+  "mapping_errors": [
+    {
+      "file": "target-missing.synthetic.csv",
+      "adapter": "adapter-target.json",
+      "field": "/horizontal/force",
+      "reason_contains": "Required field missing"
+    },
+    {
+      "file": "target-MN-unsupported.synthetic.csv",
+      "adapter": "adapter-target.json",
+      "field": "VerticalTotal",
+      "reason_contains": "Unknown unit; no conversion inferred"
+    },
+    {
+      "file": "target-undeclared-column.synthetic.csv",
+      "adapter": "adapter-target.json",
+      "field": "UnreviewedExtra",
+      "reason_contains": "Unknown column"
+    }
+  ],
+  "lifecycle": {
+    "draft_rule_run_status": "NOT VERIFIED",
+    "input_change_review_state": "STALE",
+    "rule_change_review_state": "STALE",
+    "final_review_state": "APPROVED",
+    "old_rule_cases_invalid_after_retirement": true
+  }
+}

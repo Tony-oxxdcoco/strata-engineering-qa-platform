@@ -67,3 +67,12 @@ test('in-place translation does not replace controls, raw content, checked state
 test('strict t reports missing keys without breaking the interface',()=>{
   clearMissingKeys();assert.equal(t('missing.test.key'),'missing.test.key');assert.deepEqual(missingKeys(),['missing.test.key']);clearMissingKeys();setLanguage('en');
 });
+
+test('fixed missing-base-case diagnostic localizes without changing the object ID or raw record',()=>{
+  const id='LIVE/客户对象 -1.20 kN <script>';
+  const raw={reason:`Missing independent base case ${id}; unknown or nested combinations cannot be evaluated.`,status:'NOT VERIFIED'};
+  const before=JSON.stringify(raw);setLanguage('zh-CN');const localized=translateSystemText(raw.reason);
+  assert.equal(localized,`缺少独立基本工况 ${id}；无法计算未知或嵌套组合。`);assert.equal(JSON.stringify(raw),before);
+  setLanguage('en');assert.equal(translateSystemText(localized),raw.reason);
+  assert.equal(translateSystemText('CUSTOMER ORIGINAL: Missing independent base case LIVE; unknown or nested combinations cannot be evaluated.'),'CUSTOMER ORIGINAL: Missing independent base case LIVE; unknown or nested combinations cannot be evaluated.');
+});

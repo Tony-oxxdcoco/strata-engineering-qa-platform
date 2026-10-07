@@ -1,3 +1,5 @@
+> 本文初始验证记录属于1.2.0：当时没有Docker。1.3.0实际安装／容器状态以 [Week5 Docker记录](week5/DOCKER.md) 和最新发布说明为准；原先“未运行”不能自动改成实测通过。
+
 # 本地 Docker 交付与验证边界
 
 本轮机器没有 Docker CLI 或 Docker Desktop。因此下面配置已做源码、YAML 结构和边界检查，**没有实际构建、启动或重建容器**，不能作为 Docker 运行成绩。原生 macOS 安装验证见本轮发布记录。Windows、Linux 原生运行也需分别验收。云部署暂缓。

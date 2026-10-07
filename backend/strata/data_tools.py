@@ -508,7 +508,7 @@ def verify_handoff(source: dict, target: dict, manifest: dict) -> dict:
         return _outcome([], scope, str(error))
     details = []
     for mapping in mappings:
-        detail = {"id": mapping["id"], "status": "NOT VERIFIED", "reason": "", "dependencies": [mapping["source_path"], mapping["target_path"], mapping["source_unit_path"], mapping["target_unit_path"]]}
+        detail = {"id": mapping["id"], "status": "NOT VERIFIED", "reason": "", "dependencies": [mapping["source_path"], mapping["target_path"], mapping["source_unit_path"], mapping["target_unit_path"]], "dependency_sides": {"source": [mapping["source_path"], mapping["source_unit_path"]], "target": [mapping["target_path"], mapping["target_unit_path"]]}}
         try:
             original_source, original_target = _pointer(source, mapping["source_path"]), _pointer(target, mapping["target_path"])
             source_unit, target_unit = _pointer(source, mapping["source_unit_path"]), _pointer(target, mapping["target_unit_path"])

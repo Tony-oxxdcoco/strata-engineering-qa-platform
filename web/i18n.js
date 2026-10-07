@@ -113,6 +113,8 @@ const taskLabels = Object.freeze({
 // data (paths, IDs, units, original values) is retained; arbitrary user text is
 // never translated. Keep this list small and anchored as backend messages evolve.
 const systemPatterns = [
+  [/^Missing independent base case (.+); unknown or nested combinations cannot be evaluated\.$/, match => t('Missing independent base case {id}; unknown or nested combinations cannot be evaluated.', {id:match[1]})],
+  [/^缺少独立基本工况 (.+)；无法计算未知或嵌套组合。$/, match => t('Missing independent base case {id}; unknown or nested combinations cannot be evaluated.', {id:match[1]})],
   [/^JSON nesting exceeds (\d+) levels\.$/, match => t('JSON nesting exceeds {depth} levels.', {depth:match[1]})],
   [/^JSON 嵌套超过 (\d+) 层。$/, match => t('JSON nesting exceeds {depth} levels.', {depth:match[1]})],
   [/^(.+) must be a non-empty string of at most (\d+) characters$/, match => t('{field} must be a non-empty string of at most {maximum} characters', {field:match[1],maximum:match[2]})],

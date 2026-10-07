@@ -1,0 +1,73 @@
+{
+  "schema": "strata-adapter/1",
+  "id": "W5-REFERENCE-N",
+  "version": "1",
+  "title": "SYNTHETIC reference-only N to kN mapping",
+  "authority": "synthetic",
+  "format": "csv",
+  "base": {
+    "schemaVersion": "combination-1.0",
+    "synthetic": true,
+    "project": {
+      "name": "SYNTHETIC Week 5 reference-only import",
+      "revision": "W5-REF"
+    },
+    "analysisType": "linear-static",
+    "unit": "kN",
+    "combinations": [],
+    "evidence": [
+      {
+        "id": "reference-responses",
+        "title": "SYNTHETIC independent reference CSV",
+        "locator": "CSV physical rows 2 and 3; units explicitly N",
+        "content": "Case,Response,Unit,Reference_ID\nSDL,100000,N,reference-responses\nLIVE,50000,N,reference-responses\n"
+      }
+    ]
+  },
+  "tables": [
+    {
+      "source": "csv",
+      "target": "/baseCases",
+      "mode": "rows",
+      "ignored_columns": [],
+      "unique_by": [
+        "/id"
+      ],
+      "fields": [
+        {
+          "aliases": [
+            "Case",
+            "LoadCase"
+          ],
+          "target": "/id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "aliases": [
+            "Response",
+            "Force"
+          ],
+          "target": "/value",
+          "type": "number",
+          "required": true,
+          "unit": {
+            "aliases": [
+              "Unit"
+            ],
+            "target": "kN",
+            "output": "/normalisedUnit"
+          }
+        },
+        {
+          "aliases": [
+            "Reference_ID"
+          ],
+          "target": "/evidenceRef",
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

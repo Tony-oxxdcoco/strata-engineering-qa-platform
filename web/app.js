@@ -156,11 +156,31 @@ async function initialize() {
     setToken(''); state.authError = error.message; render();
   }
 }
+// A project change starts a new UI context. Persisted records remain on the
+// server; only selections, drafts and polling for the previous project are reset.
+function changeProjectContext(projectId) {
+  clearTimeout(pollTimer);
+  clearTimeout(evaluationTimer);
+  clearTimeout(toastTimer);
+  state.loadEpoch += 1; // Discard any dashboard response already in flight.
+  Object.assign(state, {
+    projectId, dashboard:null, run:null, selectedRunId:'', evaluation:null,
+    snapshotId:'', beforeId:'', afterId:'', compareTo:'', comparison:null,
+    retrieval:null, search:'', question:'', reviewNote:'', requestKey:null,
+    runtime:null, error:'', loading:false,
+  });
+  structuredMessages.clear();
+  delete app.dataset.formScope;
+  const toastNode=document.getElementById('toast');
+  if(toastNode){toastNode.textContent='';toastNode.className='';delete toastNode.dataset.i18nSystem;}
+  if(modal.open)modal.close();
+}
 async function loadProjects(preferred) {
   const result = await request('/projects');
   state.projects = array(result.items || result.projects || result).map(resource);
   const chosen = preferred || state.projectId;
-  state.projectId = state.projects.some(item => item.id === chosen) ? chosen : state.projects[0]?.id || '';
+  const nextProjectId = state.projects.some(item => item.id === chosen) ? chosen : state.projects[0]?.id || '';
+  if(nextProjectId !== state.projectId) changeProjectContext(nextProjectId);
   try { state.model = await request('/model'); } catch { state.model = {enabled:false}; }
   try { state.connector = (await request('/tools')).etabs || {configured:false}; } catch { state.connector={configured:false}; }
   if (state.projectId) await loadDashboard(); else { state.dashboard = null; render(); }
@@ -177,6 +197,24 @@ async function loadDashboard({silent=false}={}) {
     if (!snapshots().some(item => item.id === state.snapshotId)) state.snapshotId = data.project?.active_snapshot_id || snapshots()[0]?.id || '';
     if (!snapshots().some(item => item.id === state.beforeId)) state.beforeId = snapshots()[1]?.id || snapshots()[0]?.id || '';
     if (!snapshots().some(item => item.id === state.afterId)) state.afterId = snapshots()[0]?.id || '';
+    // A dependency mutation may invalidate the selected result while this
+    // dashboard is loaded. Keep full calculation details from the run endpoint;
+    // only fetch again when lifecycle/dependency fields actually changed.
+    const selectedRunId=state.run?.id;
+    const savedRun=state.dashboard.runs.find(item=>item.id===selectedRunId);
+    const lifecycleFields=['state','status','review_state','stale','rule_hash','input_hash','output_hash','stale_reasons'];
+    if(savedRun && lifecycleFields.some(key=>JSON.stringify(savedRun[key])!==JSON.stringify(state.run[key]))) {
+      try {
+        const refreshed=await request(`/projects/${encodeURIComponent(projectId)}/runs/${encodeURIComponent(selectedRunId)}`);
+        if(epoch!==state.loadEpoch || projectId!==state.projectId || state.run?.id!==selectedRunId)return;
+        state.run=unwrap(refreshed,'run');
+      } catch(error) {
+        // Do not leave an apparently confirmable old result on screen when its
+        // current review state could not be retrieved. The saved run is retained.
+        if(epoch!==state.loadEpoch || projectId!==state.projectId || state.run?.id!==selectedRunId)return;
+        state.run=null;state.selectedRunId='';throw error;
+      }
+    }
   } catch (error) { state.error = error.message; }
   finally { if (epoch === state.loadEpoch) { state.loading = false; render(); } }
 }
@@ -351,6 +389,7 @@ function auditView() {
 }
 
 function openModal(title,body,footer='',originalTitle=false) {
+  modal.classList.toggle('mapping-preview-dialog',title === 'Mapping preview');
   modal.innerHTML = `<div class="modal-head"><h2>${originalTitle ? esc(title) : label(title)}</h2>${languageSwitch()}<button class="icon-button" data-action="close-modal" aria-label="${esc(ui("Close dialog"))}" data-i18n-aria-label="Close dialog">${icon('close')}</button></div><div class="modal-body">${body}</div><p class="modal-error" id="modal-error" role="alert"></p>${footer ? `<div class="modal-foot">${footer}</div>` : ''}`;
   if (!modal.open) modal.showModal(); translateMarked(modal);
 }
@@ -493,7 +532,8 @@ document.addEventListener('change',event=>{
   if(id==='run-filter'){state.runFilter=value;render();}
   if(id==='issue-filter'){state.issueFilter=value;render();}
   if(id==='project-picker') {
-    clearTimeout(pollTimer);state.projectId=value;state.evaluation=null;state.dashboard=null;state.run=null;state.selectedRunId='';state.snapshotId='';state.comparison=null;state.retrieval=null;state.compareTo='';loadDashboard().catch(error=>toast(error.message,true));
+    if(value !== state.projectId) changeProjectContext(value);
+    loadDashboard().catch(error=>toast(error.message,true));
   }
   if(id==='snapshot-select'){state.snapshotId=value;const suggested=selectedSnapshot()?.suggested_task;if(suggested)state.taskId=suggested;if(state.compareTo===value)state.compareTo='';invalidateSelection();render();}
   if(id==='compare-to'){state.compareTo=value;invalidateSelection();render();}

@@ -1,0 +1,68 @@
+{
+  "schema": "strata-adapter/1",
+  "id": "INTAKE-CSV-ROOF",
+  "version": "2-partial",
+  "title": "SYNTHETIC partial export adapter; engineering field remains unverified",
+  "authority": "synthetic",
+  "format": "csv",
+  "base": {
+    "synthetic": true,
+    "material_type": "synthetic",
+    "project": {
+      "name": "SYNTHETIC supplier ROOF N7",
+      "revision": "INTAKE-TGT-R6"
+    }
+  },
+  "tables": [
+    {
+      "source": "csv",
+      "target": "/received",
+      "mode": "single",
+      "ignored_columns": [
+        "comment"
+      ],
+      "fields": [
+        {
+          "aliases": [
+            "VerticalTotal",
+            "V_Result"
+          ],
+          "target": "/vertical/force",
+          "type": "number",
+          "required": true,
+          "unit": {
+            "aliases": [
+              "VerticalUOM"
+            ],
+            "target": "kN",
+            "output": "/vertical/unit"
+          }
+        },
+        {
+          "aliases": [
+            "HorizontalTotal",
+            "H_Result"
+          ],
+          "target": "/horizontal/force",
+          "type": "number",
+          "required": false,
+          "unit": {
+            "aliases": [
+              "LateralUOM"
+            ],
+            "target": "kN",
+            "output": "/horizontal/unit"
+          }
+        },
+        {
+          "aliases": [
+            "record_id"
+          ],
+          "target": "/node",
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

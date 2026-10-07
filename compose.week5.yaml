@@ -1,0 +1,26 @@
+# Apply after compose.yaml. Compose >=2.24.4 supports !override.
+# Independent project/volume: never mount the installation runtime or backups.
+name: strata-week5-demo
+services:
+  app:
+    image: strata-week5:${STRATA_IMAGE_TAG:-local}
+    ports: !override
+      - "127.0.0.1:${STRATA_WEEK5_PORT:-4190}:4180"
+    volumes: !override
+      # /backups is created with UID10001 ownership in the existing image.
+      - week5-state:/backups
+    environment:
+      STRATA_DATA_DIR: /backups/week5/runtime
+      STRATA_WEEK5_CONTAINER: "1"
+      STRATA_WEEK5_SETUP_TOKEN: ${STRATA_WEEK5_SETUP_TOKEN:-}
+      STRATA_SETUP_TOKEN: ""
+      STRATA_DATABASE_URL: ""
+      STRATA_ETABS_URL: ""
+      STRATA_ETABS_TOKEN: ""
+      STRATA_OLLAMA_MODEL: ""
+      STRATA_OCR_ENABLED: ""
+      STRATA_PUBLIC_ORIGIN: ""
+      STRATA_ALLOWED_HOSTS: ""
+    command: ["python", "scripts/week5-environment.py", "start", "--directory", "/backups/week5", "--port", "4180", "--bind", "0.0.0.0"]
+volumes:
+  week5-state:

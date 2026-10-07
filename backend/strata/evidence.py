@@ -14,9 +14,18 @@ def requests(results, input_data=None, target=None, missing=None, task=None):
             if not isinstance(detail,dict) or detail.get('status')!='NOT VERIFIED': continue
             dependencies=detail.get('dependencies',[])
             requested=False
+            # Missing objects are identified by the registered tool, not by
+            # parsing a model explanation or guessing customer field names.
+            for need in detail.get('materialNeeds',[]):
+                requested=True
+                field=need['field'];object_id=need['object_id']
+                add(need['kind'],field+' / '+object_id,need['reason'],{'view':'Versions','action':'Create a corrected snapshot or re-import the original export','side':'source','field':field,'object_id':object_id},finding['id'])
             sides=[('source',input_data or {})]+([('target',target)] if target is not None else [])
             for side,data in sides:
-                for path in dependencies:
+                # Handoff dependencies belong to explicit input sides. A target
+                # path need not exist in the source schema (and vice versa).
+                side_paths=detail.get('dependency_sides',{}).get(side,dependencies)
+                for path in side_paths:
                     try: value=_pointer(data,path); absent=value is None or path=='/configuration_complete' and value is not True
                     except ValueError: absent=True
                     if not absent: continue

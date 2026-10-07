@@ -1,4 +1,4 @@
-# 客户资料接入指南（STRATA 1.2.0）
+# 客户资料接入指南（STRATA 1.3.0）
 
 接入顺序是：原资料 → 明确映射与单位 → 数据快照 → 适用且已批准的规则 → 已注册的确定性工具 → 证据核验 → 工程师复核。基础流程不用付费 API，本地模型可选。`examples/` 中的工程规则、数据和预期答案都是合成测试材料，不能直接充当客户批准内容。
 
@@ -18,6 +18,8 @@
 | 界面与报告文案 | `web/locales/en.js`、`web/locales/zh-CN.js`、`web/i18n.js`；`backend/strata/locales/` | `npm run check:i18n`，两种语言下的实际操作 |
 
 沿用现有项目权限、SQLite Resource 存储、原文件和持久队列，不需要新增业务数据库。路径均相对仓库根目录。
+
+本轮全新配置接入实测包：`examples/client-intake-v13/`，接入方法与边界见 `docs/client-intake-v13.md`，最小收资料清单见 `docs/CLIENT_INTAKE_CHECKLIST.md`。三种独立案例在三份规则参数上复用，不写成客户工程准确率。
 
 ## 2. 已支持格式：建立适配配置
 

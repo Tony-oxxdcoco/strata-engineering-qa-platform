@@ -1,0 +1,67 @@
+{
+  "schema": "strata-rule-package/1",
+  "title": "SYNTHETIC new supplier onboarding INTAKE-R1",
+  "material_type": "synthetic",
+  "rules": [
+    {
+      "id": "HANDOFF",
+      "version": "INTAKE-R1",
+      "title": "SYNTHETIC supplier N7 transfer manifest INTAKE-R1",
+      "project_id": "portable-synthetic-intake-package",
+      "text": "SYNTHETIC TEST MATERIAL — NOT CLIENT-APPROVED. For INTAKE-SRC-R17 to INTAKE-TGT-R6 only, compare N7 vertical and transverse forces using the explicitly declared source and target paths. Convert only registered force units N or kN to kN. Absolute tolerance 0.25 kN; relative tolerance 0.00001. Both chosen test mappings use max(abs tolerance, abs(source) times relative tolerance). Missing required fields are NOT VERIFIED and must never be assumed zero. These tolerances and revisions are hand-authored software test choices, not an engineering standard.",
+      "locator": "Synthetic hand-authored intake manifest / paragraph 1",
+      "task_ids": [
+        "handoff"
+      ],
+      "check_ids": [
+        "HANDOFF"
+      ],
+      "authority": "synthetic",
+      "status": "draft",
+      "approved_by": null,
+      "approved_at": null,
+      "source_sha256": "b9aee1b84b7fc6d92d31a21e0f34f6593faec611839160c060b22a80180c9ba1",
+      "parameters": {
+        "source_revision": "INTAKE-SRC-R17",
+        "target_revision": "INTAKE-TGT-R6",
+        "required_source_paths": [
+          "/loads/vertical/force",
+          "/loads/horizontal/force"
+        ],
+        "required_target_paths": [
+          "/received/vertical/force",
+          "/received/horizontal/force"
+        ],
+        "mappings": [
+          {
+            "id": "VERTICAL-N7",
+            "source_path": "/loads/vertical/force",
+            "target_path": "/received/vertical/force",
+            "source_unit_path": "/loads/vertical/unit",
+            "target_unit_path": "/received/vertical/unit",
+            "comparison_unit": "kN",
+            "absolute_tolerance": 0.25,
+            "relative_tolerance": 1e-05
+          },
+          {
+            "id": "TRANSVERSE-N7",
+            "source_path": "/loads/horizontal/force",
+            "target_path": "/received/horizontal/force",
+            "source_unit_path": "/loads/horizontal/unit",
+            "target_unit_path": "/received/horizontal/unit",
+            "comparison_unit": "kN",
+            "absolute_tolerance": 0.25,
+            "relative_tolerance": 1e-05
+          }
+        ]
+      }
+    }
+  ],
+  "sources": [
+    {
+      "filename": "rule-INTAKE-R1.synthetic.txt",
+      "sha256": "b9aee1b84b7fc6d92d31a21e0f34f6593faec611839160c060b22a80180c9ba1",
+      "content_base64": "U1lOVEhFVElDIFRFU1QgTUFURVJJQUwg4oCUIE5PVCBDTElFTlQtQVBQUk9WRUQuIEZvciBJTlRBS0UtU1JDLVIxNyB0byBJTlRBS0UtVEdULVI2IG9ubHksIGNvbXBhcmUgTjcgdmVydGljYWwgYW5kIHRyYW5zdmVyc2UgZm9yY2VzIHVzaW5nIHRoZSBleHBsaWNpdGx5IGRlY2xhcmVkIHNvdXJjZSBhbmQgdGFyZ2V0IHBhdGhzLiBDb252ZXJ0IG9ubHkgcmVnaXN0ZXJlZCBmb3JjZSB1bml0cyBOIG9yIGtOIHRvIGtOLiBBYnNvbHV0ZSB0b2xlcmFuY2UgMC4yNSBrTjsgcmVsYXRpdmUgdG9sZXJhbmNlIDAuMDAwMDEuIEJvdGggY2hvc2VuIHRlc3QgbWFwcGluZ3MgdXNlIG1heChhYnMgdG9sZXJhbmNlLCBhYnMoc291cmNlKSB0aW1lcyByZWxhdGl2ZSB0b2xlcmFuY2UpLiBNaXNzaW5nIHJlcXVpcmVkIGZpZWxkcyBhcmUgTk9UIFZFUklGSUVEIGFuZCBtdXN0IG5ldmVyIGJlIGFzc3VtZWQgemVyby4gVGhlc2UgdG9sZXJhbmNlcyBhbmQgcmV2aXNpb25zIGFyZSBoYW5kLWF1dGhvcmVkIHNvZnR3YXJlIHRlc3QgY2hvaWNlcywgbm90IGFuIGVuZ2luZWVyaW5nIHN0YW5kYXJkLgo="
+    }
+  ]
+}

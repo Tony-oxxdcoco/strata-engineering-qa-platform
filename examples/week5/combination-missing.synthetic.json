@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "combination-1.0",
+  "synthetic": true,
+  "project": {
+    "name": "SYNTHETIC Week 5 controlled scalar response",
+    "revision": "W5-MISSING"
+  },
+  "analysisType": "linear-static",
+  "unit": "kN",
+  "baseCases": [
+    {
+      "id": "SDL",
+      "value": 100,
+      "evidenceRef": "reference-responses"
+    }
+  ],
+  "combinations": [
+    {
+      "id": "C1",
+      "terms": [
+        {
+          "caseId": "SDL",
+          "factor": 1.2
+        },
+        {
+          "caseId": "LIVE",
+          "factor": 1.5
+        }
+      ],
+      "reportedValue": 195,
+      "evidenceRef": "reported-combinations"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "reference-responses",
+      "title": "Independent synthetic base-response sheet",
+      "locator": "Fixture reference sheet, rows SDL and LIVE",
+      "content": "SYNTHETIC independent response sheet: SDL = 100 kN. The independent LIVE response and its evidence were not supplied; do not infer either."
+    },
+    {
+      "id": "reported-combinations",
+      "title": "Separately supplied synthetic combination export",
+      "locator": "Controlled synthetic combination export, row C1",
+      "content": "SYNTHETIC separately supplied combination export. C1 reported response = 195 kN. Chosen test factors: 1.2 SDL + 1.5 LIVE. This is not a client-approved rule or a structural standard."
+    }
+  ]
+}

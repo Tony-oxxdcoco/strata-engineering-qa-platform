@@ -26,6 +26,16 @@
 !examples/transfer-error.json
 !examples/transfer-source.csv
 !examples/transfer-target.json
+!examples/week5/
+!examples/week5/combination-fail.synthetic.json
+!examples/week5/combination-missing.synthetic.json
+!examples/week5/combination-pass.synthetic.json
+!examples/week5/combination-repaired.synthetic.json
+!examples/week5/independent-expectations.synthetic.json
+!examples/week5/linear-combination-rule.synthetic.txt
+!examples/week5/reference-adapter.synthetic.json
+!examples/week5/reference-base-responses.synthetic.csv
+!examples/week5/rule-package.synthetic.json
 !docs/
 !docs/*evaluation*.json
 **/__pycache__/**

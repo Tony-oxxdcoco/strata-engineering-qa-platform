@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "combination-1.0",
+  "synthetic": true,
+  "project": {
+    "name": "SYNTHETIC Week 5 controlled scalar response",
+    "revision": "W5-ERR"
+  },
+  "analysisType": "linear-static",
+  "unit": "kN",
+  "baseCases": [
+    {
+      "id": "SDL",
+      "value": 100,
+      "evidenceRef": "reference-responses"
+    },
+    {
+      "id": "LIVE",
+      "value": 50,
+      "evidenceRef": "reference-responses"
+    }
+  ],
+  "combinations": [
+    {
+      "id": "C1",
+      "terms": [
+        {
+          "caseId": "SDL",
+          "factor": 1.2
+        },
+        {
+          "caseId": "LIVE",
+          "factor": 1.5
+        }
+      ],
+      "reportedValue": 210,
+      "evidenceRef": "reported-combinations"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "reference-responses",
+      "title": "Independent synthetic base-response sheet",
+      "locator": "Fixture reference sheet, rows SDL and LIVE",
+      "content": "Independent reference responses for one fixed linear response component: SDL = 100 kN; LIVE = 50 kN. These numbers are supplied separately from the combination export."
+    },
+    {
+      "id": "reported-combinations",
+      "title": "Separately supplied synthetic combination export",
+      "locator": "Controlled synthetic combination export, row C1",
+      "content": "SYNTHETIC separately supplied erroneous export. C1 reported response = 210 kN. Deliberate software-test error. Chosen factors: 1.2 SDL + 1.5 LIVE."
+    }
+  ]
+}
