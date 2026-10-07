@@ -4,6 +4,8 @@ Canonical repository: https://github.com/Tony-oxxdcoco/strata-engineering-qa-pla
 
 Completed: the unified frontend; bilingual interface; controlled tools/evidence/review; generic public installation, license and contribution guides; all historical source versions without private hosting/course manuscripts; current local regression and actual isolated Docker build/workflow/persistence/recovery. See [release verification](RELEASE_VERIFICATION.md) and the latest Release attachments for exact source/image/archive bindings. Earlier frontend/model/retrieval receipts remain historical records.
 
+Post-release CI maintenance is documented in [Windows CI repair](CI_WINDOWS_FIX.md). The main-branch check status is separate from historical release receipts. Docker logs require actual Windows owner-only ACLs (built-in Windows PowerShell) or Unix 0600; permission-setting failure preserves previous logs and fails the verification.
+
 Resume by checking `git status --short` and `git log -1`, then the latest release receipt. Avoid modifying a real runtime directory or repeating unaffected tests. Local data and private backups are excluded from Git and distribution. Start with `npm run setup`, `npm start`; see [Docker](DOCKER.md) for an independent persisted container instance. Current runtime assets do not require a paid API or model.
 
 Validate relevant changes with `npm test`, `npm run check`, `npm run check:i18n`, and `.venv/bin/python -m pytest backend/tests tests -q`. Development dependencies come from `npm run setup:dev`. Pack reviewed/staged source using `.venv/bin/python scripts/package-release.py`; check ZIP CRC, per-file manifest and forbidden/private paths. Never publish `.runtime`, private environment files or recovery bundles.

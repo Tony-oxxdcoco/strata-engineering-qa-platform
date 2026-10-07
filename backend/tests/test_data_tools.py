@@ -112,7 +112,10 @@ def test_json_schema_and_hash_and_field_provenance(name):
     ("input.json", b"\xff"), ("input.json", b'{"value":NaN}'), ("input.json", b'{"value":1,"value":2}'),
     ("input.json", b'{"value":1e999}'), ("input.json", b'{"value":1e-999}'), ("input.json", b'{"value":"\\ud800"}'),
     ("input.json", b'{"\\ud800":1}'), ("input.json", b'\x00{}'), ("input.json", bytearray(b"{}")),
-    ("input.json", b"x" * (MAX_FILE_BYTES + 1))])
+    ("input.json", b"x" * (MAX_FILE_BYTES + 1))], ids=[
+    "path-traversal", "unsupported-extension", "empty-file", "invalid-utf8",
+    "nan", "duplicate-key", "overflow", "underflow", "surrogate-value",
+    "surrogate-key", "nul-byte", "non-bytes", "oversized-file"])
 def test_invalid_files_rejected(name, raw):
     with pytest.raises(DataValidationError):
         ingest(name, raw)

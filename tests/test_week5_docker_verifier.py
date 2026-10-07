@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import socket
+import subprocess
 
 import pytest
 
@@ -36,14 +37,31 @@ def test_occupied_port_never_runs_docker_or_stops_other_services(tmp_path,monkey
 def test_missing_engine_receipt_and_private_log_contain_no_credentials(tmp_path,monkeypatch):
     verification=verifier.Verification(args(tmp_path))
     def missing(*a,**kw):raise FileNotFoundError('No Docker executable')
-    monkeypatch.setattr(verifier.subprocess,'run',missing)
-    with pytest.raises(FileNotFoundError):verification.command(['version','--format','json'])
+    with monkeypatch.context() as command_patch:
+        command_patch.setattr(verifier.subprocess,'run',missing)
+        with pytest.raises(FileNotFoundError):verification.command(['version','--format','json'])
     verification.result['status']='NOT RUN';verification.finish()
     public=verification.args.output.read_text()
     private=verification.args.output.with_name('docker-commands.private.json')
     assert verification.token not in public and verification.password not in public
     assert not json.loads(public)['retained_test_volumes']
-    assert private.stat().st_mode & 0o077 == 0
+    if os.name == 'nt':
+        # Inspect the actual DACL independently; POSIX st_mode is not a Windows ACL.
+        script = """$a=[System.IO.FileInfo]::new($env:STRATA_PRIVATE_LOG_PATH).GetAccessControl()
+$s=[System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+$r=@($a.GetAccessRules($true,$true,[System.Security.Principal.SecurityIdentifier]))
+@{protected=$a.AreAccessRulesProtected;owner=$a.GetOwner([System.Security.Principal.SecurityIdentifier]).Value;current=$s;rules=@($r | ForEach-Object {@{sid=$_.IdentityReference.Value;rights=$_.FileSystemRights.ToString();type=$_.AccessControlType.ToString()}})} | ConvertTo-Json -Depth 4
+"""
+        environment=dict(os.environ,STRATA_PRIVATE_LOG_PATH=str(private))
+        environment.pop('PSModulePath',None)
+        inspected=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
+            env=environment,check=True,capture_output=True,text=True,timeout=20)
+        acl=json.loads(inspected.stdout)
+        assert acl['protected'] and acl['owner']==acl['current']
+        assert acl['rules']==[{'sid':acl['current'],'rights':'FullControl','type':'Allow'}]
+    else:
+        assert private.stat().st_mode & 0o077 == 0
+    assert json.loads(private.read_text(encoding='utf-8')) == []
 
 
 def test_cleanup_is_limited_to_created_project_and_failed_stop_is_visible(tmp_path,monkeypatch):
@@ -72,3 +90,20 @@ def test_compose_only_uses_generated_projects_with_private_runtime_environment(t
     assert environment['STRATA_WEEK5_SETUP_TOKEN']==verification.token
     assert environment['STRATA_WEEK5_PORT']=='4195'
     assert verification.password not in command and verification.token not in command
+
+
+def test_private_log_access_failure_preserves_old_log_and_does_not_report_pass(tmp_path,monkeypatch):
+    verification=verifier.Verification(args(tmp_path))
+    private=tmp_path/'docker-commands.private.json'
+    private.write_text('synthetic previous log')
+    verification.result['status']='PASS'
+    verification.log=[{'synthetic':'new payload must not be written'}]
+    def denied(*a,**kw):raise PermissionError('Synthetic access-control failure')
+    if os.name == 'nt':
+        monkeypatch.setattr(verifier.subprocess,'run',denied)
+    else:
+        monkeypatch.setattr(Path,'chmod',denied)
+    with pytest.raises(PermissionError):verification.finish()
+    assert private.read_text()=='synthetic previous log'
+    assert not list(tmp_path.glob('.docker-log-*'))
+    assert json.loads(verification.args.output.read_text())['status']=='FAILED'
