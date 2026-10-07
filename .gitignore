@@ -11,3 +11,9 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+
+# Local hosting identity and unpublished user report stay on this computer.
+.openai/
+/docs/phase-report-2026-10-07.md
+*.private.json
+private/
