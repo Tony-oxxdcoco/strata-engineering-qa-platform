@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a source-only teammate ZIP. Never include local accounts or documents."""
+"""Build a source-only distribution ZIP. Never include local accounts or documents."""
 import argparse
 import hashlib
 import json
@@ -9,7 +9,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORIES = {'backend', 'web', 'dist', 'scripts', 'tests', 'docs', '.github', 'examples'}
-FILES = {'pytest.ini', 'package.json', 'README.md', 'TEAM_START_HERE.md', 'PROJECT_JOURNAL.md', 'CUSTOMER_REQUIREMENTS.md', 'VALIDATION.md', 'ITERATION_PLAN.md', 'TASK_QUEUE.md', 'Dockerfile', 'compose.yaml', 'compose.week5.yaml', '.env.example', '.dockerignore', '.gitignore', '.gitattributes', 'Setup STRATA.cmd', 'Start STRATA.cmd', 'Setup STRATA.command', 'Start STRATA.command', 'CLIENT_ADAPTATION.md', 'NEXT_SESSION.md'}
+FILES = {'pytest.ini', 'package.json', 'README.md', 'README.zh-CN.md', 'GETTING_STARTED.md', 'CONTRIBUTING.md', 'LICENSE', 'SECURITY.md', 'CHANGELOG.md', 'TEAM_START_HERE.md', 'PROJECT_JOURNAL.md', 'CUSTOMER_REQUIREMENTS.md', 'VALIDATION.md', 'ITERATION_PLAN.md', 'TASK_QUEUE.md', 'Dockerfile', 'compose.yaml', 'compose.week5.yaml', '.env.example', '.dockerignore', '.gitignore', '.gitattributes', 'Setup STRATA.cmd', 'Start STRATA.cmd', 'Setup STRATA.command', 'Start STRATA.command', 'CLIENT_ADAPTATION.md', 'NEXT_SESSION.md'}
 RELEASE = 'STRATA-' + json.loads((ROOT / 'package.json').read_text())['version']
 EXCLUDED = {'__pycache__', '.pytest_cache', '.DS_Store', '.venv', '.runtime', 'output', '.git', 'node_modules'}
 
@@ -19,7 +19,7 @@ def source_paths():
 
     Untracked notes/uploads under otherwise permitted directories are private by
     default. New source files must be staged before building a repository release.
-    An extracted teammate ZIP can be repackaged using its existing manifest.
+    An extracted distribution ZIP can be repackaged using its existing manifest.
     """
     try:
         result = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '-z'],
@@ -88,5 +88,5 @@ def build(destination):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--output', type=Path, default=ROOT / f'output/releases/{RELEASE}-team.zip')
+    parser.add_argument('--output', type=Path, default=ROOT / f'output/releases/{RELEASE}-source.zip')
     build(parser.parse_args().output.resolve())

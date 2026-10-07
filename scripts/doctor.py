@@ -36,6 +36,6 @@ try:
     with socket.socket() as probe: probe.bind(('127.0.0.1',port))
     add('Local port',True,f'{port} is available',False)
 except (ValueError,OSError): add('Local port',False,'Port is invalid/in use; use STRATA_PORT=4181 or stop the existing server',False)
-result={'version':json.loads((ROOT/'package.json').read_text())['version'],'platform':platform.platform(),'checks':checks,'paid_api_required':False,'external_validation':{'Windows':'NOT RUN in this release verification','Linux / Docker':'Release evidence: docs/week5/DOCKER.md (Linux arm64 synthetic workflow); this doctor does not build or certify containers','native_ETABS_SAFE':'NOT VERIFIED; Windows, licensed CSI software and client connector needed','client_engineering_accuracy':'NOT VERIFIED; approved rules and independent real cases needed'}}
+result={'version':json.loads((ROOT/'package.json').read_text())['version'],'platform':platform.platform(),'checks':checks,'paid_api_required':False,'external_validation':{'Windows':'NOT RUN in this release verification','Linux / Docker':'Release evidence: docs/DOCKER.md (Linux arm64 synthetic workflow); this doctor does not build or certify containers','native_ETABS_SAFE':'NOT VERIFIED; Windows, licensed CSI software and client connector needed','client_engineering_accuracy':'NOT VERIFIED; approved rules and independent real cases needed'}}
 print(json.dumps(result,ensure_ascii=False,indent=2))
 sys.exit(1 if any(c['status']=='FAIL' for c in checks) else 0)

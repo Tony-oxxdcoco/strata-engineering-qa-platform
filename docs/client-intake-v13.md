@@ -99,6 +99,6 @@ Windows把Python路径换成 `.venv\Scripts\python.exe`，当前尚未在Windows
 - 已支持handoff方法的路径、适用条件、参数和容差：新规则包/版本，客户授权来源与本地reviewer审核；设置client标签不能替代批准。
 - 独立答案和代表输入：新的strata-case/1资料，固定输入/规则/人工依据；不要从系统结果生成truth。
 - 新单位、格式、工程方法或CSI契约差异：先记录具体支持缺口，再实现工具/解析器并独立验证；当前MN拒绝是实测边界。
-- 客户最小资料与后补材料见 [CLIENT_INTAKE_CHECKLIST.md](CLIENT_INTAKE_CHECKLIST.md)。Docker/Linux arm64已实测；正式机构上线、原生Windows/Linux、真实CSI及客户工程验收仍需单独完成。
+- 客户最小资料与后补材料见 [资料接入要求](INPUT_REQUIREMENTS.md)。Docker/Linux arm64已实测；正式机构上线、原生Windows/Linux、真实CSI及客户工程验收仍需单独完成。
 
 本轮最终Docker HTTP接入公开收据：`docs/client-intake-v13-verification.json`。它包含三版本规则、三独立变体、正确错误及缺证据、原字节hash、历史失效和关联复核。真实GUI收据：`docs/client-intake-v13/browser-verification.json`，17张截图在同目录screenshots；API批量评测和GUI逐步操作是不同范围，不混为同一项成绩。

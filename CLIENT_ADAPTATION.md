@@ -19,7 +19,7 @@
 
 沿用现有项目权限、SQLite Resource 存储、原文件和持久队列，不需要新增业务数据库。路径均相对仓库根目录。
 
-本轮全新配置接入实测包：`examples/client-intake-v13/`，接入方法与边界见 `docs/client-intake-v13.md`，最小收资料清单见 `docs/CLIENT_INTAKE_CHECKLIST.md`。三种独立案例在三份规则参数上复用，不写成客户工程准确率。
+本轮全新配置接入实测包：`examples/client-intake-v13/`，接入方法与边界见 `docs/client-intake-v13.md`，最小收资料清单见 `docs/INPUT_REQUIREMENTS.md`。三种独立案例在三份规则参数上复用，不写成客户工程准确率。
 
 ## 2. 已支持格式：建立适配配置
 
@@ -153,7 +153,7 @@ STRATA_OLLAMA_MODEL=qwen2.5:7b .venv/bin/python scripts/evaluate-agent-boundarie
 STRATA_OLLAMA_MODEL=qwen2.5:7b .venv/bin/python scripts/evaluate-model.py --split holdout --label local-replay --output output/model-holdout.json
 ```
 
-这两个命令不会下载模型。`evaluate-model.py` 会拒绝覆盖既有输出文件，重复评测请换一个新的输出文件名，保留历史记录。前者使用自制工程案例，后者是旧题重评；两者都不能外推为客户工程准确率。实际验证范围见 [v1.2 发布记录](docs/release-v1.2.md)。
+这两个命令不会下载模型。`evaluate-model.py` 会拒绝覆盖既有输出文件，重复评测请换一个新的输出文件名，保留历史记录。前者使用自制工程案例，后者是旧题重评；两者都不能外推为客户工程准确率。实际验证范围见 [v1.2 Agent边界评测](docs/agent-boundaries-v12.json)及[路由保留集](docs/model-evaluation-v12-holdout.json)。
 
 ## 8. 客户到来后先补这五组材料
 

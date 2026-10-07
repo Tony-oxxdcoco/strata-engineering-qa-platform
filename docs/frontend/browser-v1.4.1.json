@@ -1,0 +1,177 @@
+{
+  "schema": "strata-publication-browser-smoke/1",
+  "version": "1.4.1",
+  "status": "PASS",
+  "verified_at_utc": "2026-10-07T13:59:18.958693+00:00",
+  "scope": "Short actual-browser smoke of the new isolated4198Docker public-source build. One synthetic full-gravity run; not a rerun of the complete1.4frontend matrix or broader engineering suite.",
+  "environment": {
+    "url": "http://127.0.0.1:4198",
+    "session": "strata-publication",
+    "browser": "headed Chromium via Playwright CLI",
+    "model_live": false,
+    "paid_api_calls": 0,
+    "old_4196_4193_and_original_runtime": "untouched"
+  },
+  "health": {
+    "http_status": 200,
+    "status": "ok",
+    "version": "1.4.1",
+    "worker": true
+  },
+  "UI_steps": [
+    {
+      "step": "Private login",
+      "status": "PASS"
+    },
+    {
+      "step": "Create SYNTHETIC Open Source Showcase project",
+      "status": "PASS"
+    },
+    {
+      "step": "Load example via visible button",
+      "status": "PASS"
+    },
+    {
+      "step": "Manually choose Complete gravity review and run",
+      "status": "PASS"
+    },
+    {
+      "step": "View six passing deterministic checks",
+      "status": "PASS"
+    },
+    {
+      "step": "Human software-only confirmation",
+      "status": "PASS"
+    },
+    {
+      "step": "JSON actual browser download",
+      "status": "PASS"
+    },
+    {
+      "step": "HTML visible preview and actual browser save/download",
+      "status": "PASS"
+    },
+    {
+      "step": "Select Simplified Chinese then refresh",
+      "status": "PASS"
+    },
+    {
+      "step": "390px workspace no whole-page overflow",
+      "status": "PASS"
+    }
+  ],
+  "run": {
+    "id": "run_7eca833516be17363e8d20b6",
+    "task_id": "gravity-full",
+    "status": "PASS",
+    "review_state": "APPROVED",
+    "summary": {
+      "FAIL": 0,
+      "NOT VERIFIED": 0,
+      "PASS": 6
+    },
+    "results": 6,
+    "use_model": false,
+    "synthetic_only": true,
+    "client_engineering_approval": false
+  },
+  "language": {
+    "language": "zh-CN",
+    "pressed": "true",
+    "passed": true
+  },
+  "mobile": {
+    "viewportWidth": 390,
+    "documentClientWidth": 375,
+    "documentScrollWidth": 375,
+    "bodyScrollWidth": 375,
+    "no_whole_page_overflow": true
+  },
+  "desktop_screenshot": {
+    "path": "docs/frontend/screenshots/open-source-workspace.png",
+    "bytes": 202103,
+    "sha256": "95cf447fc5d26278d0cbdccfa90280277c8fdc736280681ac181d101aa12aa8c"
+  },
+  "desktop_viewport": [
+    1440,
+    960
+  ],
+  "exports": {
+    "json": {
+      "path": "output/publication/browser/reviewed-gravity.json",
+      "bytes": 25046,
+      "sha256": "995b8640f98b78d647a6ecf4414d4aad0f64a6321bcdf4801a9efb9ce624efcd",
+      "actual_browser_download": true
+    },
+    "html": {
+      "path": "output/publication/browser/reviewed-gravity.html",
+      "bytes": 15311,
+      "sha256": "4c052e92615893a6cd279129341858bd0ca44641143798ebbf7e63747046b8c4",
+      "actual_browser_download": true,
+      "reviewed_software_record": true,
+      "save_method": "Visible app Preview/print creates authorized report blob; browser save link downloads that same rendered blob document",
+      "printed_pdf": "NOT RUN"
+    }
+  },
+  "source_hashes": [
+    {
+      "path": "web/app.js",
+      "bytes": 117911,
+      "sha256": "ecde85f4d9768749509c2a275ba6497c1ceb4d8802dc59ae368080a4047ac9d9"
+    },
+    {
+      "path": "web/styles.css",
+      "bytes": 24798,
+      "sha256": "19a995bc3e90e1fe94e22a405f559bb5c0ace67cdbb19fe11494c44cd1442dc5"
+    },
+    {
+      "path": "web/ui-foundation.js",
+      "bytes": 20893,
+      "sha256": "60b298e9914c5b81dc9d77a9bec00b11d470575b0b7f55a4814f7b42b2d2ae4a"
+    },
+    {
+      "path": "web/dialog-controller.js",
+      "bytes": 6096,
+      "sha256": "aa48beea4f2b559f58ce57c390c91b623590cd839f7efdf24aa3a89fc3e99dcf"
+    },
+    {
+      "path": "web/locales/en.js",
+      "bytes": 106322,
+      "sha256": "e1ee12da310c68e029e60fb8afd7f4fb22938a2d4e43dcdfe6546805272cdbf0"
+    },
+    {
+      "path": "web/locales/zh-CN.js",
+      "bytes": 102586,
+      "sha256": "8d9ec8c3092ddf860b648b5f85006f5d7df85626a07bcb943e53c5a85d3c52b7"
+    }
+  ],
+  "artifacts": [
+    "prepared-corrected-cli.txt",
+    "example.md",
+    "workflow-cli.txt",
+    "reviewed.md",
+    "locale-mobile-cli.txt",
+    "html-mobile-corrected-cli.txt",
+    "health-cli.txt",
+    "mobile-zh.png"
+  ],
+  "harness_errors_retained": [
+    {
+      "artifact": "prepared-cli.txt",
+      "reason": "Initial Create project selector matched header and empty-state controls; narrowed to visible header before any project creation. Corrected visible UI path passed."
+    },
+    {
+      "artifact": "locale-mobile-cli.txt",
+      "reason": "Initial no-overflow predicate incorrectly required scrollWidth==innerWidth. Actual390viewport contains375client/scroll width because15px vertical scrollbar. Correct no-overflow check scrollWidth<=clientWidth passed; initial false assertion retained."
+    }
+  ],
+  "not_run": [
+    "Full eight-page bilingual/mobile matrix (previous1.4evidence remains separate).",
+    "FAIL/NOT VERIFIED/correction/linked-run scenarios in this smoke (root separate Docker acceptance receipt).",
+    "Browser-process restart language persistence.",
+    "PDF print/save as PDF.",
+    "Windows/Linux host browser smoke; tested local macOS browser againstLinuxarm64Docker.",
+    "Paid API, local model routing, OCR, genuineCSI and customer materials or engineering acceptance."
+  ],
+  "security": "Private credentials read from local0600file only; no credentials/session tokens included in this receipt. Runtime and full working logs remain ignored output. Screenshot contains only the synthetic showcase."
+}

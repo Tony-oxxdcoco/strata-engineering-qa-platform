@@ -1,6 +1,6 @@
 # 受控本地 QA 工作流契约
 
-本文说明 `dist/` 保留的旧版本地模块。它编排已有确定性重力／组合引擎和合成规则检索，不调用 ETABS、SAFE、模型 API 或网络端点；可运行的数据提供器只有 `controlled-file`，其他提供器明确阻断。新版服务端 Agent 的实现见 [六项计划](plans/README.md)。
+本文说明 `dist/` 保留的旧版本地模块。它编排已有确定性重力／组合引擎和合成规则检索，不调用 ETABS、SAFE、模型 API 或网络端点；可运行的数据提供器只有 `controlled-file`，其他提供器明确阻断。新版服务端 Agent 的实现见 [服务端工作流](../backend/strata/workflow.py)。
 
 ## 公共接口
 

@@ -11,4 +11,4 @@
 
 实际操作截图：[原值与单位映射](screenshots/mapping-preview.png)、[草稿规则](screenshots/rule-draft.png)、[PASS](screenshots/check-pass.png)、[FAIL](screenshots/check-fail.png)、[NOT VERIFIED](screenshots/check-unverified.png)、[关联重检后复核](screenshots/review-approved.png)、[中文未保存提醒](screenshots/unsaved-dialog-zh.png)。这些来自实际界面操作，和外观对照分开记录。图片中的显示账号是专用合成测试账号，不包含个人账号或密码。操作手册见[前端交付](README.md)。
 
-已运行的最终Docker界面：[4196工作台](screenshots/docker-final-workspace.png)。同一图用于Week5第5页；PPT/PDF版本、截图hash和计时核对见presentation-verification.json。
+已运行的最终Docker界面：[4196工作台](screenshots/docker-final-workspace.png)。这是1.4.0历史界面证据，当前版本启动方式见[Docker说明](../DOCKER.md)。

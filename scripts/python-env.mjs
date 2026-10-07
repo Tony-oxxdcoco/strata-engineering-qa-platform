@@ -10,5 +10,5 @@ export function findPython({dependencies=false,includeVenv=true}={}) {
 }
 export function prerequisiteError() {
   console.error('STRATA needs Python 3.12 and Node.js 20.11+. Install them from python.org and nodejs.org, then run: npm run setup');
-  console.error('On Windows enable Python in PATH, or use the Python launcher. See TEAM_START_HERE.md.');
+  console.error('On Windows enable Python in PATH, or use the Python launcher. See GETTING_STARTED.md.');
 }
